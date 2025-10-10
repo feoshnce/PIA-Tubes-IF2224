@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from src.io.position import Position
+from src.text import Position
 from .base import ErrorBase
 
 

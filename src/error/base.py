@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from abc import ABC
 from typing import Optional
-from src.io.position import Position
+from src.text import Position
 
 
 @dataclass

@@ -10,7 +10,7 @@ Abstract base class for all error types.
 
 ```python
 from src.error.base import ErrorBase
-from src.io.position import Position
+from src.text.position import Position
 
 # All errors inherit from ErrorBase
 # ErrorBase requires a message and optional position
@@ -22,7 +22,7 @@ Raised when invalid tokens or characters are encountered during lexical analysis
 
 ```python
 from src.error.lexical_error import LexicalError
-from src.io.position import Position
+from src.text.position import Position
 
 # Create and raise a lexical error
 position = Position(line=1, column=5, filename="test.txt")
@@ -38,7 +38,7 @@ Extend `ErrorBase` to create new error types:
 ```python
 from dataclasses import dataclass
 from src.error.base import ErrorBase
-from src.io.position import Position
+from src.text.position import Position
 
 @dataclass
 class SyntaxError(ErrorBase):
