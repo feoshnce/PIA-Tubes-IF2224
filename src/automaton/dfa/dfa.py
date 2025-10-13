@@ -4,6 +4,7 @@ from typing import Dict, Set, Optional, Tuple, List
 import re
 from dataclasses import dataclass
 
+
 @dataclass
 class DFAConfig:
     start_state: str
@@ -13,8 +14,10 @@ class DFAConfig:
     keywords: List[str]
     reserved_map: Dict[str, str]
 
+
 class DFA(AutomatonABC[str, str]):
     """DFA lexical analysis."""
+
     def __init__(self, config: DFAConfig):
         super().__init__()
 
@@ -22,16 +25,18 @@ class DFA(AutomatonABC[str, str]):
         self.set_start(config.start_state)
         for final_state in config.final_states:
             self.add_final(final_state)
-        
+
         self.current_state: Optional[str] = self.start_state
-        self.transitions: Dict[Tuple[str, str], str] = {}
-        self.char_class_patterns: Dict[str, re.Pattern] = {}
-        
-        for name, pattern in config.char_classes.items():
-            self.char_class_patterns[name] = re.compile(pattern)
-        
-        for from_state, input_sym, to_state in config.transitions:
-            self.transitions[(from_state, input_sym)] = to_state
+
+        self.char_class_patterns: Dict[str, re.Pattern] = {
+            name: re.compile(pattern)
+            for name, pattern in config.char_classes.items()
+        }
+
+        self.transitions: Dict[Tuple[str, str], str] = {
+            (from_state, input_sym): to_state
+            for from_state, input_sym, to_state in config.transitions
+        }
 
     def reset(self) -> None:
         """Reset automaton to start state."""
@@ -42,13 +47,13 @@ class DFA(AutomatonABC[str, str]):
         if key in self.transitions:
             self.current_state = self.transitions[key]
             return self.current_state
-        
+
         for (state, input_sym), next_state in self.transitions.items():
             if state == self.current_state and input_sym in self.char_class_patterns:
                 if self.char_class_patterns[input_sym].match(char):
                     self.current_state = next_state
                     return self.current_state
-        
+
         return None
 
     def step_all(self, states: Set[str], symbol: Optional[str]) -> Set[str]:
@@ -57,11 +62,11 @@ class DFA(AutomatonABC[str, str]):
 
         current_state_before = self.current_state
         self.current_state = next(iter(states))
-        
+
         next_s = self.step(symbol)
-        
+
         self.current_state = current_state_before
-        
+
         return {next_s} if next_s else set()
 
     def accepts(self, symbols: List[str]) -> bool:
@@ -73,14 +78,15 @@ class DFA(AutomatonABC[str, str]):
 
     def get_token_type(self) -> Optional[str]:
         return self.config.final_states.get(self.current_state)
-    
+
     def can_transition(self, char: str) -> bool:
         key = (self.current_state, char)
         if key in self.transitions:
             return True
-        
-        for (state, input_sym) in self.transitions.keys():
-            if state == self.current_state and input_sym in self.char_class_patterns:
-                if self.char_class_patterns[input_sym].match(char):
-                    return True
-        return False
+
+        return any(
+            state == self.current_state
+            and input_sym in self.char_class_patterns
+            and self.char_class_patterns[input_sym].match(char)
+            for state, input_sym in self.transitions.keys()
+        )

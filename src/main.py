@@ -1,5 +1,6 @@
 import argparse
 import io
+from itertools import zip_longest
 from pathlib import Path
 from lexer import Lexer
 from text import Writer
@@ -46,17 +47,18 @@ def check_output(actual_output: str, expected_file: str) -> None:
     print("\nDifferences:")
     print("-" * 40)
 
-    # Show line-by-line differences
-    max_lines = max(len(actual_lines), len(expected_lines))
-    for i in range(max_lines):
-        expected_line = expected_lines[i] if i < len(
-            expected_lines) else "<missing>"
-        actual_line = actual_lines[i] if i < len(actual_lines) else "<missing>"
+    differences = [
+        (i + 1, exp, act)
+        for i, (exp, act) in enumerate(zip_longest(
+            expected_lines, actual_lines, fillvalue="<missing>"
+        ))
+        if exp != act
+    ]
 
-        if expected_line != actual_line:
-            print(f"Line {i+1}:")
-            print(f"  Expected: {expected_line}")
-            print(f"  Actual:   {actual_line}")
+    for line_num, expected, actual in differences:
+        print(f"Line {line_num}:")
+        print(f"  Expected: {expected}")
+        print(f"  Actual:   {actual}")
 
 
 def main():
@@ -82,13 +84,10 @@ def main():
 
     lexer = Lexer()
     tokens = lexer.tokenize(source_code)
-
-    # Filter out WHITESPACE and COMMENT tokens, then create tuples for the writer
-    token_tuples = [
-        (token.type.name, token.value)
-        for token in tokens
-        if token.type.name not in ("WHITESPACE", "COMMENT")
-    ]
+    token_tuples = list(map(
+        lambda token: (token.type.name, token.value),
+        filter(lambda token: token.type.name not in ("WHITESPACE", "COMMENT"), tokens)
+    ))
 
     if args.check:
         # Capture output to string for comparison
