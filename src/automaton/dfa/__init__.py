@@ -1,3 +1,3 @@
-from .dfa import DFA
+from .dfa import DFA, DFAConfig
 
-__all__ = ["DFA"]
+__all__ = ["DFA","DFAConfig"]
