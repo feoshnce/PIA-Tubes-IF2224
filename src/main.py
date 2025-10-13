@@ -12,7 +12,8 @@ def get_expected_file_path(input_path: str) -> str:
     """
     input_file = Path(input_path)
     # Replace 'input' with 'expected' and change extension to .txt
-    expected_path = input_file.parent.parent / "expected" / input_file.with_suffix('.txt').name
+    expected_path = input_file.parent.parent / \
+        "expected" / input_file.with_suffix('.txt').name
     return str(expected_path)
 
 
@@ -48,7 +49,8 @@ def check_output(actual_output: str, expected_file: str) -> None:
     # Show line-by-line differences
     max_lines = max(len(actual_lines), len(expected_lines))
     for i in range(max_lines):
-        expected_line = expected_lines[i] if i < len(expected_lines) else "<missing>"
+        expected_line = expected_lines[i] if i < len(
+            expected_lines) else "<missing>"
         actual_line = actual_lines[i] if i < len(actual_lines) else "<missing>"
 
         if expected_line != actual_line:
