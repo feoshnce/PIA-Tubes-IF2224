@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Iterable, TextIO
-from src.error import ErrorBase
+from error import ErrorBase
 
 
 class Writer:
@@ -13,7 +13,7 @@ class Writer:
     def write_tokens(self, tokens: Iterable[tuple[str, str]]) -> None:
         """Print a list of (token_type, lexeme) pairs."""
         for tok_type, lexeme in tokens:
-            print(f"{tok_type:<20} {lexeme}", file=self.stream)
+            print(f"{tok_type}({lexeme})", file=self.stream)
 
     def write_error(self, err: ErrorBase) -> None:
         """Print a formatted error message."""
