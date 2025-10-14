@@ -18,6 +18,18 @@ def get_expected_file_path(input_path: str) -> str:
     return str(expected_path)
 
 
+def get_output_file_path(input_path: str) -> str:
+    """
+    Derive the output file path from the input file path.
+    Converts test/milestone-X/input/Y.pas to test/milestone-X/output/Y.txt
+    """
+    input_file = Path(input_path)
+    # Replace 'input' with 'output' and change extension to .txt
+    output_path = input_file.parent.parent / \
+        "output" / input_file.with_suffix('.txt').name
+    return str(output_path)
+
+
 def check_output(actual_output: str, expected_file: str) -> None:
     """
     Compare actual output with expected output and display differences.
@@ -73,6 +85,8 @@ def main():
                         help="Path to the source code file.")
     parser.add_argument("--check", action="store_true",
                         help="Compare output with expected output file.")
+    parser.add_argument("--output", nargs="?", const=True, default=None,
+                        help="Save output to file. If no path specified, saves to test/milestone-X/output/Y.txt")
     args = parser.parse_args()
 
     try:
@@ -89,20 +103,34 @@ def main():
         filter(lambda token: token.type.name not in ("WHITESPACE", "COMMENT"), tokens)
     ))
 
-    if args.check:
-        # Capture output to string for comparison
-        output_stream = io.StringIO()
-        writer = Writer(stream=output_stream)
-        writer.write_tokens(token_tuples)
-        actual_output = output_stream.getvalue()
+    output_stream = io.StringIO()
+    writer = Writer(stream=output_stream)
+    writer.write_tokens(token_tuples)
+    actual_output = output_stream.getvalue()
 
-        # Get expected file path and check
+    if args.check:
         expected_file = get_expected_file_path(args.file_path)
         check_output(actual_output, expected_file)
-    else:
-        # Normal output to stdout
-        writer = Writer()
-        writer.write_tokens(token_tuples)
+
+    if args.output: # Truthy value
+        if args.output is True:
+            output_file = get_output_file_path(args.file_path)
+        else:
+            output_file = args.output
+
+        # Create output directory if it doesn't exist
+        output_path = Path(output_file)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Write output to file
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(actual_output)
+
+        print(f"Output saved to: {output_file}")
+
+    if not args.check and not args.output:
+        # Normal output to stdout (only if not checking or saving)
+        print(actual_output, end="")
 
 
 if __name__ == "__main__":
