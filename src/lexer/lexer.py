@@ -4,6 +4,8 @@ from automaton import DFA
 from automaton.dfa import DFAConfig
 from syntax import Token, TokenType
 from text import Reader
+from .negative_number import merge_negative_numbers
+from .char_literal import fix_char_literals
 
 
 class Lexer:
@@ -87,4 +89,8 @@ class Lexer:
                 )
                 reader.advance()
 
+        # Post-process to merge unary minus with numbers
+        tokens = merge_negative_numbers(tokens)
+        # Post-process to distinguish char literals from string literals
+        tokens = fix_char_literals(tokens)
         return tokens
