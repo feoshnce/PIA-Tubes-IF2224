@@ -109,7 +109,9 @@
     "mod",
     "and",
     "or",
-    "not"
+    "not",
+    "true",
+    "false"
   ],
   "reserved_map": {
     "div": "ARITHMETIC_OPERATOR",
