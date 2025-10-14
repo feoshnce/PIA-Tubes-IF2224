@@ -104,12 +104,7 @@
     "procedure",
     "function",
     "const",
-    "type",
-    "div",
-    "mod",
-    "and",
-    "or",
-    "not"
+    "type"
   ],
   "reserved_map": {
     "div": "ARITHMETIC_OPERATOR",
