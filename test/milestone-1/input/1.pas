@@ -1,10 +1,14 @@
-program Hello;
-
+program ArrayTest;
 var
-  a, b: integer;
-
+  numbers: array[1..10] of integer;
+  i, j, sum: integer;
 begin
-  a := 5;
-  b := a + 10;
-  writeln('Result = ', b);
+  sum := 0;
+  for i := 1 to 10 do
+  begin
+    numbers[i] := i * 2;
+    sum := sum + numbers[i];
+  end;
+  for j := 10 downto 1 do
+    writeln(numbers[j]);
 end.
