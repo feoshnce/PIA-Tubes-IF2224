@@ -42,3 +42,24 @@ class Reader:
 
     def eof(self) -> bool:
         return self.current_char is None
+
+    def set_position(self, index: int) -> None:
+        """Set the reader position to a specific index."""
+        if index < 0 or index > len(self.text):
+            raise ValueError(f"Invalid index: {index}")
+
+        # Reset to beginning and advance to desired position
+        line = 1
+        col = 1
+        for i in range(index):
+            if self.text[i] == '\n':
+                line += 1
+                col = 1
+            else:
+                col += 1
+
+        self.pos = Position(index, line, col)
+        if index >= len(self.text):
+            self.current_char = None
+        else:
+            self.current_char = self.text[index]
