@@ -44,25 +44,26 @@ class Lexer:
             self.dfa.reset()
             last_accepted_state = None
             accepted_lexeme = ""
+            accepted_pos = None  # Track position after accepted lexeme
 
             while not reader.eof() and self.dfa.can_transition(reader.current_char):
                 lexeme += reader.current_char
                 self.dfa.step(reader.current_char)
+                reader.advance()
                 if self.dfa.get_token_type():
                     last_accepted_state = self.dfa.current_state
                     accepted_lexeme = lexeme
-                reader.advance()
+                    accepted_pos = reader.pos.index  # Save position after this character
 
             if accepted_lexeme:
                 token_type_str = self.config.final_states.get(
                     last_accepted_state)
                 token_type = TokenType[token_type_str]
 
-                # Check for keywords
-                if token_type == TokenType.IDENTIFIER and accepted_lexeme.lower() in self.keywords:
+                if token_type == TokenType.IDENTIFIER and accepted_lexeme.lower() in self.reserved_map:
+                    token_type = TokenType[self.reserved_map[accepted_lexeme.lower()]]
+                elif token_type == TokenType.IDENTIFIER and accepted_lexeme.lower() in self.keywords:
                     token_type = TokenType.KEYWORD
-                elif token_type == TokenType.IDENTIFIER and accepted_lexeme in self.reserved_map:
-                    token_type = TokenType[self.reserved_map[accepted_lexeme]]
 
                 tokens.append(
                     Token(
@@ -72,10 +73,9 @@ class Lexer:
                         end=start_pos + len(accepted_lexeme),
                     )
                 )
-                # Reset reader to the end of the accepted lexeme
-                reader = Reader(source_code)
-                for _ in range(start_pos + len(accepted_lexeme)):
-                    reader.advance()
+                # Position reader right after the accepted lexeme (only if we overshot)
+                if reader.pos.index != accepted_pos:
+                    reader.set_position(accepted_pos)
 
             elif not reader.eof():
                 # Handle unknown characters
