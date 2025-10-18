@@ -1,5 +1,21 @@
 # ParsingIsAllYouNeed
 
+## Identitas Kelompok
+Kelompok : PIA - ParsingIsAllYouNeed
+| No | NIM      | Nama Lengkap                  |
+| -- | -------- | ----------------------------- |
+| 1  | 13523021 | Muhammad Raihan Nazhim Oktana |
+| 2  | 13523057 | Faqih Muhammad Syuhada        |
+| 3  | 13523097 | Shanice Feodora Tjahjono      |
+| 4  | 13523105 | Muhammad Fathur Rizky         |
+
+## Deskripsi Program
+Tugas Besar Teori Bahasa Formal dan Otomata (IF2224-24) Milestone 1 ini mengimplementasikan tahap pertama dari proses kompilasi, yaitu analisis leksikal (lexical analysis) pada bahasa pemrograman Pascal-S yang merupakan subset dari bahasa Pascal. Melalui pembangunan lexical analyzer (lexer) berbasis Deterministic Finite Automata (DFA), program mampu membaca kode sumber Pascal-S dan mengubahnya menjadi deretan token yang memiliki arti semantik, seperti keyword, identifier, operator, literal, dan simbol-simbol lainnya. Program ini dibuat dengan menggunakan bahasa Python dan hanya dapat berjalan pada CLI (Command Line Interface).
+
+## Requirements
+- Python Version 3.13.1 or newer
+- uv Version 0.7.8 or newer
+
 ## Usage
 ```bash
 uv sync
@@ -183,3 +199,11 @@ stateDiagram-v2
     classDef accept fill:#d1fae5,stroke:#10b981,stroke-width:2px;
     class ID,NUM,NUM_REAL,WS,SC,COM,DOT,RANGE,OPENP,RP,LB,RB,COL,ASSIGN,PLUS,MINUS,MUL,DIV,EQ,LT,LE,NE,GT,GE,STR_END,CMTB_END,CMTP_END,KW,KW_LOGOP,KW_ARITHOP accept;
 ```
+
+## Pembagian Tugas
+| No | NIM      | Nama Lengkap                  | Persentase Pembagian Tugas |
+| -- | -------- | ----------------------------- | -------------------------- |
+| 1  | 13523021 | Muhammad Raihan Nazhim Oktana | 100%                       |
+| 2  | 13523057 | Faqih Muhammad Syuhada        | 100%                       |
+| 3  | 13523097 | Shanice Feodora Tjahjono      | 100%                       |
+| 4  | 13523105 | Muhammad Fathur Rizky         | 100%                       |
