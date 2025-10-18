@@ -13,13 +13,17 @@ Kelompok : PIA - ParsingIsAllYouNeed
 Tugas Besar Teori Bahasa Formal dan Otomata (IF2224-24) Milestone 1 ini mengimplementasikan tahap pertama dari proses kompilasi, yaitu analisis leksikal (lexical analysis) pada bahasa pemrograman Pascal-S yang merupakan subset dari bahasa Pascal. Melalui pembangunan lexical analyzer (lexer) berbasis Deterministic Finite Automata (DFA), program mampu membaca kode sumber Pascal-S dan mengubahnya menjadi deretan token yang memiliki arti semantik, seperti keyword, identifier, operator, literal, dan simbol-simbol lainnya. Program ini dibuat dengan menggunakan bahasa Python dan hanya dapat berjalan pada CLI (Command Line Interface).
 
 ## Requirements
-- Python Version 3.13.1 or newer
+- Python Version 3.14.0 or newer
 - uv Version 0.7.8 or newer
 
-## Usage
+## How To Install
+```bash
+git clone https://github.com/fathurwithyou/PIA-Tubes-IF2224.git
+```
+
+## How To Use
 ```bash
 uv sync
-
 uv run src/main.py test/milestone-1/input/1.pas
 ```
 
