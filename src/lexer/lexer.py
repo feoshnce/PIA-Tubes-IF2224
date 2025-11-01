@@ -6,6 +6,7 @@ from syntax import Token, TokenType
 from text import Reader
 from .negative_number import merge_negative_numbers
 from .char_literal import fix_char_literals
+from .hyphenated_keywords import merge_hyphenated_keywords
 
 
 class Lexer:
@@ -93,4 +94,6 @@ class Lexer:
         tokens = merge_negative_numbers(tokens)
         # Post-process to distinguish char literals from string literals
         tokens = fix_char_literals(tokens)
+        # Post-process to merge hyphenated keywords
+        tokens = merge_hyphenated_keywords(tokens)
         return tokens
