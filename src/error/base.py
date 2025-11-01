@@ -1,15 +1,16 @@
 from __future__ import annotations
-from dataclasses import dataclass
 from abc import ABC
 from typing import Optional
 from text import Position
 
 
-@dataclass
 class ErrorBase(Exception, ABC):
     """Abstract base for all error types in the compiler/lexer pipeline."""
-    message: str
-    position: Optional[Position] = None
+
+    def __init__(self, message: str, position: Optional[Position] = None):
+        super().__init__(message)
+        self.message = message
+        self.position = position
 
     def __str__(self) -> str:
         pos_str = f" at {self.position}" if self.position else ""
