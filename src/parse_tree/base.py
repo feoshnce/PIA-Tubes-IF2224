@@ -9,9 +9,6 @@ from typing import Any
 class ASTNode(ABC):
     """
     Abstract base class for all AST nodes.
-
-    All AST nodes must implement the accept method for the visitor pattern
-    and provide a string representation for debugging.
     """
 
     @abstractmethod
