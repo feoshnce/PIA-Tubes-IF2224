@@ -1,0 +1,90 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(ConditionalTest)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── KEYWORD(var)
+│       ├── <var-list>
+│       │   ├── <identifier-list>
+│       │   │   └── IDENTIFIER(score)
+│       │   ├── COLON(:)
+│       │   ├── <type>
+│       │   │   └── KEYWORD(integer)
+│       │   └── SEMICOLON(;)
+│       └── <var-list>
+│           ├── <identifier-list>
+│           │   └── IDENTIFIER(grade)
+│           ├── COLON(:)
+│           ├── <type>
+│           │   └── KEYWORD(char)
+│           └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(begin)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(score)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(85)
+│   │   ├── SEMICOLON(;)
+│   │   └── <if-statement>
+│   │       ├── KEYWORD(if)
+│   │       ├── <expression>
+│   │       │   ├── <simple-expression>
+│   │       │   │   └── <term>
+│   │       │   │       └── <factor>
+│   │       │   │           └── IDENTIFIER(score)
+│   │       │   ├── <relational-operator>
+│   │       │   │   └── RELATIONAL_OPERATOR(>=)
+│   │       │   └── <simple-expression>
+│   │       │       └── <term>
+│   │       │           └── <factor>
+│   │       │               └── NUMBER(80)
+│   │       ├── KEYWORD(then)
+│   │       ├── <assignment-statement>
+│   │       │   ├── IDENTIFIER(grade)
+│   │       │   ├── ASSIGN_OPERATOR(:=)
+│   │       │   └── <expression>
+│   │       │       └── <simple-expression>
+│   │       │           └── <term>
+│   │       │               └── <factor>
+│   │       │                   └── CHAR_LITERAL('A')
+│   │       ├── KEYWORD(else)
+│   │       └── <if-statement>
+│   │           ├── KEYWORD(if)
+│   │           ├── <expression>
+│   │           │   ├── <simple-expression>
+│   │           │   │   └── <term>
+│   │           │   │       └── <factor>
+│   │           │   │           └── IDENTIFIER(score)
+│   │           │   ├── <relational-operator>
+│   │           │   │   └── RELATIONAL_OPERATOR(>=)
+│   │           │   └── <simple-expression>
+│   │           │       └── <term>
+│   │           │           └── <factor>
+│   │           │               └── NUMBER(70)
+│   │           ├── KEYWORD(then)
+│   │           ├── <assignment-statement>
+│   │           │   ├── IDENTIFIER(grade)
+│   │           │   ├── ASSIGN_OPERATOR(:=)
+│   │           │   └── <expression>
+│   │           │       └── <simple-expression>
+│   │           │           └── <term>
+│   │           │               └── <factor>
+│   │           │                   └── CHAR_LITERAL('B')
+│   │           ├── KEYWORD(else)
+│   │           └── <assignment-statement>
+│   │               ├── IDENTIFIER(grade)
+│   │               ├── ASSIGN_OPERATOR(:=)
+│   │               └── <expression>
+│   │                   └── <simple-expression>
+│   │                       └── <term>
+│   │                           └── <factor>
+│   │                               └── CHAR_LITERAL('C')
+│   └── KEYWORD(end)
+└── DOT(.)

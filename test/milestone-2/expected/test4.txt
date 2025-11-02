@@ -1,0 +1,198 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(ProcFuncTest)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(var)
+│   │   └── <var-list>
+│   │       ├── <identifier-list>
+│   │       │   ├── IDENTIFIER(x)
+│   │       │   ├── COMMA(,)
+│   │       │   ├── IDENTIFIER(y)
+│   │       │   ├── COMMA(,)
+│   │       │   └── IDENTIFIER(result)
+│   │       ├── COLON(:)
+│   │       ├── <type>
+│   │       │   └── KEYWORD(integer)
+│   │       └── SEMICOLON(;)
+│   ├── <subprogram-declaration>
+│   │   └── <procedure-declaration>
+│   │       ├── KEYWORD(procedure)
+│   │       ├── IDENTIFIER(PrintSum)
+│   │       ├── <formal-parameter-list>
+│   │       │   ├── LPARENTHESIS(()
+│   │       │   ├── <parameter-group>
+│   │       │   │   ├── <identifier-list>
+│   │       │   │   │   ├── IDENTIFIER(a)
+│   │       │   │   │   ├── COMMA(,)
+│   │       │   │   │   └── IDENTIFIER(b)
+│   │       │   │   ├── COLON(:)
+│   │       │   │   └── <type>
+│   │       │   │       └── KEYWORD(integer)
+│   │       │   └── RPARENTHESIS())
+│   │       ├── SEMICOLON(;)
+│   │       ├── <block>
+│   │       │   ├── <declaration-part>
+│   │       │   │   └── <var-declaration>
+│   │       │   │       ├── KEYWORD(var)
+│   │       │   │       └── <var-list>
+│   │       │   │           ├── <identifier-list>
+│   │       │   │           │   └── IDENTIFIER(total)
+│   │       │   │           ├── COLON(:)
+│   │       │   │           ├── <type>
+│   │       │   │           │   └── KEYWORD(integer)
+│   │       │   │           └── SEMICOLON(;)
+│   │       │   └── <compound-statement>
+│   │       │       ├── KEYWORD(begin)
+│   │       │       ├── <statement-list>
+│   │       │       │   ├── <assignment-statement>
+│   │       │       │   │   ├── IDENTIFIER(total)
+│   │       │       │   │   ├── ASSIGN_OPERATOR(:=)
+│   │       │       │   │   └── <expression>
+│   │       │       │   │       └── <simple-expression>
+│   │       │       │   │           ├── <term>
+│   │       │       │   │           │   └── <factor>
+│   │       │       │   │           │       └── IDENTIFIER(a)
+│   │       │       │   │           ├── <additive-operator>
+│   │       │       │   │           │   └── ARITHMETIC_OPERATOR(+)
+│   │       │       │   │           └── <term>
+│   │       │       │   │               └── <factor>
+│   │       │       │   │                   └── IDENTIFIER(b)
+│   │       │       │   ├── SEMICOLON(;)
+│   │       │       │   └── <procedure-call>
+│   │       │       │       ├── IDENTIFIER(writeln)
+│   │       │       │       ├── LPARENTHESIS(()
+│   │       │       │       ├── <parameter-list>
+│   │       │       │       │   ├── <expression>
+│   │       │       │       │   │   └── <simple-expression>
+│   │       │       │       │   │       └── <term>
+│   │       │       │       │   │           └── <factor>
+│   │       │       │       │   │               └── STRING_LITERAL('Sum is: ')
+│   │       │       │       │   ├── COMMA(,)
+│   │       │       │       │   └── <expression>
+│   │       │       │       │       └── <simple-expression>
+│   │       │       │       │           └── <term>
+│   │       │       │       │               └── <factor>
+│   │       │       │       │                   └── IDENTIFIER(total)
+│   │       │       │       └── RPARENTHESIS())
+│   │       │       └── KEYWORD(end)
+│   │       └── SEMICOLON(;)
+│   └── <subprogram-declaration>
+│       └── <function-declaration>
+│           ├── KEYWORD(function)
+│           ├── IDENTIFIER(Multiply)
+│           ├── <formal-parameter-list>
+│           │   ├── LPARENTHESIS(()
+│           │   ├── <parameter-group>
+│           │   │   ├── <identifier-list>
+│           │   │   │   ├── IDENTIFIER(m)
+│           │   │   │   ├── COMMA(,)
+│           │   │   │   └── IDENTIFIER(n)
+│           │   │   ├── COLON(:)
+│           │   │   └── <type>
+│           │   │       └── KEYWORD(integer)
+│           │   └── RPARENTHESIS())
+│           ├── COLON(:)
+│           ├── <type>
+│           │   └── KEYWORD(integer)
+│           ├── SEMICOLON(;)
+│           ├── <block>
+│           │   └── <compound-statement>
+│           │       ├── KEYWORD(begin)
+│           │       ├── <statement-list>
+│           │       │   └── <assignment-statement>
+│           │       │       ├── IDENTIFIER(Multiply)
+│           │       │       ├── ASSIGN_OPERATOR(:=)
+│           │       │       └── <expression>
+│           │       │           └── <simple-expression>
+│           │       │               └── <term>
+│           │       │                   ├── <factor>
+│           │       │                   │   └── IDENTIFIER(m)
+│           │       │                   ├── <multiplicative-operator>
+│           │       │                   │   └── ARITHMETIC_OPERATOR(*)
+│           │       │                   └── <factor>
+│           │       │                       └── IDENTIFIER(n)
+│           │       └── KEYWORD(end)
+│           └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(begin)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(x)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(5)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(y)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(3)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <procedure-call>
+│   │   │   ├── IDENTIFIER(PrintSum)
+│   │   │   ├── LPARENTHESIS(()
+│   │   │   ├── <parameter-list>
+│   │   │   │   ├── <expression>
+│   │   │   │   │   └── <simple-expression>
+│   │   │   │   │       └── <term>
+│   │   │   │   │           └── <factor>
+│   │   │   │   │               └── IDENTIFIER(x)
+│   │   │   │   ├── COMMA(,)
+│   │   │   │   └── <expression>
+│   │   │   │       └── <simple-expression>
+│   │   │   │           └── <term>
+│   │   │   │               └── <factor>
+│   │   │   │                   └── IDENTIFIER(y)
+│   │   │   └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(result)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── <function-call>
+│   │   │                       ├── IDENTIFIER(Multiply)
+│   │   │                       ├── LPARENTHESIS(()
+│   │   │                       ├── <parameter-list>
+│   │   │                       │   ├── <expression>
+│   │   │                       │   │   └── <simple-expression>
+│   │   │                       │   │       └── <term>
+│   │   │                       │   │           └── <factor>
+│   │   │                       │   │               └── IDENTIFIER(x)
+│   │   │                       │   ├── COMMA(,)
+│   │   │                       │   └── <expression>
+│   │   │                       │       └── <simple-expression>
+│   │   │                       │           └── <term>
+│   │   │                       │               └── <factor>
+│   │   │                       │                   └── IDENTIFIER(y)
+│   │   │                       └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   └── <procedure-call>
+│   │       ├── IDENTIFIER(writeln)
+│   │       ├── LPARENTHESIS(()
+│   │       ├── <parameter-list>
+│   │       │   ├── <expression>
+│   │       │   │   └── <simple-expression>
+│   │       │   │       └── <term>
+│   │       │   │           └── <factor>
+│   │       │   │               └── STRING_LITERAL('Product is: ')
+│   │       │   ├── COMMA(,)
+│   │       │   └── <expression>
+│   │       │       └── <simple-expression>
+│   │       │           └── <term>
+│   │       │               └── <factor>
+│   │       │                   └── IDENTIFIER(result)
+│   │       └── RPARENTHESIS())
+│   └── KEYWORD(end)
+└── DOT(.)

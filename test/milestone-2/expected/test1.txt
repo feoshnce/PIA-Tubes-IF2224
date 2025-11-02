@@ -1,0 +1,71 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(SimpleAssignment)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── KEYWORD(var)
+│       ├── <var-list>
+│       │   ├── <identifier-list>
+│       │   │   ├── IDENTIFIER(x)
+│       │   │   ├── COMMA(,)
+│       │   │   ├── IDENTIFIER(y)
+│       │   │   ├── COMMA(,)
+│       │   │   └── IDENTIFIER(z)
+│       │   ├── COLON(:)
+│       │   ├── <type>
+│       │   │   └── KEYWORD(integer)
+│       │   └── SEMICOLON(;)
+│       └── <var-list>
+│           ├── <identifier-list>
+│           │   └── IDENTIFIER(result)
+│           ├── COLON(:)
+│           ├── <type>
+│           │   └── KEYWORD(real)
+│           └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(begin)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(x)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(10)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(y)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(20)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(z)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           ├── <term>
+│   │   │           │   └── <factor>
+│   │   │           │       └── IDENTIFIER(x)
+│   │   │           ├── <additive-operator>
+│   │   │           │   └── ARITHMETIC_OPERATOR(+)
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── IDENTIFIER(y)
+│   │   ├── SEMICOLON(;)
+│   │   └── <assignment-statement>
+│   │       ├── IDENTIFIER(result)
+│   │       ├── ASSIGN_OPERATOR(:=)
+│   │       └── <expression>
+│   │           └── <simple-expression>
+│   │               └── <term>
+│   │                   └── <factor>
+│   │                       └── NUMBER(3.14)
+│   └── KEYWORD(end)
+└── DOT(.)
