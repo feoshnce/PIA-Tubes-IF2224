@@ -1,0 +1,10 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(MinimalTest)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+├── <compound-statement>
+│   ├── KEYWORD(begin)
+│   └── KEYWORD(end)
+└── DOT(.)

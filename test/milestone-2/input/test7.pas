@@ -1,0 +1,3 @@
+program MinimalTest;
+begin
+end.

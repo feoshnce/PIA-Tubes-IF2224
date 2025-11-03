@@ -1,0 +1,146 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(NestedCompoundTest)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── KEYWORD(var)
+│       ├── <var-list>
+│       │   ├── <identifier-list>
+│       │   │   ├── IDENTIFIER(x)
+│       │   │   ├── COMMA(,)
+│       │   │   └── IDENTIFIER(y)
+│       │   ├── COLON(:)
+│       │   ├── <type>
+│       │   │   └── KEYWORD(integer)
+│       │   └── SEMICOLON(;)
+│       └── <var-list>
+│           ├── <identifier-list>
+│           │   └── IDENTIFIER(done)
+│           ├── COLON(:)
+│           ├── <type>
+│           │   └── KEYWORD(boolean)
+│           └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(begin)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(x)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(0)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <repeat-statement>
+│   │   │   ├── KEYWORD(repeat)
+│   │   │   ├── <statement-list>
+│   │   │   │   ├── <assignment-statement>
+│   │   │   │   │   ├── IDENTIFIER(x)
+│   │   │   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   │   │   └── <expression>
+│   │   │   │   │       └── <simple-expression>
+│   │   │   │   │           ├── <term>
+│   │   │   │   │           │   └── <factor>
+│   │   │   │   │           │       └── IDENTIFIER(x)
+│   │   │   │   │           ├── <additive-operator>
+│   │   │   │   │           │   └── ARITHMETIC_OPERATOR(+)
+│   │   │   │   │           └── <term>
+│   │   │   │   │               └── <factor>
+│   │   │   │   │                   └── NUMBER(1)
+│   │   │   │   ├── SEMICOLON(;)
+│   │   │   │   └── <compound-statement>
+│   │   │   │       ├── KEYWORD(begin)
+│   │   │   │       ├── <statement-list>
+│   │   │   │       │   ├── <assignment-statement>
+│   │   │   │       │   │   ├── IDENTIFIER(y)
+│   │   │   │       │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   │       │   │   └── <expression>
+│   │   │   │       │   │       └── <simple-expression>
+│   │   │   │       │   │           └── <term>
+│   │   │   │       │   │               ├── <factor>
+│   │   │   │       │   │               │   └── IDENTIFIER(x)
+│   │   │   │       │   │               ├── <multiplicative-operator>
+│   │   │   │       │   │               │   └── ARITHMETIC_OPERATOR(*)
+│   │   │   │       │   │               └── <factor>
+│   │   │   │       │   │                   └── NUMBER(2)
+│   │   │   │       │   ├── SEMICOLON(;)
+│   │   │   │       │   └── <if-statement>
+│   │   │   │       │       ├── KEYWORD(if)
+│   │   │   │       │       ├── <expression>
+│   │   │   │       │       │   ├── <simple-expression>
+│   │   │   │       │       │   │   └── <term>
+│   │   │   │       │       │   │       └── <factor>
+│   │   │   │       │       │   │           └── IDENTIFIER(y)
+│   │   │   │       │       │   ├── <relational-operator>
+│   │   │   │       │       │   │   └── RELATIONAL_OPERATOR(>)
+│   │   │   │       │       │   └── <simple-expression>
+│   │   │   │       │       │       └── <term>
+│   │   │   │       │       │           └── <factor>
+│   │   │   │       │       │               └── NUMBER(5)
+│   │   │   │       │       ├── KEYWORD(then)
+│   │   │   │       │       ├── <compound-statement>
+│   │   │   │       │       │   ├── KEYWORD(begin)
+│   │   │   │       │       │   ├── <statement-list>
+│   │   │   │       │       │   │   ├── <procedure-call>
+│   │   │   │       │       │   │   │   ├── IDENTIFIER(writeln)
+│   │   │   │       │       │   │   │   ├── LPARENTHESIS(()
+│   │   │   │       │       │   │   │   ├── <parameter-list>
+│   │   │   │       │       │   │   │   │   └── <expression>
+│   │   │   │       │       │   │   │   │       └── <simple-expression>
+│   │   │   │       │       │   │   │   │           └── <term>
+│   │   │   │       │       │   │   │   │               └── <factor>
+│   │   │   │       │       │   │   │   │                   └── IDENTIFIER(y)
+│   │   │   │       │       │   │   │   └── RPARENTHESIS())
+│   │   │   │       │       │   │   ├── SEMICOLON(;)
+│   │   │   │       │       │   │   └── <assignment-statement>
+│   │   │   │       │       │   │       ├── IDENTIFIER(done)
+│   │   │   │       │       │   │       ├── ASSIGN_OPERATOR(:=)
+│   │   │   │       │       │   │       └── <expression>
+│   │   │   │       │       │   │           └── <simple-expression>
+│   │   │   │       │       │   │               └── <term>
+│   │   │   │       │       │   │                   └── <factor>
+│   │   │   │       │       │   │                       └── KEYWORD(true)
+│   │   │   │       │       │   └── KEYWORD(end)
+│   │   │   │       │       ├── KEYWORD(else)
+│   │   │   │       │       └── <assignment-statement>
+│   │   │   │       │           ├── IDENTIFIER(done)
+│   │   │   │       │           ├── ASSIGN_OPERATOR(:=)
+│   │   │   │       │           └── <expression>
+│   │   │   │       │               └── <simple-expression>
+│   │   │   │       │                   └── <term>
+│   │   │   │       │                       └── <factor>
+│   │   │   │       │                           └── KEYWORD(false)
+│   │   │   │       └── KEYWORD(end)
+│   │   │   ├── KEYWORD(until)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── IDENTIFIER(done)
+│   │   ├── SEMICOLON(;)
+│   │   └── <compound-statement>
+│   │       ├── KEYWORD(begin)
+│   │       ├── <statement-list>
+│   │       │   └── <compound-statement>
+│   │       │       ├── KEYWORD(begin)
+│   │       │       ├── <statement-list>
+│   │       │       │   └── <assignment-statement>
+│   │       │       │       ├── IDENTIFIER(x)
+│   │       │       │       ├── ASSIGN_OPERATOR(:=)
+│   │       │       │       └── <expression>
+│   │       │       │           └── <simple-expression>
+│   │       │       │               ├── <term>
+│   │       │       │               │   └── <factor>
+│   │       │       │               │       └── IDENTIFIER(x)
+│   │       │       │               ├── <additive-operator>
+│   │       │       │               │   └── ARITHMETIC_OPERATOR(+)
+│   │       │       │               └── <term>
+│   │       │       │                   └── <factor>
+│   │       │       │                       └── NUMBER(1)
+│   │       │       └── KEYWORD(end)
+│   │       └── KEYWORD(end)
+│   └── KEYWORD(end)
+└── DOT(.)

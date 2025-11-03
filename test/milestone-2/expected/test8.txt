@@ -1,0 +1,82 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(EmptyDowntoTest)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(var)
+│   │   └── <var-list>
+│   │       ├── <identifier-list>
+│   │       │   └── IDENTIFIER(i)
+│   │       ├── COLON(:)
+│   │       ├── <type>
+│   │       │   └── KEYWORD(integer)
+│   │       └── SEMICOLON(;)
+│   ├── <subprogram-declaration>
+│   │   └── <procedure-declaration>
+│   │       ├── KEYWORD(procedure)
+│   │       ├── IDENTIFIER(EmptyProc)
+│   │       ├── SEMICOLON(;)
+│   │       ├── <block>
+│   │       │   └── <compound-statement>
+│   │       │       ├── KEYWORD(begin)
+│   │       │       └── KEYWORD(end)
+│   │       └── SEMICOLON(;)
+│   └── <subprogram-declaration>
+│       └── <function-declaration>
+│           ├── KEYWORD(function)
+│           ├── IDENTIFIER(EmptyFunc)
+│           ├── COLON(:)
+│           ├── <type>
+│           │   └── KEYWORD(integer)
+│           ├── SEMICOLON(;)
+│           ├── <block>
+│           │   └── <compound-statement>
+│           │       ├── KEYWORD(begin)
+│           │       ├── <statement-list>
+│           │       │   └── <assignment-statement>
+│           │       │       ├── IDENTIFIER(EmptyFunc)
+│           │       │       ├── ASSIGN_OPERATOR(:=)
+│           │       │       └── <expression>
+│           │       │           └── <simple-expression>
+│           │       │               └── <term>
+│           │       │                   └── <factor>
+│           │       │                       └── NUMBER(0)
+│           │       └── KEYWORD(end)
+│           └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(begin)
+│   ├── <statement-list>
+│   │   ├── <for-statement>
+│   │   │   ├── KEYWORD(for)
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(10)
+│   │   │   ├── KEYWORD(downto)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(1)
+│   │   │   ├── KEYWORD(do)
+│   │   │   └── <procedure-call>
+│   │   │       └── IDENTIFIER(EmptyProc)
+│   │   ├── SEMICOLON(;)
+│   │   └── <assignment-statement>
+│   │       ├── IDENTIFIER(i)
+│   │       ├── ASSIGN_OPERATOR(:=)
+│   │       └── <expression>
+│   │           └── <simple-expression>
+│   │               └── <term>
+│   │                   └── <factor>
+│   │                       └── <function-call>
+│   │                           ├── IDENTIFIER(EmptyFunc)
+│   │                           ├── LPARENTHESIS(()
+│   │                           └── RPARENTHESIS())
+│   └── KEYWORD(end)
+└── DOT(.)
