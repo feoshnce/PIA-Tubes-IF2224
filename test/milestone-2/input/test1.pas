@@ -1,10 +1,10 @@
 program SimpleAssignment;
-var
+variabel
     x, y, z: integer;
     result: real;
-begin
+mulai
     x := 10;
     y := 20;
     z := x + y;
     result := 3.14
-end.
+selesai.

@@ -5,20 +5,19 @@
 │   └── SEMICOLON(;)
 ├── <declaration-part>
 │   └── <var-declaration>
-│       ├── KEYWORD(var)
-│       └── <var-list>
-│           ├── <identifier-list>
-│           │   ├── IDENTIFIER(i)
-│           │   ├── COMMA(,)
-│           │   ├── IDENTIFIER(sum)
-│           │   ├── COMMA(,)
-│           │   └── IDENTIFIER(count)
-│           ├── COLON(:)
-│           ├── <type>
-│           │   └── KEYWORD(integer)
-│           └── SEMICOLON(;)
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   ├── IDENTIFIER(i)
+│       │   ├── COMMA(,)
+│       │   ├── IDENTIFIER(sum)
+│       │   ├── COMMA(,)
+│       │   └── IDENTIFIER(count)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       └── SEMICOLON(;)
 ├── <compound-statement>
-│   ├── KEYWORD(begin)
+│   ├── KEYWORD(mulai)
 │   ├── <statement-list>
 │   │   ├── <assignment-statement>
 │   │   │   ├── IDENTIFIER(sum)
@@ -30,7 +29,7 @@
 │   │   │                   └── NUMBER(0)
 │   │   ├── SEMICOLON(;)
 │   │   ├── <for-statement>
-│   │   │   ├── KEYWORD(for)
+│   │   │   ├── KEYWORD(untuk)
 │   │   │   ├── IDENTIFIER(i)
 │   │   │   ├── ASSIGN_OPERATOR(:=)
 │   │   │   ├── <expression>
@@ -38,13 +37,13 @@
 │   │   │   │       └── <term>
 │   │   │   │           └── <factor>
 │   │   │   │               └── NUMBER(1)
-│   │   │   ├── KEYWORD(to)
+│   │   │   ├── KEYWORD(ke)
 │   │   │   ├── <expression>
 │   │   │   │   └── <simple-expression>
 │   │   │   │       └── <term>
 │   │   │   │           └── <factor>
 │   │   │   │               └── NUMBER(10)
-│   │   │   ├── KEYWORD(do)
+│   │   │   ├── KEYWORD(lakukan)
 │   │   │   └── <assignment-statement>
 │   │   │       ├── IDENTIFIER(sum)
 │   │   │       ├── ASSIGN_OPERATOR(:=)
@@ -69,7 +68,7 @@
 │   │   │                   └── NUMBER(0)
 │   │   ├── SEMICOLON(;)
 │   │   └── <while-statement>
-│   │       ├── KEYWORD(while)
+│   │       ├── KEYWORD(selama)
 │   │       ├── <expression>
 │   │       │   ├── <simple-expression>
 │   │       │   │   └── <term>
@@ -81,7 +80,7 @@
 │   │       │       └── <term>
 │   │       │           └── <factor>
 │   │       │               └── NUMBER(5)
-│   │       ├── KEYWORD(do)
+│   │       ├── KEYWORD(lakukan)
 │   │       └── <assignment-statement>
 │   │           ├── IDENTIFIER(count)
 │   │           ├── ASSIGN_OPERATOR(:=)
@@ -95,5 +94,5 @@
 │   │                   └── <term>
 │   │                       └── <factor>
 │   │                           └── NUMBER(1)
-│   └── KEYWORD(end)
+│   └── KEYWORD(selesai)
 └── DOT(.)

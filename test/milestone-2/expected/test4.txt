@@ -5,21 +5,20 @@
 │   └── SEMICOLON(;)
 ├── <declaration-part>
 │   ├── <var-declaration>
-│   │   ├── KEYWORD(var)
-│   │   └── <var-list>
-│   │       ├── <identifier-list>
-│   │       │   ├── IDENTIFIER(x)
-│   │       │   ├── COMMA(,)
-│   │       │   ├── IDENTIFIER(y)
-│   │       │   ├── COMMA(,)
-│   │       │   └── IDENTIFIER(result)
-│   │       ├── COLON(:)
-│   │       ├── <type>
-│   │       │   └── KEYWORD(integer)
-│   │       └── SEMICOLON(;)
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   ├── IDENTIFIER(x)
+│   │   │   ├── COMMA(,)
+│   │   │   ├── IDENTIFIER(y)
+│   │   │   ├── COMMA(,)
+│   │   │   └── IDENTIFIER(result)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(integer)
+│   │   └── SEMICOLON(;)
 │   ├── <subprogram-declaration>
 │   │   └── <procedure-declaration>
-│   │       ├── KEYWORD(procedure)
+│   │       ├── KEYWORD(prosedur)
 │   │       ├── IDENTIFIER(PrintSum)
 │   │       ├── <formal-parameter-list>
 │   │       │   ├── LPARENTHESIS(()
@@ -36,16 +35,15 @@
 │   │       ├── <block>
 │   │       │   ├── <declaration-part>
 │   │       │   │   └── <var-declaration>
-│   │       │   │       ├── KEYWORD(var)
-│   │       │   │       └── <var-list>
-│   │       │   │           ├── <identifier-list>
-│   │       │   │           │   └── IDENTIFIER(total)
-│   │       │   │           ├── COLON(:)
-│   │       │   │           ├── <type>
-│   │       │   │           │   └── KEYWORD(integer)
-│   │       │   │           └── SEMICOLON(;)
+│   │       │   │       ├── KEYWORD(variabel)
+│   │       │   │       ├── <identifier-list>
+│   │       │   │       │   └── IDENTIFIER(total)
+│   │       │   │       ├── COLON(:)
+│   │       │   │       ├── <type>
+│   │       │   │       │   └── KEYWORD(integer)
+│   │       │   │       └── SEMICOLON(;)
 │   │       │   └── <compound-statement>
-│   │       │       ├── KEYWORD(begin)
+│   │       │       ├── KEYWORD(mulai)
 │   │       │       ├── <statement-list>
 │   │       │       │   ├── <assignment-statement>
 │   │       │       │   │   ├── IDENTIFIER(total)
@@ -77,11 +75,11 @@
 │   │       │       │       │               └── <factor>
 │   │       │       │       │                   └── IDENTIFIER(total)
 │   │       │       │       └── RPARENTHESIS())
-│   │       │       └── KEYWORD(end)
+│   │       │       └── KEYWORD(selesai)
 │   │       └── SEMICOLON(;)
 │   └── <subprogram-declaration>
 │       └── <function-declaration>
-│           ├── KEYWORD(function)
+│           ├── KEYWORD(fungsi)
 │           ├── IDENTIFIER(Multiply)
 │           ├── <formal-parameter-list>
 │           │   ├── LPARENTHESIS(()
@@ -100,7 +98,7 @@
 │           ├── SEMICOLON(;)
 │           ├── <block>
 │           │   └── <compound-statement>
-│           │       ├── KEYWORD(begin)
+│           │       ├── KEYWORD(mulai)
 │           │       ├── <statement-list>
 │           │       │   └── <assignment-statement>
 │           │       │       ├── IDENTIFIER(Multiply)
@@ -114,10 +112,10 @@
 │           │       │                   │   └── ARITHMETIC_OPERATOR(*)
 │           │       │                   └── <factor>
 │           │       │                       └── IDENTIFIER(n)
-│           │       └── KEYWORD(end)
+│           │       └── KEYWORD(selesai)
 │           └── SEMICOLON(;)
 ├── <compound-statement>
-│   ├── KEYWORD(begin)
+│   ├── KEYWORD(mulai)
 │   ├── <statement-list>
 │   │   ├── <assignment-statement>
 │   │   │   ├── IDENTIFIER(x)
@@ -194,5 +192,5 @@
 │   │       │               └── <factor>
 │   │       │                   └── IDENTIFIER(result)
 │   │       └── RPARENTHESIS())
-│   └── KEYWORD(end)
+│   └── KEYWORD(selesai)
 └── DOT(.)

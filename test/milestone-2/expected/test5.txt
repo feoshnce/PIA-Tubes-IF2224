@@ -5,103 +5,88 @@
 │   └── SEMICOLON(;)
 ├── <declaration-part>
 │   ├── <const-declaration>
-│   │   ├── KEYWORD(const)
-│   │   ├── <const-definition>
-│   │   │   ├── IDENTIFIER(MAX_SIZE)
-│   │   │   ├── EQUAL(=)
-│   │   │   ├── <expression>
-│   │   │   │   └── <simple-expression>
-│   │   │   │       └── <term>
-│   │   │   │           └── <factor>
-│   │   │   │               └── NUMBER(100)
-│   │   │   └── SEMICOLON(;)
-│   │   └── <const-definition>
-│   │       ├── IDENTIFIER(PI)
-│   │       ├── EQUAL(=)
-│   │       ├── <expression>
-│   │       │   └── <simple-expression>
-│   │       │       └── <term>
-│   │       │           └── <factor>
-│   │       │               └── NUMBER(3.14159)
-│   │       └── SEMICOLON(;)
+│   │   ├── KEYWORD(konstanta)
+│   │   ├── IDENTIFIER(MAX_SIZE)
+│   │   ├── ASSIGN_OPERATOR(=)
+│   │   ├── NUMBER(100)
+│   │   ├── SEMICOLON(;)
+│   │   ├── IDENTIFIER(PI)
+│   │   ├── ASSIGN_OPERATOR(=)
+│   │   ├── NUMBER(3.14159)
+│   │   └── SEMICOLON(;)
 │   ├── <type-declaration>
-│   │   ├── KEYWORD(type)
-│   │   ├── <type-definition>
-│   │   │   ├── IDENTIFIER(IntArray)
-│   │   │   ├── EQUAL(=)
-│   │   │   ├── <type>
-│   │   │   │   └── <array-type>
-│   │   │   │       ├── KEYWORD(array)
-│   │   │   │       ├── LBRACKET([)
-│   │   │   │       ├── <range>
-│   │   │   │       │   ├── <expression>
-│   │   │   │       │   │   └── <simple-expression>
-│   │   │   │       │   │       └── <term>
-│   │   │   │       │   │           └── <factor>
-│   │   │   │       │   │               └── NUMBER(1)
-│   │   │   │       │   ├── RANGE_OPERATOR(..)
-│   │   │   │       │   └── <expression>
-│   │   │   │       │       └── <simple-expression>
-│   │   │   │       │           └── <term>
-│   │   │   │       │               └── <factor>
-│   │   │   │       │                   └── NUMBER(10)
-│   │   │   │       ├── RBRACKET(])
-│   │   │   │       ├── KEYWORD(of)
-│   │   │   │       └── <type>
-│   │   │   │           └── KEYWORD(integer)
-│   │   │   └── SEMICOLON(;)
-│   │   └── <type-definition>
-│   │       ├── IDENTIFIER(CharArray)
-│   │       ├── EQUAL(=)
-│   │       ├── <type>
-│   │       │   └── <array-type>
-│   │       │       ├── KEYWORD(array)
-│   │       │       ├── LBRACKET([)
-│   │       │       ├── <range>
-│   │       │       │   ├── <expression>
-│   │       │       │   │   └── <simple-expression>
-│   │       │       │   │       └── <term>
-│   │       │       │   │           └── <factor>
-│   │       │       │   │               └── NUMBER(0)
-│   │       │       │   ├── RANGE_OPERATOR(..)
-│   │       │       │   └── <expression>
-│   │       │       │       └── <simple-expression>
-│   │       │       │           └── <term>
-│   │       │       │               └── <factor>
-│   │       │       │                   └── IDENTIFIER(MAX_SIZE)
-│   │       │       ├── RBRACKET(])
-│   │       │       ├── KEYWORD(of)
-│   │       │       └── <type>
-│   │       │           └── KEYWORD(char)
-│   │       └── SEMICOLON(;)
+│   │   ├── KEYWORD(tipe)
+│   │   ├── IDENTIFIER(IntArray)
+│   │   ├── ASSIGN_OPERATOR(=)
+│   │   ├── <type>
+│   │   │   └── <array-type>
+│   │   │       ├── KEYWORD(larik)
+│   │   │       ├── LBRACKET([)
+│   │   │       ├── <range>
+│   │   │       │   ├── <expression>
+│   │   │       │   │   └── <simple-expression>
+│   │   │       │   │       └── <term>
+│   │   │       │   │           └── <factor>
+│   │   │       │   │               └── NUMBER(1)
+│   │   │       │   ├── RANGE_OPERATOR(..)
+│   │   │       │   └── <expression>
+│   │   │       │       └── <simple-expression>
+│   │   │       │           └── <term>
+│   │   │       │               └── <factor>
+│   │   │       │                   └── NUMBER(10)
+│   │   │       ├── RBRACKET(])
+│   │   │       ├── KEYWORD(dari)
+│   │   │       └── <type>
+│   │   │           └── KEYWORD(integer)
+│   │   ├── SEMICOLON(;)
+│   │   ├── IDENTIFIER(CharArray)
+│   │   ├── ASSIGN_OPERATOR(=)
+│   │   ├── <type>
+│   │   │   └── <array-type>
+│   │   │       ├── KEYWORD(larik)
+│   │   │       ├── LBRACKET([)
+│   │   │       ├── <range>
+│   │   │       │   ├── <expression>
+│   │   │       │   │   └── <simple-expression>
+│   │   │       │   │       └── <term>
+│   │   │       │   │           └── <factor>
+│   │   │       │   │               └── NUMBER(0)
+│   │   │       │   ├── RANGE_OPERATOR(..)
+│   │   │       │   └── <expression>
+│   │   │       │       └── <simple-expression>
+│   │   │       │           └── <term>
+│   │   │       │               └── <factor>
+│   │   │       │                   └── IDENTIFIER(MAX_SIZE)
+│   │   │       ├── RBRACKET(])
+│   │   │       ├── KEYWORD(dari)
+│   │   │       └── <type>
+│   │   │           └── KEYWORD(char)
+│   │   └── SEMICOLON(;)
 │   └── <var-declaration>
-│       ├── KEYWORD(var)
-│       ├── <var-list>
-│       │   ├── <identifier-list>
-│       │   │   └── IDENTIFIER(numbers)
-│       │   ├── COLON(:)
-│       │   ├── <type>
-│       │   │   └── IDENTIFIER(IntArray)
-│       │   └── SEMICOLON(;)
-│       ├── <var-list>
-│       │   ├── <identifier-list>
-│       │   │   └── IDENTIFIER(letters)
-│       │   ├── COLON(:)
-│       │   ├── <type>
-│       │   │   └── IDENTIFIER(CharArray)
-│       │   └── SEMICOLON(;)
-│       └── <var-list>
-│           ├── <identifier-list>
-│           │   └── IDENTIFIER(i)
-│           ├── COLON(:)
-│           ├── <type>
-│           │   └── KEYWORD(integer)
-│           └── SEMICOLON(;)
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(numbers)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── IDENTIFIER(IntArray)
+│       ├── SEMICOLON(;)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(letters)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── IDENTIFIER(CharArray)
+│       ├── SEMICOLON(;)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(i)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       └── SEMICOLON(;)
 ├── <compound-statement>
-│   ├── KEYWORD(begin)
+│   ├── KEYWORD(mulai)
 │   ├── <statement-list>
 │   │   ├── <for-statement>
-│   │   │   ├── KEYWORD(for)
+│   │   │   ├── KEYWORD(untuk)
 │   │   │   ├── IDENTIFIER(i)
 │   │   │   ├── ASSIGN_OPERATOR(:=)
 │   │   │   ├── <expression>
@@ -109,15 +94,15 @@
 │   │   │   │       └── <term>
 │   │   │   │           └── <factor>
 │   │   │   │               └── NUMBER(1)
-│   │   │   ├── KEYWORD(to)
+│   │   │   ├── KEYWORD(ke)
 │   │   │   ├── <expression>
 │   │   │   │   └── <simple-expression>
 │   │   │   │       └── <term>
 │   │   │   │           └── <factor>
 │   │   │   │               └── NUMBER(10)
-│   │   │   ├── KEYWORD(do)
+│   │   │   ├── KEYWORD(lakukan)
 │   │   │   └── <assignment-statement>
-│   │   │       ├── <indexed-variable>
+│   │   │       ├── <variable-access>
 │   │   │       │   ├── IDENTIFIER(numbers)
 │   │   │       │   ├── LBRACKET([)
 │   │   │       │   ├── <expression>
@@ -138,7 +123,7 @@
 │   │   │                       └── NUMBER(2)
 │   │   ├── SEMICOLON(;)
 │   │   ├── <assignment-statement>
-│   │   │   ├── <indexed-variable>
+│   │   │   ├── <variable-access>
 │   │   │   │   ├── IDENTIFIER(letters)
 │   │   │   │   ├── LBRACKET([)
 │   │   │   │   ├── <expression>
@@ -155,7 +140,7 @@
 │   │   │                   └── CHAR_LITERAL('A')
 │   │   ├── SEMICOLON(;)
 │   │   ├── <assignment-statement>
-│   │   │   ├── <indexed-variable>
+│   │   │   ├── <variable-access>
 │   │   │   │   ├── IDENTIFIER(letters)
 │   │   │   │   ├── LBRACKET([)
 │   │   │   │   ├── <expression>
@@ -185,7 +170,7 @@
 │   │   │   │       └── <simple-expression>
 │   │   │   │           └── <term>
 │   │   │   │               └── <factor>
-│   │   │   │                   └── <indexed-variable>
+│   │   │   │                   └── <variable-access>
 │   │   │   │                       ├── IDENTIFIER(numbers)
 │   │   │   │                       ├── LBRACKET([)
 │   │   │   │                       ├── <expression>
@@ -210,7 +195,7 @@
 │   │       │       └── <simple-expression>
 │   │       │           └── <term>
 │   │       │               └── <factor>
-│   │       │                   └── <indexed-variable>
+│   │       │                   └── <variable-access>
 │   │       │                       ├── IDENTIFIER(letters)
 │   │       │                       ├── LBRACKET([)
 │   │       │                       ├── <expression>
@@ -220,5 +205,5 @@
 │   │       │                       │               └── NUMBER(0)
 │   │       │                       └── RBRACKET(])
 │   │       └── RPARENTHESIS())
-│   └── KEYWORD(end)
+│   └── KEYWORD(selesai)
 └── DOT(.)

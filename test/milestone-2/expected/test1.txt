@@ -5,27 +5,25 @@
 │   └── SEMICOLON(;)
 ├── <declaration-part>
 │   └── <var-declaration>
-│       ├── KEYWORD(var)
-│       ├── <var-list>
-│       │   ├── <identifier-list>
-│       │   │   ├── IDENTIFIER(x)
-│       │   │   ├── COMMA(,)
-│       │   │   ├── IDENTIFIER(y)
-│       │   │   ├── COMMA(,)
-│       │   │   └── IDENTIFIER(z)
-│       │   ├── COLON(:)
-│       │   ├── <type>
-│       │   │   └── KEYWORD(integer)
-│       │   └── SEMICOLON(;)
-│       └── <var-list>
-│           ├── <identifier-list>
-│           │   └── IDENTIFIER(result)
-│           ├── COLON(:)
-│           ├── <type>
-│           │   └── KEYWORD(real)
-│           └── SEMICOLON(;)
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   ├── IDENTIFIER(x)
+│       │   ├── COMMA(,)
+│       │   ├── IDENTIFIER(y)
+│       │   ├── COMMA(,)
+│       │   └── IDENTIFIER(z)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       ├── SEMICOLON(;)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(result)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(real)
+│       └── SEMICOLON(;)
 ├── <compound-statement>
-│   ├── KEYWORD(begin)
+│   ├── KEYWORD(mulai)
 │   ├── <statement-list>
 │   │   ├── <assignment-statement>
 │   │   │   ├── IDENTIFIER(x)
@@ -67,5 +65,5 @@
 │   │               └── <term>
 │   │                   └── <factor>
 │   │                       └── NUMBER(3.14)
-│   └── KEYWORD(end)
+│   └── KEYWORD(selesai)
 └── DOT(.)

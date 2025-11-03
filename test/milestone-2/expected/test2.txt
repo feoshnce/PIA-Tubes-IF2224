@@ -5,23 +5,21 @@
 │   └── SEMICOLON(;)
 ├── <declaration-part>
 │   └── <var-declaration>
-│       ├── KEYWORD(var)
-│       ├── <var-list>
-│       │   ├── <identifier-list>
-│       │   │   └── IDENTIFIER(score)
-│       │   ├── COLON(:)
-│       │   ├── <type>
-│       │   │   └── KEYWORD(integer)
-│       │   └── SEMICOLON(;)
-│       └── <var-list>
-│           ├── <identifier-list>
-│           │   └── IDENTIFIER(grade)
-│           ├── COLON(:)
-│           ├── <type>
-│           │   └── KEYWORD(char)
-│           └── SEMICOLON(;)
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(score)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       ├── SEMICOLON(;)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(grade)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(char)
+│       └── SEMICOLON(;)
 ├── <compound-statement>
-│   ├── KEYWORD(begin)
+│   ├── KEYWORD(mulai)
 │   ├── <statement-list>
 │   │   ├── <assignment-statement>
 │   │   │   ├── IDENTIFIER(score)
@@ -33,7 +31,7 @@
 │   │   │                   └── NUMBER(85)
 │   │   ├── SEMICOLON(;)
 │   │   └── <if-statement>
-│   │       ├── KEYWORD(if)
+│   │       ├── KEYWORD(jika)
 │   │       ├── <expression>
 │   │       │   ├── <simple-expression>
 │   │       │   │   └── <term>
@@ -45,7 +43,7 @@
 │   │       │       └── <term>
 │   │       │           └── <factor>
 │   │       │               └── NUMBER(80)
-│   │       ├── KEYWORD(then)
+│   │       ├── KEYWORD(maka)
 │   │       ├── <assignment-statement>
 │   │       │   ├── IDENTIFIER(grade)
 │   │       │   ├── ASSIGN_OPERATOR(:=)
@@ -54,9 +52,9 @@
 │   │       │           └── <term>
 │   │       │               └── <factor>
 │   │       │                   └── CHAR_LITERAL('A')
-│   │       ├── KEYWORD(else)
+│   │       ├── KEYWORD(selain-itu)
 │   │       └── <if-statement>
-│   │           ├── KEYWORD(if)
+│   │           ├── KEYWORD(jika)
 │   │           ├── <expression>
 │   │           │   ├── <simple-expression>
 │   │           │   │   └── <term>
@@ -68,7 +66,7 @@
 │   │           │       └── <term>
 │   │           │           └── <factor>
 │   │           │               └── NUMBER(70)
-│   │           ├── KEYWORD(then)
+│   │           ├── KEYWORD(maka)
 │   │           ├── <assignment-statement>
 │   │           │   ├── IDENTIFIER(grade)
 │   │           │   ├── ASSIGN_OPERATOR(:=)
@@ -77,7 +75,7 @@
 │   │           │           └── <term>
 │   │           │               └── <factor>
 │   │           │                   └── CHAR_LITERAL('B')
-│   │           ├── KEYWORD(else)
+│   │           ├── KEYWORD(selain-itu)
 │   │           └── <assignment-statement>
 │   │               ├── IDENTIFIER(grade)
 │   │               ├── ASSIGN_OPERATOR(:=)
@@ -86,5 +84,5 @@
 │   │                       └── <term>
 │   │                           └── <factor>
 │   │                               └── CHAR_LITERAL('C')
-│   └── KEYWORD(end)
+│   └── KEYWORD(selesai)
 └── DOT(.)

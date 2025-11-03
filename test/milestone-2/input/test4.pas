@@ -1,24 +1,24 @@
 program ProcFuncTest;
-var
+variabel
     x, y, result: integer;
 
-procedure PrintSum(a, b: integer);
-var
+prosedur PrintSum(a, b: integer);
+variabel
     total: integer;
-begin
+mulai
     total := a + b;
     writeln('Sum is: ', total)
-end;
+selesai;
 
-function Multiply(m, n: integer): integer;
-begin
+fungsi Multiply(m, n: integer): integer;
+mulai
     Multiply := m * n
-end;
+selesai;
 
-begin
+mulai
     x := 5;
     y := 3;
     PrintSum(x, y);
     result := Multiply(x, y);
     writeln('Product is: ', result)
-end.
+selesai.

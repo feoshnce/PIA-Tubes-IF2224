@@ -1,26 +1,26 @@
 program NestedCompoundTest;
-var
+variabel
     x, y: integer;
     done: boolean;
-begin
+mulai
     x := 0;
-    repeat
+    ulangi
         x := x + 1;
-        begin
+        mulai
             y := x * 2;
-            if y > 5 then
-                begin
+            jika y > 5 maka
+                mulai
                     writeln(y);
                     done := true
-                end
-            else
+                selesai
+            selain-itu
                 done := false
-        end
-    until done;
+        selesai
+    sampai done;
     
-    begin
-        begin
+    mulai
+        mulai
             x := x + 1
-        end
-    end
-end.
+        selesai
+    selesai
+selesai.

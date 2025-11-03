@@ -1,21 +1,21 @@
 program ComplexExpressionTest;
-var
+variabel
     a, b, c: integer;
     x, y: real;
     flag, result: boolean;
-begin
+mulai
     a := 10;
     b := 5;
     c := 3;
     
     x := (a + b) * c / 2.0;
-    y := a div b + c mod 2;
+    y := a bagi b + c mod 2;
     
-    flag := (a > b) and (b < c);
-    result := not flag or (a <> c);
+    flag := (a > b) dan (b < c);
+    result := tidak flag atau (a <> c);
     
-    if (a >= 10) and ((b <= 5) or (c = 3)) then
+    jika (a >= 10) dan ((b <= 5) atau (c = 3)) maka
         writeln('Condition is true')
-    else
+    selain-itu
         writeln('Condition is false')
-end.
+selesai.

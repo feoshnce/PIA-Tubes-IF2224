@@ -1,14 +1,14 @@
 program ConditionalTest;
-var
+variabel
     score: integer;
     grade: char;
-begin
+mulai
     score := 85;
-    if score >= 80 then
+    jika score >= 80 maka
         grade := 'A'
-    else
-        if score >= 70 then
+    selain-itu
+        jika score >= 70 maka
             grade := 'B'
-        else
+        selain-itu
             grade := 'C'
-end.
+selesai.

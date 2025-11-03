@@ -5,25 +5,23 @@
 │   └── SEMICOLON(;)
 ├── <declaration-part>
 │   └── <var-declaration>
-│       ├── KEYWORD(var)
-│       ├── <var-list>
-│       │   ├── <identifier-list>
-│       │   │   ├── IDENTIFIER(x)
-│       │   │   ├── COMMA(,)
-│       │   │   └── IDENTIFIER(y)
-│       │   ├── COLON(:)
-│       │   ├── <type>
-│       │   │   └── KEYWORD(integer)
-│       │   └── SEMICOLON(;)
-│       └── <var-list>
-│           ├── <identifier-list>
-│           │   └── IDENTIFIER(done)
-│           ├── COLON(:)
-│           ├── <type>
-│           │   └── KEYWORD(boolean)
-│           └── SEMICOLON(;)
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   ├── IDENTIFIER(x)
+│       │   ├── COMMA(,)
+│       │   └── IDENTIFIER(y)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       ├── SEMICOLON(;)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(done)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(boolean)
+│       └── SEMICOLON(;)
 ├── <compound-statement>
-│   ├── KEYWORD(begin)
+│   ├── KEYWORD(mulai)
 │   ├── <statement-list>
 │   │   ├── <assignment-statement>
 │   │   │   ├── IDENTIFIER(x)
@@ -35,7 +33,7 @@
 │   │   │                   └── NUMBER(0)
 │   │   ├── SEMICOLON(;)
 │   │   ├── <repeat-statement>
-│   │   │   ├── KEYWORD(repeat)
+│   │   │   ├── KEYWORD(ulangi)
 │   │   │   ├── <statement-list>
 │   │   │   │   ├── <assignment-statement>
 │   │   │   │   │   ├── IDENTIFIER(x)
@@ -52,7 +50,7 @@
 │   │   │   │   │                   └── NUMBER(1)
 │   │   │   │   ├── SEMICOLON(;)
 │   │   │   │   └── <compound-statement>
-│   │   │   │       ├── KEYWORD(begin)
+│   │   │   │       ├── KEYWORD(mulai)
 │   │   │   │       ├── <statement-list>
 │   │   │   │       │   ├── <assignment-statement>
 │   │   │   │       │   │   ├── IDENTIFIER(y)
@@ -68,7 +66,7 @@
 │   │   │   │       │   │                   └── NUMBER(2)
 │   │   │   │       │   ├── SEMICOLON(;)
 │   │   │   │       │   └── <if-statement>
-│   │   │   │       │       ├── KEYWORD(if)
+│   │   │   │       │       ├── KEYWORD(jika)
 │   │   │   │       │       ├── <expression>
 │   │   │   │       │       │   ├── <simple-expression>
 │   │   │   │       │       │   │   └── <term>
@@ -80,9 +78,9 @@
 │   │   │   │       │       │       └── <term>
 │   │   │   │       │       │           └── <factor>
 │   │   │   │       │       │               └── NUMBER(5)
-│   │   │   │       │       ├── KEYWORD(then)
+│   │   │   │       │       ├── KEYWORD(maka)
 │   │   │   │       │       ├── <compound-statement>
-│   │   │   │       │       │   ├── KEYWORD(begin)
+│   │   │   │       │       │   ├── KEYWORD(mulai)
 │   │   │   │       │       │   ├── <statement-list>
 │   │   │   │       │       │   │   ├── <procedure-call>
 │   │   │   │       │       │   │   │   ├── IDENTIFIER(writeln)
@@ -103,8 +101,8 @@
 │   │   │   │       │       │   │               └── <term>
 │   │   │   │       │       │   │                   └── <factor>
 │   │   │   │       │       │   │                       └── KEYWORD(true)
-│   │   │   │       │       │   └── KEYWORD(end)
-│   │   │   │       │       ├── KEYWORD(else)
+│   │   │   │       │       │   └── KEYWORD(selesai)
+│   │   │   │       │       ├── KEYWORD(selain-itu)
 │   │   │   │       │       └── <assignment-statement>
 │   │   │   │       │           ├── IDENTIFIER(done)
 │   │   │   │       │           ├── ASSIGN_OPERATOR(:=)
@@ -113,8 +111,8 @@
 │   │   │   │       │                   └── <term>
 │   │   │   │       │                       └── <factor>
 │   │   │   │       │                           └── KEYWORD(false)
-│   │   │   │       └── KEYWORD(end)
-│   │   │   ├── KEYWORD(until)
+│   │   │   │       └── KEYWORD(selesai)
+│   │   │   ├── KEYWORD(sampai)
 │   │   │   └── <expression>
 │   │   │       └── <simple-expression>
 │   │   │           └── <term>
@@ -122,10 +120,10 @@
 │   │   │                   └── IDENTIFIER(done)
 │   │   ├── SEMICOLON(;)
 │   │   └── <compound-statement>
-│   │       ├── KEYWORD(begin)
+│   │       ├── KEYWORD(mulai)
 │   │       ├── <statement-list>
 │   │       │   └── <compound-statement>
-│   │       │       ├── KEYWORD(begin)
+│   │       │       ├── KEYWORD(mulai)
 │   │       │       ├── <statement-list>
 │   │       │       │   └── <assignment-statement>
 │   │       │       │       ├── IDENTIFIER(x)
@@ -140,7 +138,7 @@
 │   │       │       │               └── <term>
 │   │       │       │                   └── <factor>
 │   │       │       │                       └── NUMBER(1)
-│   │       │       └── KEYWORD(end)
-│   │       └── KEYWORD(end)
-│   └── KEYWORD(end)
+│   │       │       └── KEYWORD(selesai)
+│   │       └── KEYWORD(selesai)
+│   └── KEYWORD(selesai)
 └── DOT(.)

@@ -5,27 +5,26 @@
 │   └── SEMICOLON(;)
 ├── <declaration-part>
 │   ├── <var-declaration>
-│   │   ├── KEYWORD(var)
-│   │   └── <var-list>
-│   │       ├── <identifier-list>
-│   │       │   └── IDENTIFIER(i)
-│   │       ├── COLON(:)
-│   │       ├── <type>
-│   │       │   └── KEYWORD(integer)
-│   │       └── SEMICOLON(;)
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   └── IDENTIFIER(i)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(integer)
+│   │   └── SEMICOLON(;)
 │   ├── <subprogram-declaration>
 │   │   └── <procedure-declaration>
-│   │       ├── KEYWORD(procedure)
+│   │       ├── KEYWORD(prosedur)
 │   │       ├── IDENTIFIER(EmptyProc)
 │   │       ├── SEMICOLON(;)
 │   │       ├── <block>
 │   │       │   └── <compound-statement>
-│   │       │       ├── KEYWORD(begin)
-│   │       │       └── KEYWORD(end)
+│   │       │       ├── KEYWORD(mulai)
+│   │       │       └── KEYWORD(selesai)
 │   │       └── SEMICOLON(;)
 │   └── <subprogram-declaration>
 │       └── <function-declaration>
-│           ├── KEYWORD(function)
+│           ├── KEYWORD(fungsi)
 │           ├── IDENTIFIER(EmptyFunc)
 │           ├── COLON(:)
 │           ├── <type>
@@ -33,7 +32,7 @@
 │           ├── SEMICOLON(;)
 │           ├── <block>
 │           │   └── <compound-statement>
-│           │       ├── KEYWORD(begin)
+│           │       ├── KEYWORD(mulai)
 │           │       ├── <statement-list>
 │           │       │   └── <assignment-statement>
 │           │       │       ├── IDENTIFIER(EmptyFunc)
@@ -43,13 +42,13 @@
 │           │       │               └── <term>
 │           │       │                   └── <factor>
 │           │       │                       └── NUMBER(0)
-│           │       └── KEYWORD(end)
+│           │       └── KEYWORD(selesai)
 │           └── SEMICOLON(;)
 ├── <compound-statement>
-│   ├── KEYWORD(begin)
+│   ├── KEYWORD(mulai)
 │   ├── <statement-list>
 │   │   ├── <for-statement>
-│   │   │   ├── KEYWORD(for)
+│   │   │   ├── KEYWORD(untuk)
 │   │   │   ├── IDENTIFIER(i)
 │   │   │   ├── ASSIGN_OPERATOR(:=)
 │   │   │   ├── <expression>
@@ -57,13 +56,13 @@
 │   │   │   │       └── <term>
 │   │   │   │           └── <factor>
 │   │   │   │               └── NUMBER(10)
-│   │   │   ├── KEYWORD(downto)
+│   │   │   ├── KEYWORD(turun-ke)
 │   │   │   ├── <expression>
 │   │   │   │   └── <simple-expression>
 │   │   │   │       └── <term>
 │   │   │   │           └── <factor>
 │   │   │   │               └── NUMBER(1)
-│   │   │   ├── KEYWORD(do)
+│   │   │   ├── KEYWORD(lakukan)
 │   │   │   └── <procedure-call>
 │   │   │       └── IDENTIFIER(EmptyProc)
 │   │   ├── SEMICOLON(;)
@@ -78,5 +77,5 @@
 │   │                           ├── IDENTIFIER(EmptyFunc)
 │   │                           ├── LPARENTHESIS(()
 │   │                           └── RPARENTHESIS())
-│   └── KEYWORD(end)
+│   └── KEYWORD(selesai)
 └── DOT(.)

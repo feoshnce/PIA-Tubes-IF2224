@@ -1,19 +1,19 @@
 program EmptyDowntoTest;
-var
+variabel
     i: integer;
 
-procedure EmptyProc;
-begin
-end;
+prosedur EmptyProc;
+mulai
+selesai;
 
-function EmptyFunc: integer;
-begin
+fungsi EmptyFunc: integer;
+mulai
     EmptyFunc := 0
-end;
+selesai;
 
-begin
-    for i := 10 downto 1 do
+mulai
+    untuk i := 10 turun-ke 1 lakukan
         EmptyProc;
     
     i := EmptyFunc()
-end.
+selesai.

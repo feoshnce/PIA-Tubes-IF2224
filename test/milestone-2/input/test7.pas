@@ -1,3 +1,3 @@
 program MinimalTest;
-begin
-end.
+mulai
+selesai.

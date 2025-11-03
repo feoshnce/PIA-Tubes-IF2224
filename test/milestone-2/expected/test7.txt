@@ -3,8 +3,7 @@
 │   ├── KEYWORD(program)
 │   ├── IDENTIFIER(MinimalTest)
 │   └── SEMICOLON(;)
-├── <declaration-part>
 ├── <compound-statement>
-│   ├── KEYWORD(begin)
-│   └── KEYWORD(end)
+│   ├── KEYWORD(mulai)
+│   └── KEYWORD(selesai)
 └── DOT(.)

@@ -1,31 +1,31 @@
 program ComplexDeclarationsTest;
-const
+konstanta
     A = 1;
     B = 2;
     C = 3;
-type
+tipe
     Range1 = 1..100;
     Range2 = 'a'..'z';
-    Matrix = array[1..5] of array[1..5] of integer;
-var
+    Matrix = larik[1..5] dari larik[1..5] dari integer;
+variabel
     r1: Range1;
     r2: Range2;
     m: Matrix;
 
-procedure MultiParam(x: integer; y: real; z: char; flag: boolean);
-begin
+prosedur MultiParam(x: integer; y: real; z: char; flag: boolean);
+mulai
     writeln(x)
-end;
+selesai;
 
-function ChainedFunc(a: integer): integer;
-var
+fungsi ChainedFunc(a: integer): integer;
+variabel
     local: integer;
-begin
+mulai
     local := a;
     ChainedFunc := local
-end;
+selesai;
 
-begin
+mulai
     r1 := 50;
     r2 := 'm';
     m[1][1] := 10;
@@ -34,10 +34,10 @@ begin
     
     r1 := ChainedFunc(ChainedFunc(5));
     
-    if not ((r1 = 5) or (r1 <> 10)) and (r2 >= 'a') then
-        begin
-        end
-    else
-        begin
-        end
-end.
+    jika tidak ((r1 = 5) atau (r1 <> 10)) dan (r2 >= 'a') maka
+        mulai
+        selesai
+    selain-itu
+        mulai
+        selesai
+selesai.

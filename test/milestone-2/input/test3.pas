@@ -1,12 +1,12 @@
 program LoopTest;
-var
+variabel
     i, sum, count: integer;
-begin
+mulai
     sum := 0;
-    for i := 1 to 10 do
+    untuk i := 1 ke 10 lakukan
         sum := sum + i;
     
     count := 0;
-    while count < 5 do
+    selama count < 5 lakukan
         count := count + 1
-end.
+selesai.
