@@ -849,3 +849,203 @@ class Parser:
             parameters.append(self.parse_expression())
 
         return parameters
+
+    # =========================================================================
+    # Expression Parsing
+    # =========================================================================
+
+    def parse_expression(self) -> Expression:
+        """
+        Parse an expression.
+
+        Grammar:
+            expression -> simple-expression (relational-operator simple-expression)?
+
+        Returns:
+            Expression AST node
+        """
+        left = self.parse_simple_expression()
+
+        # Check for relational operator
+        if self.current_token and self.current_token.type == TokenType.RELATIONAL_OPERATOR:
+            operator = self.advance().value
+            right = self.parse_simple_expression()
+            return BinaryOp(left=left, operator=operator, right=right)
+
+        return left
+
+    def parse_simple_expression(self) -> Expression:
+        """
+        Parse a simple expression.
+
+        Grammar:
+            simple-expression -> (ARITHMETIC_OPERATOR(+|-))? term (additive-operator term)*
+
+        Returns:
+            Expression AST node
+        """
+        # Handle unary sign
+        sign = None
+        if self.match(TokenType.ARITHMETIC_OPERATOR):
+            if self.current_token.value in ("+", "-"):
+                sign = self.advance().value
+
+        left = self.parse_term()
+
+        # Apply unary sign if present
+        if sign == "-":
+            left = UnaryOp(operator="-", operand=left)
+        elif sign == "+":
+            left = UnaryOp(operator="+", operand=left)
+
+        # Handle additive operators (+, -, or)
+        while (self.current_token and
+               (self.current_token.type == TokenType.ARITHMETIC_OPERATOR and
+                self.current_token.value in ("+", "-")) or
+               (self.current_token.type == TokenType.LOGICAL_OPERATOR and
+                self.current_token.value.lower() == "atau")):
+            operator = self.advance().value
+            right = self.parse_term()
+            left = BinaryOp(left=left, operator=operator, right=right)
+
+        return left
+
+    def parse_term(self) -> Expression:
+        """
+        Parse a term.
+
+        Grammar:
+            term -> factor (multiplicative-operator factor)*
+
+        Returns:
+            Expression AST node
+        """
+        left = self.parse_factor()
+
+        # Handle multiplicative operators (*, /, div, mod, and)
+        while (self.current_token and
+               (self.current_token.type == TokenType.ARITHMETIC_OPERATOR and
+                self.current_token.value in ("*", "/", "bagi", "mod")) or
+               (self.current_token.type == TokenType.LOGICAL_OPERATOR and
+                self.current_token.value.lower() == "dan")):
+            operator = self.advance().value
+            right = self.parse_factor()
+            left = BinaryOp(left=left, operator=operator, right=right)
+
+        return left
+
+    def parse_factor(self) -> Expression:
+        """
+        Parse a factor.
+
+        Grammar:
+            factor -> IDENTIFIER
+                   | NUMBER
+                   | CHAR_LITERAL
+                   | STRING_LITERAL
+                   | LPARENTHESIS expression RPARENTHESIS
+                   | LOGICAL_OPERATOR(tidak) factor
+                   | function-call
+
+        Returns:
+            Expression AST node
+        """
+        # Number
+        if self.match(TokenType.NUMBER):
+            token = self.advance()
+            try:
+                value = int(token.value)
+            except ValueError:
+                value = float(token.value)
+            return Number(value=value)
+
+        # String literal
+        elif self.match(TokenType.STRING_LITERAL):
+            value = self.advance().value
+            return String(value=value)
+
+        # Character literal
+        elif self.match(TokenType.CHAR_LITERAL):
+            value = self.advance().value
+            return Char(value=value)
+
+        # Parenthesized expression
+        elif self.match(TokenType.LPARENTHESIS):
+            self.advance()
+            expr = self.parse_expression()
+            self.expect(TokenType.RPARENTHESIS)
+            return expr
+
+        # NOT operator
+        elif self.match(TokenType.LOGICAL_OPERATOR, "tidak"):
+            self.advance()
+            operand = self.parse_factor()
+            return UnaryOp(operator="tidak", operand=operand)
+
+        # Identifier (variable or function call)
+        elif self.match(TokenType.IDENTIFIER):
+            # Check if it's a boolean literal
+            if self.current_token.value.lower() in ("true", "false"):
+                value = self.advance().value.lower() == "true"
+                return Boolean(value=value)
+
+            # Look ahead to check if it's a function call
+            if self.peek(1) and self.peek(1).type == TokenType.LPARENTHESIS:
+                return self.parse_function_call()
+            else:
+                return self.parse_variable()
+
+        else:
+            self.error(
+                f"Unexpected token in expression: {self.current_token.type.name}")
+
+    def parse_variable(self) -> Variable:
+        """
+        Parse a variable (with optional array index or record field).
+
+        Grammar:
+            variable -> IDENTIFIER
+                     | IDENTIFIER LBRACKET expression RBRACKET
+                     | IDENTIFIER DOT IDENTIFIER
+
+        Returns:
+            Variable AST node
+        """
+        name = self.expect(TokenType.IDENTIFIER).value
+
+        # Check for array indexing
+        if self.match(TokenType.LBRACKET):
+            self.advance()
+            index = self.parse_expression()
+            self.expect(TokenType.RBRACKET)
+            return Variable(name=name, index=index)
+
+        # Check for record field access
+        elif self.match(TokenType.DOT):
+            self.advance()
+            field = self.expect(TokenType.IDENTIFIER).value
+            return Variable(name=name, field=field)
+
+        else:
+            return Variable(name=name)
+
+    def parse_function_call(self) -> FunctionCall:
+        """
+        Parse a function call.
+
+        Grammar:
+            function-call -> IDENTIFIER LPARENTHESIS (parameter-list)? RPARENTHESIS
+
+        Returns:
+            FunctionCall AST node
+        """
+        name = self.expect(TokenType.IDENTIFIER).value
+        self.expect(TokenType.LPARENTHESIS)
+
+        arguments = []
+        if not self.match(TokenType.RPARENTHESIS):
+            arguments = self.parse_parameter_list()
+
+        self.expect(TokenType.RPARENTHESIS)
+
+        return FunctionCall(name=name, arguments=arguments)
