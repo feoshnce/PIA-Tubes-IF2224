@@ -224,3 +224,336 @@ class Parser:
             declarations.append(self.parse_subprogram_declaration())
 
         return declarations
+
+    def parse_const_declarations(self) -> list[ConstDeclaration]:
+        """
+        Parse constant declarations.
+
+        Grammar:
+            const-declaration -> KEYWORD(konstanta) (IDENTIFIER = constant SEMICOLON)+
+
+        Returns:
+            List of ConstDeclaration nodes
+        """
+        self.expect(TokenType.KEYWORD, "konstanta")
+        declarations = []
+
+        while self.match(TokenType.IDENTIFIER):
+            name = self.expect(TokenType.IDENTIFIER).value
+            self.expect(TokenType.RELATIONAL_OPERATOR, "=")
+
+            # Parse constant value (number, string, char, boolean, or identifier)
+            value = self.parse_constant_value()
+
+            self.expect(TokenType.SEMICOLON)
+
+            declarations.append(ConstDeclaration(identifier=name, value=value))
+
+        return declarations
+
+    def parse_constant_value(self):
+        """
+        Parse a constant value.
+
+        Returns:
+            The constant value (number, string, char, or boolean)
+        """
+        if self.match(TokenType.NUMBER):
+            token = self.advance()
+            # Try to parse as int, otherwise float
+            try:
+                return int(token.value)
+            except ValueError:
+                return float(token.value)
+        elif self.match(TokenType.STRING_LITERAL):
+            return self.advance().value
+        elif self.match(TokenType.CHAR_LITERAL):
+            return self.advance().value
+        elif self.match(TokenType.IDENTIFIER):
+            # Could be a boolean or another constant reference
+            token = self.advance()
+            if token.value.lower() in ("true", "false"):
+                return token.value.lower() == "true"
+            return token.value
+        elif self.match(TokenType.ARITHMETIC_OPERATOR):
+            # Handle negative numbers
+            op = self.advance().value
+            if op in ("+", "-"):
+                num_token = self.expect(TokenType.NUMBER)
+                try:
+                    num = int(num_token.value)
+                except ValueError:
+                    num = float(num_token.value)
+                return -num if op == "-" else num
+        else:
+            self.error("Expected constant value")
+
+    def parse_type_declarations(self) -> list[TypeDeclaration]:
+        """
+        Parse type declarations.
+
+        Grammar:
+            type-declaration -> KEYWORD(tipe) (IDENTIFIER = type-definition SEMICOLON)+
+
+        Returns:
+            List of TypeDeclaration nodes
+        """
+        self.expect(TokenType.KEYWORD, "tipe")
+        declarations = []
+
+        while self.match(TokenType.IDENTIFIER):
+            name = self.expect(TokenType.IDENTIFIER).value
+            self.expect(TokenType.RELATIONAL_OPERATOR, "=")
+
+            type_spec = self.parse_type()
+
+            self.expect(TokenType.SEMICOLON)
+
+            declarations.append(TypeDeclaration(
+                identifier=name, type_spec=type_spec))
+
+        return declarations
+
+    def parse_var_declarations(self) -> list[VarDeclaration]:
+        """
+        Parse variable declarations.
+
+        Grammar:
+            var-declaration -> KEYWORD(variabel) (identifier-list COLON type SEMICOLON)+
+
+        Returns:
+            List of VarDeclaration nodes
+        """
+        self.expect(TokenType.KEYWORD, "variabel")
+        declarations = []
+
+        while self.match(TokenType.IDENTIFIER):
+            identifiers = self.parse_identifier_list()
+            self.expect(TokenType.COLON)
+            type_spec = self.parse_type()
+            self.expect(TokenType.SEMICOLON)
+
+            declarations.append(VarDeclaration(
+                identifiers=identifiers, type_spec=type_spec))
+
+        return declarations
+
+    def parse_identifier_list(self) -> list[str]:
+        """
+        Parse a comma-separated list of identifiers.
+
+        Grammar:
+            identifier-list -> IDENTIFIER (COMMA IDENTIFIER)*
+
+        Returns:
+            List of identifier strings
+        """
+        identifiers = [self.expect(TokenType.IDENTIFIER).value]
+
+        while self.match(TokenType.COMMA):
+            self.advance()  # consume comma
+            identifiers.append(self.expect(TokenType.IDENTIFIER).value)
+
+        return identifiers
+
+    def parse_type(self) -> TypeSpec:
+        """
+        Parse a type specification.
+
+        Grammar:
+            type -> simple-type | array-type | record-type
+
+        Returns:
+            TypeSpec AST node
+        """
+        if self.match(TokenType.KEYWORD, "larik"):
+            return self.parse_array_type()
+        elif self.match(TokenType.KEYWORD, "rekaman"):
+            return self.parse_record_type()
+        else:
+            return self.parse_simple_type()
+
+    def parse_simple_type(self) -> SimpleType:
+        """
+        Parse a simple type (integer, real, boolean, char, or custom type).
+
+        Grammar:
+            simple-type -> IDENTIFIER | KEYWORD (for built-in types)
+
+        Returns:
+            SimpleType AST node
+        """
+        # Accept both IDENTIFIER (custom types) and KEYWORD (built-in types)
+        if self.match(TokenType.IDENTIFIER):
+            type_name = self.advance().value
+        elif self.match(TokenType.KEYWORD):
+            # Built-in types (integer, real, boolean, char)
+            type_name = self.advance().value
+        else:
+            self.error("Expected type name")
+
+        return SimpleType(name=type_name)
+
+    def parse_array_type(self) -> ArrayType:
+        """
+        Parse an array type.
+
+        Grammar:
+            array-type -> KEYWORD(larik) LBRACKET range RBRACKET KEYWORD(dari) type
+
+        Returns:
+            ArrayType AST node
+        """
+        self.expect(TokenType.KEYWORD, "larik")
+        self.expect(TokenType.LBRACKET)
+
+        # Parse range (e.g., 1..10)
+        start_expr = self.parse_simple_expression()
+        self.expect(TokenType.RANGE_OPERATOR)
+        end_expr = self.parse_simple_expression()
+
+        self.expect(TokenType.RBRACKET)
+        self.expect(TokenType.KEYWORD, "dari")
+
+        element_type = self.parse_type()
+
+        return ArrayType(index_type=(start_expr, end_expr), element_type=element_type)
+
+    def parse_record_type(self) -> RecordType:
+        """
+        Parse a record type.
+
+        Grammar:
+            record-type -> KEYWORD(rekaman) field-list KEYWORD(selesai)
+
+        Returns:
+            RecordType AST node
+        """
+        self.expect(TokenType.KEYWORD, "rekaman")
+
+        fields = []
+        while not self.match(TokenType.KEYWORD, "selesai"):
+            identifiers = self.parse_identifier_list()
+            self.expect(TokenType.COLON)
+            type_spec = self.parse_type()
+            self.expect(TokenType.SEMICOLON)
+
+            fields.append(VarDeclaration(
+                identifiers=identifiers, type_spec=type_spec))
+
+        self.expect(TokenType.KEYWORD, "selesai")
+
+        return RecordType(fields=fields)
+
+    def parse_subprogram_declaration(self):
+        """
+        Parse a procedure or function declaration.
+
+        Returns:
+            ProcedureDeclaration or FunctionDeclaration AST node
+        """
+        if self.match(TokenType.KEYWORD, "prosedur"):
+            return self.parse_procedure_declaration()
+        elif self.match(TokenType.KEYWORD, "fungsi"):
+            return self.parse_function_declaration()
+        else:
+            self.error("Expected 'prosedur' or 'fungsi'")
+
+    def parse_procedure_declaration(self) -> ProcedureDeclaration:
+        """
+        Parse a procedure declaration.
+
+        Grammar:
+            procedure-declaration -> KEYWORD(prosedur) IDENTIFIER
+                                    (LPARENTHESIS formal-parameter-list RPARENTHESIS)?
+                                    SEMICOLON block SEMICOLON
+
+        Returns:
+            ProcedureDeclaration AST node
+        """
+        self.expect(TokenType.KEYWORD, "prosedur")
+        name = self.expect(TokenType.IDENTIFIER).value
+
+        parameters = []
+        if self.match(TokenType.LPARENTHESIS):
+            self.advance()
+            if not self.match(TokenType.RPARENTHESIS):
+                parameters = self.parse_formal_parameter_list()
+            self.expect(TokenType.RPARENTHESIS)
+
+        self.expect(TokenType.SEMICOLON)
+
+        block = self.parse_block()
+
+        self.expect(TokenType.SEMICOLON)
+
+        return ProcedureDeclaration(name=name, parameters=parameters, block=block)
+
+    def parse_function_declaration(self) -> FunctionDeclaration:
+        """
+        Parse a function declaration.
+
+        Grammar:
+            function-declaration -> KEYWORD(fungsi) IDENTIFIER
+                                   (LPARENTHESIS formal-parameter-list RPARENTHESIS)?
+                                   COLON type SEMICOLON block SEMICOLON
+
+        Returns:
+            FunctionDeclaration AST node
+        """
+        self.expect(TokenType.KEYWORD, "fungsi")
+        name = self.expect(TokenType.IDENTIFIER).value
+
+        parameters = []
+        if self.match(TokenType.LPARENTHESIS):
+            self.advance()
+            if not self.match(TokenType.RPARENTHESIS):
+                parameters = self.parse_formal_parameter_list()
+            self.expect(TokenType.RPARENTHESIS)
+
+        self.expect(TokenType.COLON)
+        return_type = self.parse_type()
+
+        self.expect(TokenType.SEMICOLON)
+
+        block = self.parse_block()
+
+        self.expect(TokenType.SEMICOLON)
+
+        return FunctionDeclaration(
+            name=name,
+            parameters=parameters,
+            return_type=return_type,
+            block=block
+        )
+
+    def parse_formal_parameter_list(self) -> list[Parameter]:
+        """
+        Parse formal parameter list.
+
+        Grammar:
+            formal-parameter-list -> parameter-group (SEMICOLON parameter-group)*
+            parameter-group -> identifier-list COLON type
+
+        Returns:
+            List of Parameter nodes
+        """
+        parameters = []
+
+        # Parse first parameter group
+        identifiers = self.parse_identifier_list()
+        self.expect(TokenType.COLON)
+        type_spec = self.parse_type()
+        parameters.append(
+            Parameter(identifiers=identifiers, type_spec=type_spec))
+
+        # Parse remaining parameter groups
+        while self.match(TokenType.SEMICOLON):
+            self.advance()
+            identifiers = self.parse_identifier_list()
+            self.expect(TokenType.COLON)
+            type_spec = self.parse_type()
+            parameters.append(
+                Parameter(identifiers=identifiers, type_spec=type_spec))
+
+        return parameters
