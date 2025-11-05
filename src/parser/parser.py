@@ -375,19 +375,24 @@ class Parser:
 
     def parse_simple_type(self) -> SimpleType:
         """
-        Parse a simple type (integer, real, boolean, char, or custom type).
+        Parse a simple type (integer, real, boolean, char, custom type, or subrange).
 
         Grammar:
-            simple-type -> IDENTIFIER | KEYWORD (for built-in types)
+            simple-type -> IDENTIFIER | KEYWORD (for built-in types) | constant..constant
 
         Returns:
-            SimpleType AST node
+            SimpleType AST node or ArrayType for subranges
         """
-        # Accept both IDENTIFIER (custom types) and KEYWORD (built-in types)
+        if (self.match(TokenType.NUMBER) or self.match(TokenType.CHAR_LITERAL) or
+                (self.match(TokenType.ARITHMETIC_OPERATOR) and self.current_token.value in ('+', '-'))):
+            start_expr = self.parse_simple_expression()
+            self.expect(TokenType.RANGE_OPERATOR)
+            end_expr = self.parse_simple_expression()
+            return ArrayType(index_type=(start_expr, end_expr), element_type=None)
+
         if self.match(TokenType.IDENTIFIER):
             type_name = self.advance().value
         elif self.match(TokenType.KEYWORD):
-            # Built-in types (integer, real, boolean, char)
             type_name = self.advance().value
         else:
             self.error("Expected type name")
