@@ -36,3 +36,106 @@ class Parser:
         self.tokens = tokens
         self.current_index = 0
         self.current_token = tokens[0] if tokens else None
+
+    def error(self, message: str) -> None:
+        """
+        Raise a syntax error with the given message.
+
+        Args:
+            message: The error message
+
+        Raises:
+            SyntaxError: Always raises a syntax error
+        """
+        raise SyntaxError(message, self.current_token)
+
+    def peek(self, offset: int = 0) -> Optional[Token]:
+        """
+        Look ahead at a token without consuming it.
+
+        Args:
+            offset: Number of tokens to look ahead (0 = current token)
+
+        Returns:
+            The token at the given offset, or None if out of bounds
+        """
+        index = self.current_index + offset
+        if 0 <= index < len(self.tokens):
+            return self.tokens[index]
+        return None
+
+    def advance(self) -> Token:
+        """
+        Move to the next token.
+
+        Returns:
+            The token that was current before advancing
+
+        Raises:
+            UnexpectedEOFError: If already at end of tokens
+        """
+        if self.current_token is None:
+            raise UnexpectedEOFError("more tokens")
+
+        old_token = self.current_token
+        self.current_index += 1
+        if self.current_index < len(self.tokens):
+            self.current_token = self.tokens[self.current_index]
+        else:
+            self.current_token = None
+        return old_token
+
+    def expect(self, token_type: TokenType, value: str = None) -> Token:
+        """
+        Expect a specific token type and optionally a specific value.
+
+        Args:
+            token_type: The expected token type
+            value: The expected token value (optional, case-insensitive for keywords)
+
+        Returns:
+            The consumed token
+
+        Raises:
+            UnexpectedTokenError: If the current token doesn't match
+            UnexpectedEOFError: If at end of tokens
+        """
+        if self.current_token is None:
+            expected_desc = f"{token_type.name}"
+            if value:
+                expected_desc += f" '{value}'"
+            raise UnexpectedEOFError(expected_desc)
+
+        if self.current_token.type != token_type:
+            expected_desc = f"{token_type.name}"
+            if value:
+                expected_desc += f" '{value}'"
+            raise UnexpectedTokenError(expected_desc, self.current_token)
+
+        if value is not None and self.current_token.value.lower() != value.lower():
+            raise UnexpectedTokenError(
+                f"{token_type.name} '{value}'", self.current_token)
+
+        return self.advance()
+
+    def match(self, token_type: TokenType, value: str = None) -> bool:
+        """
+        Check if the current token matches the given type and value.
+
+        Args:
+            token_type: The token type to match
+            value: The token value to match (optional, case-insensitive for keywords)
+
+        Returns:
+            True if the current token matches, False otherwise
+        """
+        if self.current_token is None:
+            return False
+
+        if self.current_token.type != token_type:
+            return False
+
+        if value is not None and self.current_token.value.lower() != value.lower():
+            return False
+
+        return True
