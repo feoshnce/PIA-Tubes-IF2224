@@ -139,3 +139,88 @@ class Parser:
             return False
 
         return True
+
+    # =========================================================================
+    # Grammar Rules Implementation
+    # =========================================================================
+
+    def parse(self) -> Program:
+        """
+        Parse the entire program.
+
+        Grammar:
+            program -> program-header declaration-part compound-statement DOT
+
+        Returns:
+            Program AST node
+        """
+        program_node = self.parse_program()
+        if self.current_token is not None:
+            self.error("Expected end of file")
+        return program_node
+
+    def parse_program(self) -> Program:
+        """
+        Parse program structure.
+
+        Grammar:
+            program -> KEYWORD(program) IDENTIFIER SEMICOLON block DOT
+
+        Returns:
+            Program AST node
+        """
+        self.expect(TokenType.KEYWORD, "program")
+        name_token = self.expect(TokenType.IDENTIFIER)
+        self.expect(TokenType.SEMICOLON)
+
+        block = self.parse_block()
+
+        self.expect(TokenType.DOT)
+
+        return Program(name=name_token.value, block=block)
+
+    def parse_block(self) -> Block:
+        """
+        Parse a block (declarations + compound statement).
+
+        Grammar:
+            block -> declaration-part compound-statement
+
+        Returns:
+            Block AST node
+        """
+        declarations = self.parse_declaration_part()
+        compound_stmt = self.parse_compound_statement()
+
+        return Block(declarations=declarations, compound_statement=compound_stmt)
+
+    def parse_declaration_part(self) -> list:
+        """
+        Parse declaration part (const, type, var, procedure, function).
+
+        Grammar:
+            declaration-part -> (const-declaration)* (type-declaration)*
+                               (var-declaration)* (subprogram-declaration)*
+
+        Returns:
+            List of declaration AST nodes
+        """
+        declarations = []
+
+        # Parse constant declarations
+        while self.match(TokenType.KEYWORD, "konstanta"):
+            declarations.extend(self.parse_const_declarations())
+
+        # Parse type declarations
+        while self.match(TokenType.KEYWORD, "tipe"):
+            declarations.extend(self.parse_type_declarations())
+
+        # Parse variable declarations
+        while self.match(TokenType.KEYWORD, "variabel"):
+            declarations.extend(self.parse_var_declarations())
+
+        # Parse subprogram declarations (procedures and functions)
+        while self.match(TokenType.KEYWORD, "prosedur") or self.match(TokenType.KEYWORD, "fungsi"):
+            declarations.append(self.parse_subprogram_declaration())
+
+        return declarations
