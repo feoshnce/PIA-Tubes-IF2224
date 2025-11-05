@@ -9,7 +9,11 @@ from typing import Any
 from parse_tree import (
     ASTNode,
     Program,
+    Block,
     VarDeclaration,
+    ProcedureDeclaration,
+    FunctionDeclaration,
+    Parameter,
     CompoundStatement,
     AssignmentStatement,
     IfStatement,
@@ -57,10 +61,10 @@ class TreeFormatter:
             String representation of the tree
         """
         self.output = []
-        self._format_node(node, "", True)
+        self._format_node(node, "", True, is_root=True)
         return "\n".join(self.output)
 
-    def _format_node(self, node: Any, prefix: str, is_last: bool):
+    def _format_node(self, node: Any, prefix: str, is_last: bool, is_root: bool = False):
         """
         Recursively format a node and its children.
 
@@ -68,20 +72,27 @@ class TreeFormatter:
             node: The node to format
             prefix: Current line prefix for indentation
             is_last: Whether this is the last child of its parent
+            is_root: Whether this is the root node
         """
         if node is None:
             return
 
-        # Determine connector
-        connector = "└── " if is_last else "├── "
+        # Determine connector (root node has no connector)
+        if is_root:
+            connector = ""
+        else:
+            connector = "└── " if is_last else "├── "
 
         # Handle wrapper nodes (declaration-part, statement-list, etc.)
         if hasattr(node, '_node_type'):
             node_name = node._node_type
             self.output.append(f"{prefix}{connector}<{node_name}>")
 
-            # Update prefix for children
-            child_prefix = prefix + ("    " if is_last else "│   ")
+            # Update prefix for children (root children have no prefix)
+            if is_root:
+                child_prefix = ""
+            else:
+                child_prefix = prefix + ("    " if is_last else "│   ")
 
             # Get children
             children = node._children if hasattr(node, '_children') else []
@@ -95,8 +106,11 @@ class TreeFormatter:
             node_name = self._get_node_name(node)
             self.output.append(f"{prefix}{connector}<{node_name}>")
 
-            # Update prefix for children
-            child_prefix = prefix + ("    " if is_last else "│   ")
+            # Update prefix for children (root children have no prefix)
+            if is_root:
+                child_prefix = ""
+            else:
+                child_prefix = prefix + ("    " if is_last else "│   ")
 
             # Get children
             children = self._get_children(node)
@@ -133,7 +147,7 @@ class TreeFormatter:
             'TypeDeclaration': 'type-declaration',
             'ProcedureDeclaration': 'procedure-declaration',
             'FunctionDeclaration': 'function-declaration',
-            'Parameter': 'parameter',
+            'Parameter': 'parameter-group',
             'SimpleType': 'type',
             'ArrayType': 'array-type',
             'RecordType': 'record-type',
@@ -170,9 +184,7 @@ class TreeFormatter:
         children = []
 
         if isinstance(node, Program):
-            children.append(self._format_token('KEYWORD', 'program'))
-            children.append(self._format_token('IDENTIFIER', node.name))
-            children.append(self._format_token('SEMICOLON', ';'))
+            children.append(self._create_program_header(node.name))
             if node.block.declarations:
                 children.append(self._create_declaration_part(
                     node.block.declarations))
@@ -180,8 +192,11 @@ class TreeFormatter:
             children.append(self._format_token('DOT', '.'))
 
         elif isinstance(node, VarDeclaration):
-            children.append(self._format_token('KEYWORD', 'variabel'))
-            children.append(self._create_var_list(node))
+            # For individual var declaration groups
+            children.append(self._create_identifier_list(node.identifiers))
+            children.append(self._format_token('COLON', ':'))
+            children.append(node.type_spec)
+            children.append(self._format_token('SEMICOLON', ';'))
 
         elif isinstance(node, CompoundStatement):
             children.append(self._format_token('KEYWORD', 'mulai'))
@@ -189,15 +204,45 @@ class TreeFormatter:
                 children.append(self._create_statement_list(node.statements))
             children.append(self._format_token('KEYWORD', 'selesai'))
 
+        elif isinstance(node, Block):
+            if node.declarations:
+                children.append(self._create_declaration_part(node.declarations))
+            children.append(node.compound_statement)
+
+        elif isinstance(node, ProcedureDeclaration):
+            children.append(self._format_token('KEYWORD', 'prosedur'))
+            children.append(self._format_token('IDENTIFIER', node.name))
+            if node.parameters:
+                children.append(self._create_formal_parameter_list(node.parameters))
+            children.append(self._format_token('SEMICOLON', ';'))
+            children.append(node.block)
+            children.append(self._format_token('SEMICOLON', ';'))
+
+        elif isinstance(node, FunctionDeclaration):
+            children.append(self._format_token('KEYWORD', 'fungsi'))
+            children.append(self._format_token('IDENTIFIER', node.name))
+            if node.parameters:
+                children.append(self._create_formal_parameter_list(node.parameters))
+            children.append(self._format_token('COLON', ':'))
+            children.append(node.return_type)
+            children.append(self._format_token('SEMICOLON', ';'))
+            children.append(node.block)
+            children.append(self._format_token('SEMICOLON', ';'))
+
+        elif isinstance(node, Parameter):
+            children.append(self._create_identifier_list(node.identifiers))
+            children.append(self._format_token('COLON', ':'))
+            children.append(node.type_spec)
+
         elif isinstance(node, AssignmentStatement):
             children.append(self._format_token(
                 'IDENTIFIER', node.variable.name))
             children.append(self._format_token('ASSIGN_OPERATOR', ':='))
-            children.append(node.expression)
+            children.append(self._create_expression(node.expression))
 
         elif isinstance(node, IfStatement):
             children.append(self._format_token('KEYWORD', 'jika'))
-            children.append(node.condition)
+            children.append(self._create_expression(node.condition))
             children.append(self._format_token('KEYWORD', 'maka'))
             children.append(node.then_statement)
             if node.else_statement:
@@ -206,7 +251,7 @@ class TreeFormatter:
 
         elif isinstance(node, WhileStatement):
             children.append(self._format_token('KEYWORD', 'selama'))
-            children.append(node.condition)
+            children.append(self._create_expression(node.condition))
             children.append(self._format_token('KEYWORD', 'lakukan'))
             children.append(node.body)
 
@@ -214,17 +259,17 @@ class TreeFormatter:
             children.append(self._format_token('KEYWORD', 'untuk'))
             children.append(self._format_token('IDENTIFIER', node.variable))
             children.append(self._format_token('ASSIGN_OPERATOR', ':='))
-            children.append(node.start_expr)
+            children.append(self._create_expression(node.start_expr))
             children.append(self._format_token('KEYWORD', node.direction))
-            children.append(node.end_expr)
+            children.append(self._create_expression(node.end_expr))
             children.append(self._format_token('KEYWORD', 'lakukan'))
             children.append(node.body)
 
         elif isinstance(node, ProcedureCall):
-            children.append(self._format_token('KEYWORD', node.name))
+            children.append(self._format_token('IDENTIFIER', node.name))
             if node.arguments:
                 children.append(self._format_token('LPARENTHESIS', '('))
-                children.append(self._create_parameter_list(node.arguments))
+                children.append(self._create_parameter_list_with_expressions(node.arguments))
                 children.append(self._format_token('RPARENTHESIS', ')'))
 
         elif isinstance(node, BinaryOp):
@@ -289,6 +334,26 @@ class TreeFormatter:
                 return node._children
             elif node._node_type == 'identifier-list':
                 return node._children
+            elif node._node_type == 'var-declaration':
+                return node._children
+            elif node._node_type == 'expression':
+                return node._children
+            elif node._node_type == 'simple-expression':
+                return node._children
+            elif node._node_type == 'term':
+                return node._children
+            elif node._node_type == 'factor':
+                return node._children
+            elif node._node_type == 'relational-operator':
+                return node._children
+            elif node._node_type == 'additive-operator':
+                return node._children
+            elif node._node_type == 'multiplicative-operator':
+                return node._children
+            elif node._node_type == 'formal-parameter-list':
+                return node._children
+            elif node._node_type == 'subprogram-declaration':
+                return node._children
 
         return children
 
@@ -307,12 +372,225 @@ class TreeFormatter:
         else:
             return self._format_token('OPERATOR', op)
 
+    def _create_program_header(self, name: str) -> Any:
+        """Create program-header wrapper node."""
+        class ProgramHeader:
+            def __init__(self, name):
+                self._node_type = 'program-header'
+                self._children = [
+                    f'KEYWORD(program)',
+                    f'IDENTIFIER({name})',
+                    'SEMICOLON(;)'
+                ]
+        return ProgramHeader(name)
+
+    def _create_identifier_list(self, identifiers: list) -> Any:
+        """Create identifier-list wrapper node."""
+        class IdentifierList:
+            def __init__(self, ids):
+                self._node_type = 'identifier-list'
+                self._children = []
+                for i, id_name in enumerate(ids):
+                    self._children.append(f'IDENTIFIER({id_name})')
+                    if i < len(ids) - 1:
+                        self._children.append('COMMA(,)')
+        return IdentifierList(identifiers)
+
+    def _create_expression(self, expr_node) -> Any:
+        """Create expression wrapper with proper hierarchy."""
+        from parse_tree import BinaryOp
+
+        class ExpressionWrapper:
+            def __init__(self, expr, formatter):
+                self._node_type = 'expression'
+                self._children = []
+
+                # Check if it's a relational expression
+                if isinstance(expr, BinaryOp) and expr.operator in ('=', '<>', '<', '<=', '>', '>='):
+                    # Left side
+                    self._children.append(formatter._create_simple_expression(expr.left))
+                    # Relational operator
+                    self._children.append(formatter._create_relational_operator(expr.operator))
+                    # Right side
+                    self._children.append(formatter._create_simple_expression(expr.right))
+                else:
+                    # Just wrap in simple-expression
+                    self._children.append(formatter._create_simple_expression(expr))
+
+        return ExpressionWrapper(expr_node, self)
+
+    def _create_simple_expression(self, expr_node) -> Any:
+        """Create simple-expression wrapper."""
+        from parse_tree import BinaryOp
+
+        class SimpleExpressionWrapper:
+            def __init__(self, expr, formatter):
+                self._node_type = 'simple-expression'
+                self._children = []
+
+                # Check if it's a binary operation with additive operator
+                if isinstance(expr, BinaryOp) and expr.operator in ('+', '-', 'atau'):
+                    # Left side
+                    self._children.append(formatter._create_term(expr.left))
+                    # Operator
+                    self._children.append(formatter._create_additive_operator(expr.operator))
+                    # Right side
+                    self._children.append(formatter._create_term(expr.right))
+                else:
+                    # Just wrap in term
+                    self._children.append(formatter._create_term(expr))
+
+        return SimpleExpressionWrapper(expr_node, self)
+
+    def _create_term(self, expr_node) -> Any:
+        """Create term wrapper."""
+        from parse_tree import BinaryOp
+
+        class TermWrapper:
+            def __init__(self, expr, formatter):
+                self._node_type = 'term'
+                self._children = []
+
+                # Check if it's a binary operation with multiplicative operator
+                if isinstance(expr, BinaryOp) and expr.operator in ('*', '/', 'bagi', 'mod', 'dan'):
+                    # Left side
+                    self._children.append(formatter._create_factor(expr.left))
+                    # Operator
+                    self._children.append(formatter._create_multiplicative_operator(expr.operator))
+                    # Right side
+                    self._children.append(formatter._create_factor(expr.right))
+                else:
+                    # Just wrap in factor
+                    self._children.append(formatter._create_factor(expr))
+
+        return TermWrapper(expr_node, self)
+
+    def _create_factor(self, expr_node) -> Any:
+        """Create factor wrapper."""
+        from parse_tree import Number, Variable, String, Char, Boolean
+
+        class FactorWrapper:
+            def __init__(self, expr, formatter):
+                self._node_type = 'factor'
+                self._children = []
+
+                # Terminal nodes should be formatted as tokens
+                if isinstance(expr, Number):
+                    self._children.append(f'NUMBER({expr.value})')
+                elif isinstance(expr, Variable):
+                    self._children.append(f'IDENTIFIER({expr.name})')
+                elif isinstance(expr, String):
+                    self._children.append(f'STRING_LITERAL({expr.value})')
+                elif isinstance(expr, Char):
+                    self._children.append(f'CHAR_LITERAL({expr.value})')
+                elif isinstance(expr, Boolean):
+                    self._children.append(f'IDENTIFIER({str(expr.value).lower()})')
+                else:
+                    # For other expression types, pass through
+                    self._children.append(expr)
+
+        return FactorWrapper(expr_node, self)
+
+    def _create_relational_operator(self, op: str) -> Any:
+        """Create relational-operator wrapper."""
+        class RelationalOperatorWrapper:
+            def __init__(self, operator):
+                self._node_type = 'relational-operator'
+                self._children = [f'RELATIONAL_OPERATOR({operator})']
+        return RelationalOperatorWrapper(op)
+
+    def _create_additive_operator(self, op: str) -> Any:
+        """Create additive-operator wrapper."""
+        class AdditiveOperatorWrapper:
+            def __init__(self, operator):
+                self._node_type = 'additive-operator'
+                if operator in ('+', '-'):
+                    self._children = [f'ARITHMETIC_OPERATOR({operator})']
+                elif operator == 'atau':
+                    self._children = [f'LOGICAL_OPERATOR({operator})']
+        return AdditiveOperatorWrapper(op)
+
+    def _create_multiplicative_operator(self, op: str) -> Any:
+        """Create multiplicative-operator wrapper."""
+        class MultiplicativeOperatorWrapper:
+            def __init__(self, operator):
+                self._node_type = 'multiplicative-operator'
+                if operator in ('*', '/', 'bagi', 'mod'):
+                    self._children = [f'ARITHMETIC_OPERATOR({operator})']
+                elif operator == 'dan':
+                    self._children = [f'LOGICAL_OPERATOR({operator})']
+        return MultiplicativeOperatorWrapper(op)
+
+    def _create_formal_parameter_list(self, parameters: list) -> Any:
+        """Create formal-parameter-list wrapper."""
+        class FormalParameterList:
+            def __init__(self, params):
+                self._node_type = 'formal-parameter-list'
+                self._children = [f'LPARENTHESIS(()']
+                # Add all parameter groups
+                for param in params:
+                    self._children.append(param)
+                self._children.append(f'RPARENTHESIS())')
+        return FormalParameterList(parameters)
+
     def _create_declaration_part(self, declarations: list) -> Any:
         """Create declaration-part wrapper node."""
+        formatter = self  # Capture formatter instance
+
         class DeclarationPart:
             def __init__(self, children):
                 self._node_type = 'declaration-part'
-                self._children = children
+                self._children = []
+
+                # Group different declaration types
+                i = 0
+                while i < len(children):
+                    child_class = children[i].__class__.__name__ if hasattr(children[i], '__class__') else None
+
+                    if child_class == 'VarDeclaration':
+                        # Collect all consecutive VarDeclarations
+                        var_decls = []
+                        while i < len(children) and hasattr(children[i], '__class__') and children[i].__class__.__name__ == 'VarDeclaration':
+                            var_decls.append(children[i])
+                            i += 1
+                        # Create wrapper for all var declarations
+                        self._children.append(self._create_var_declaration_wrapper(var_decls))
+
+                    elif child_class in ('ProcedureDeclaration', 'FunctionDeclaration'):
+                        # Wrap in subprogram-declaration
+                        self._children.append(self._create_subprogram_declaration_wrapper(children[i]))
+                        i += 1
+
+                    else:
+                        self._children.append(children[i])
+                        i += 1
+
+            def _create_var_declaration_wrapper(self, var_decls: list) -> Any:
+                """Create var-declaration wrapper for multiple VarDeclaration nodes."""
+                class VarDeclarationWrapper:
+                    def __init__(self, decls):
+                        self._node_type = 'var-declaration'
+                        self._children = [f'KEYWORD(variabel)']
+                        # Flatten all var declaration groups - add their contents directly
+                        for decl in decls:
+                            # Add identifier list
+                            self._children.append(formatter._create_identifier_list(decl.identifiers))
+                            # Add colon
+                            self._children.append('COLON(:)')
+                            # Add type
+                            self._children.append(decl.type_spec)
+                            # Add semicolon
+                            self._children.append('SEMICOLON(;)')
+                return VarDeclarationWrapper(var_decls)
+
+            def _create_subprogram_declaration_wrapper(self, subprogram) -> Any:
+                """Create subprogram-declaration wrapper."""
+                class SubprogramDeclarationWrapper:
+                    def __init__(self, subprog):
+                        self._node_type = 'subprogram-declaration'
+                        self._children = [subprog]
+                return SubprogramDeclarationWrapper(subprogram)
+
         return DeclarationPart(declarations)
 
     def _create_statement_list(self, statements: list) -> Any:
@@ -328,7 +606,7 @@ class TreeFormatter:
         return StatementList(statements)
 
     def _create_parameter_list(self, params: list) -> Any:
-        """Create parameter-list wrapper node."""
+        """Create parameter-list wrapper node for formal parameters."""
         class ParameterList:
             def __init__(self, children):
                 self._node_type = 'parameter-list'
@@ -339,34 +617,18 @@ class TreeFormatter:
                         self._children.append('COMMA(,)')
         return ParameterList(params)
 
-    def _create_var_list(self, var_decl: VarDeclaration) -> Any:
-        """Create var-list wrapper node."""
-        class VarList:
-            def __init__(self, var_decl):
-                self._node_type = 'var-list'
+    def _create_parameter_list_with_expressions(self, exprs: list) -> Any:
+        """Create parameter-list wrapper for actual parameters (expressions)."""
+        class ParameterListExpressions:
+            def __init__(self, expressions, formatter):
+                self._node_type = 'parameter-list'
                 self._children = []
-                # Add identifier list
-                id_list = self._create_identifier_list(var_decl.identifiers)
-                self._children.append(id_list)
-                # Add colon
-                self._children.append('COLON(:)')
-                # Add type
-                self._children.append(var_decl.type_spec)
-                # Add semicolon
-                self._children.append('SEMICOLON(;)')
+                for i, expr in enumerate(expressions):
+                    self._children.append(formatter._create_expression(expr))
+                    if i < len(expressions) - 1:
+                        self._children.append('COMMA(,)')
+        return ParameterListExpressions(exprs, self)
 
-            def _create_identifier_list(self, identifiers: list) -> Any:
-                class IdentifierList:
-                    def __init__(self, ids):
-                        self._node_type = 'identifier-list'
-                        self._children = []
-                        for i, id_name in enumerate(ids):
-                            self._children.append(f'IDENTIFIER({id_name})')
-                            if i < len(ids) - 1:
-                                self._children.append('COMMA(,)')
-                return IdentifierList(identifiers)
-
-        return VarList(var_decl)
 
     # Make the class instances compatible with isinstance checks
     def __instancecheck__(cls, instance):
