@@ -557,3 +557,295 @@ class Parser:
                 Parameter(identifiers=identifiers, type_spec=type_spec))
 
         return parameters
+
+    # =========================================================================
+    # Statement Parsing
+    # =========================================================================
+
+    def parse_compound_statement(self) -> CompoundStatement:
+        """
+        Parse a compound statement.
+
+        Grammar:
+            compound-statement -> KEYWORD(mulai) statement-list KEYWORD(selesai)
+
+        Returns:
+            CompoundStatement AST node
+        """
+        self.expect(TokenType.KEYWORD, "mulai")
+
+        statements = self.parse_statement_list()
+
+        self.expect(TokenType.KEYWORD, "selesai")
+
+        return CompoundStatement(statements=statements)
+
+    def parse_statement_list(self) -> list[Statement]:
+        """
+        Parse a list of statements separated by semicolons.
+
+        Grammar:
+            statement-list -> statement (SEMICOLON statement)*
+
+        Returns:
+            List of Statement nodes
+        """
+        statements = []
+
+        # Parse first statement
+        stmt = self.parse_statement()
+        if stmt:
+            statements.append(stmt)
+
+        # Parse remaining statements
+        while self.match(TokenType.SEMICOLON):
+            self.advance()  # consume semicolon
+
+            # Check if we're at the end of the statement list
+            if self.match(TokenType.KEYWORD, "selesai") or self.match(TokenType.KEYWORD, "sampai"):
+                break
+
+            stmt = self.parse_statement()
+            if stmt:
+                statements.append(stmt)
+
+        return statements
+
+    def parse_statement(self) -> Optional[Statement]:
+        """
+        Parse a single statement.
+
+        Grammar:
+            statement -> compound-statement
+                      | assignment-statement
+                      | if-statement
+                      | while-statement
+                      | for-statement
+                      | repeat-statement
+                      | case-statement
+                      | procedure-call
+                      | empty
+
+        Returns:
+            Statement AST node or None for empty statement
+        """
+        if self.match(TokenType.KEYWORD, "mulai"):
+            return self.parse_compound_statement()
+        elif self.match(TokenType.KEYWORD, "jika"):
+            return self.parse_if_statement()
+        elif self.match(TokenType.KEYWORD, "selama"):
+            return self.parse_while_statement()
+        elif self.match(TokenType.KEYWORD, "untuk"):
+            return self.parse_for_statement()
+        elif self.match(TokenType.KEYWORD, "ulangi"):
+            return self.parse_repeat_statement()
+        elif self.match(TokenType.KEYWORD, "kasus"):
+            return self.parse_case_statement()
+        elif self.match(TokenType.IDENTIFIER):
+            # Could be assignment or procedure call
+            # Look ahead to distinguish
+            if self.peek(1) and self.peek(1).type == TokenType.ASSIGN_OPERATOR:
+                return self.parse_assignment_statement()
+            elif self.peek(1) and self.peek(1).type == TokenType.LBRACKET:
+                # Array access followed by assignment
+                return self.parse_assignment_statement()
+            elif self.peek(1) and self.peek(1).type == TokenType.DOT:
+                # Record field access followed by assignment
+                return self.parse_assignment_statement()
+            else:
+                # Procedure call
+                return self.parse_procedure_call()
+        else:
+            # Empty statement
+            return None
+
+    def parse_assignment_statement(self) -> AssignmentStatement:
+        """
+        Parse an assignment statement.
+
+        Grammar:
+            assignment-statement -> variable ASSIGN_OPERATOR expression
+
+        Returns:
+            AssignmentStatement AST node
+        """
+        variable = self.parse_variable()
+        self.expect(TokenType.ASSIGN_OPERATOR)
+        expression = self.parse_expression()
+
+        return AssignmentStatement(variable=variable, expression=expression)
+
+    def parse_if_statement(self) -> IfStatement:
+        """
+        Parse an if statement.
+
+        Grammar:
+            if-statement -> KEYWORD(jika) expression KEYWORD(maka) statement
+                           (KEYWORD(selain-itu) statement)?
+
+        Returns:
+            IfStatement AST node
+        """
+        self.expect(TokenType.KEYWORD, "jika")
+        condition = self.parse_expression()
+        self.expect(TokenType.KEYWORD, "maka")
+        then_statement = self.parse_statement()
+
+        else_statement = None
+        if self.match(TokenType.KEYWORD, "selain-itu"):
+            self.advance()
+            else_statement = self.parse_statement()
+
+        return IfStatement(
+            condition=condition,
+            then_statement=then_statement,
+            else_statement=else_statement
+        )
+
+    def parse_while_statement(self) -> WhileStatement:
+        """
+        Parse a while statement.
+
+        Grammar:
+            while-statement -> KEYWORD(selama) expression KEYWORD(lakukan) statement
+
+        Returns:
+            WhileStatement AST node
+        """
+        self.expect(TokenType.KEYWORD, "selama")
+        condition = self.parse_expression()
+        self.expect(TokenType.KEYWORD, "lakukan")
+        body = self.parse_statement()
+
+        return WhileStatement(condition=condition, body=body)
+
+    def parse_for_statement(self) -> ForStatement:
+        """
+        Parse a for statement.
+
+        Grammar:
+            for-statement -> KEYWORD(untuk) IDENTIFIER ASSIGN_OPERATOR expression
+                            (KEYWORD(ke)|KEYWORD(turun-ke)) expression
+                            KEYWORD(lakukan) statement
+
+        Returns:
+            ForStatement AST node
+        """
+        self.expect(TokenType.KEYWORD, "untuk")
+        variable = self.expect(TokenType.IDENTIFIER).value
+        self.expect(TokenType.ASSIGN_OPERATOR)
+        start_expr = self.parse_expression()
+
+        # Determine direction (to or downto)
+        if self.match(TokenType.KEYWORD, "ke"):
+            direction = "ke"
+            self.advance()
+        elif self.match(TokenType.KEYWORD, "turun-ke"):
+            direction = "turun-ke"
+            self.advance()
+        else:
+            self.error("Expected 'ke' or 'turun-ke'")
+
+        end_expr = self.parse_expression()
+        self.expect(TokenType.KEYWORD, "lakukan")
+        body = self.parse_statement()
+
+        return ForStatement(
+            variable=variable,
+            start_expr=start_expr,
+            end_expr=end_expr,
+            direction=direction,
+            body=body
+        )
+
+    def parse_repeat_statement(self) -> RepeatStatement:
+        """
+        Parse a repeat-until statement.
+
+        Grammar:
+            repeat-statement -> KEYWORD(ulangi) statement-list KEYWORD(sampai) expression
+
+        Returns:
+            RepeatStatement AST node
+        """
+        self.expect(TokenType.KEYWORD, "ulangi")
+        statements = self.parse_statement_list()
+        self.expect(TokenType.KEYWORD, "sampai")
+        condition = self.parse_expression()
+
+        return RepeatStatement(statements=statements, condition=condition)
+
+    def parse_case_statement(self) -> CaseStatement:
+        """
+        Parse a case statement.
+
+        Grammar:
+            case-statement -> KEYWORD(kasus) expression KEYWORD(dari)
+                             case-list KEYWORD(selesai)
+
+        Returns:
+            CaseStatement AST node
+        """
+        self.expect(TokenType.KEYWORD, "kasus")
+        expression = self.parse_expression()
+        self.expect(TokenType.KEYWORD, "dari")
+
+        cases = []
+        while not self.match(TokenType.KEYWORD, "selesai"):
+            # Parse constant list
+            constants = [self.parse_constant_value()]
+            while self.match(TokenType.COMMA):
+                self.advance()
+                constants.append(self.parse_constant_value())
+
+            self.expect(TokenType.COLON)
+            statement = self.parse_statement()
+
+            cases.append((constants, statement))
+
+            # Optional semicolon between cases
+            if self.match(TokenType.SEMICOLON):
+                self.advance()
+
+        self.expect(TokenType.KEYWORD, "selesai")
+
+        return CaseStatement(expression=expression, cases=cases)
+
+    def parse_procedure_call(self) -> ProcedureCall:
+        """
+        Parse a procedure call.
+
+        Grammar:
+            procedure-call -> IDENTIFIER (LPARENTHESIS parameter-list RPARENTHESIS)?
+
+        Returns:
+            ProcedureCall AST node
+        """
+        name = self.expect(TokenType.IDENTIFIER).value
+
+        arguments = []
+        if self.match(TokenType.LPARENTHESIS):
+            self.advance()
+            if not self.match(TokenType.RPARENTHESIS):
+                arguments = self.parse_parameter_list()
+            self.expect(TokenType.RPARENTHESIS)
+
+        return ProcedureCall(name=name, arguments=arguments)
+
+    def parse_parameter_list(self) -> list[Expression]:
+        """
+        Parse actual parameter list (arguments).
+
+        Grammar:
+            parameter-list -> expression (COMMA expression)*
+
+        Returns:
+            List of Expression nodes
+        """
+        parameters = [self.parse_expression()]
+
+        while self.match(TokenType.COMMA):
+            self.advance()
+            parameters.append(self.parse_expression())
+
+        return parameters
