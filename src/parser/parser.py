@@ -26,16 +26,15 @@ class Parser:
     to build a parse tree from a list of tokens.
     """
 
-    def __init__(self, tokens: list[Token]):
+    def __init__(self):
         """
-        Initialize the parser with a list of tokens.
+        Initialize the parser.
 
-        Args:
-            tokens: List of tokens from the lexer (excluding WHITESPACE and COMMENT)
+        Use the pipe operator to provide tokens: tokens | parser
         """
-        self.tokens = tokens
+        self.tokens = []
         self.current_index = 0
-        self.current_token = tokens[0] if tokens else None
+        self.current_token = None
 
     def error(self, message: str) -> None:
         """
@@ -158,6 +157,22 @@ class Parser:
         if self.current_token is not None:
             self.error("Expected end of file")
         return program_node
+
+    def __ror__(self, tokens: list[Token]) -> Program:
+        """
+        Enable pipe operator: tokens | parser
+
+        Args:
+            tokens: List of tokens from the lexer
+
+        Returns:
+            Program AST node
+        """
+        # Initialize this parser instance with the tokens
+        self.tokens = tokens
+        self.current_index = 0
+        self.current_token = tokens[0] if tokens else None
+        return self.parse()
 
     def parse_program(self) -> Program:
         """
@@ -979,7 +994,8 @@ class Parser:
             self.advance()
             expr = self.parse_expression()
             self.expect(TokenType.RPARENTHESIS)
-            return expr
+            from parse_tree import ParenthesizedExpression
+            return ParenthesizedExpression(expression=expr)
 
         # NOT operator
         elif self.match(TokenType.LOGICAL_OPERATOR, "tidak"):
