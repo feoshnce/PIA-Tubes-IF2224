@@ -62,7 +62,7 @@ def main():
         parser = Parser()
         parse_tree = source_code | lexer | parser
     except SyntaxError as e:
-        print(f"Syntax error: {e}", file=sys.stderr)
+        print(e, file=sys.stderr)
         sys.exit(1)
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)

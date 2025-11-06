@@ -20,15 +20,11 @@ class SyntaxError(ErrorBase):
             token: The token where the error occurred (optional)
         """
         self.token = token
-        if token:
-            super().__init__(f"Syntax error at position {token.start}: {message}")
-        else:
-            super().__init__(f"Syntax error: {message}")
+        super().__init__(message)
 
     def __str__(self) -> str:
         if self.token:
-            return f"SyntaxError at position {self.token.start}: {self.message}\n" \
-                   f"  Token: {self.token.type.name} = '{self.token.value}'"
+            return f"SyntaxError at position {self.token.start}: {self.message}"
         return f"SyntaxError: {self.message}"
 
 
