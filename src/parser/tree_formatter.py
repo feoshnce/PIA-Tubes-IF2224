@@ -11,6 +11,8 @@ from parse_tree import (
     Program,
     Block,
     VarDeclaration,
+    ConstDeclaration,
+    TypeDeclaration,
     ProcedureDeclaration,
     FunctionDeclaration,
     Parameter,
@@ -28,6 +30,7 @@ from parse_tree import (
     Boolean,
     SimpleType,
     ArrayType,
+    ParenthesizedExpression,
     FunctionCall,
 )
 from syntax import Token
@@ -198,6 +201,28 @@ class TreeFormatter:
             children.append(node.type_spec)
             children.append(self._format_token('SEMICOLON', ';'))
 
+        elif isinstance(node, ConstDeclaration):
+            # For individual const declaration
+            children.append(self._format_token('IDENTIFIER', node.identifier))
+            children.append(self._format_token('ASSIGN_OPERATOR', '='))
+            # Format the value based on its type
+            if isinstance(node.value, (int, float)):
+                children.append(self._format_token('NUMBER', str(node.value)))
+            elif isinstance(node.value, str):
+                children.append(self._format_token('STRING_LITERAL', node.value))
+            elif isinstance(node.value, bool):
+                children.append(self._format_token('IDENTIFIER', str(node.value).lower()))
+            else:
+                children.append(self._format_token('IDENTIFIER', str(node.value)))
+            children.append(self._format_token('SEMICOLON', ';'))
+
+        elif isinstance(node, TypeDeclaration):
+            # For individual type declaration
+            children.append(self._format_token('IDENTIFIER', node.identifier))
+            children.append(self._format_token('ASSIGN_OPERATOR', '='))
+            children.append(node.type_spec)
+            children.append(self._format_token('SEMICOLON', ';'))
+
         elif isinstance(node, CompoundStatement):
             children.append(self._format_token('KEYWORD', 'mulai'))
             if node.statements:
@@ -285,7 +310,7 @@ class TreeFormatter:
             children.append(self._format_token('IDENTIFIER', node.name))
             if node.index:
                 children.append(self._format_token('LBRACKET', '['))
-                children.append(node.index)
+                children.append(self._create_expression(node.index))
                 children.append(self._format_token('RBRACKET', ']'))
 
         elif isinstance(node, Number):
@@ -299,21 +324,30 @@ class TreeFormatter:
                 'IDENTIFIER', str(node.value).lower()))
 
         elif isinstance(node, SimpleType):
-            children.append(self._format_token('KEYWORD', node.name))
+            # Check if it's a built-in type or custom type
+            builtin_types = ('integer', 'real', 'boolean', 'char')
+            if node.name.lower() in builtin_types:
+                children.append(self._format_token('KEYWORD', node.name))
+            else:
+                children.append(self._format_token('IDENTIFIER', node.name))
 
         elif isinstance(node, ArrayType):
-            children.append(self._format_token('KEYWORD', 'larik'))
-            children.append(self._format_token('LBRACKET', '['))
-            if isinstance(node.index_type, tuple):
-                # Range
-                children.append(node.index_type[0])
-                children.append(self._format_token('RANGE_OPERATOR', '..'))
-                children.append(node.index_type[1])
+            # Check if this is a subrange type (no element_type) or array type
+            if node.element_type is None:
+                # Subrange type (e.g., 1..100)
+                children.append(self._create_range(node.index_type))
             else:
-                children.append(node.index_type)
-            children.append(self._format_token('RBRACKET', ']'))
-            children.append(self._format_token('KEYWORD', 'dari'))
-            children.append(node.element_type)
+                # Array type
+                children.append(self._format_token('KEYWORD', 'larik'))
+                children.append(self._format_token('LBRACKET', '['))
+                if isinstance(node.index_type, tuple):
+                    # Range
+                    children.append(self._create_range(node.index_type))
+                else:
+                    children.append(node.index_type)
+                children.append(self._format_token('RBRACKET', ']'))
+                children.append(self._format_token('KEYWORD', 'dari'))
+                children.append(node.element_type)
 
         elif isinstance(node, FunctionCall):
             children.append(self._format_token('IDENTIFIER', node.name))
@@ -354,6 +388,14 @@ class TreeFormatter:
                 return node._children
             elif node._node_type == 'subprogram-declaration':
                 return node._children
+            elif node._node_type == 'range':
+                return node._children
+            elif node._node_type == 'const-declaration':
+                return node._children
+            elif node._node_type == 'type-declaration':
+                return node._children
+            elif node._node_type == 'type':
+                return node._children
 
         return children
 
@@ -372,17 +414,37 @@ class TreeFormatter:
         else:
             return self._format_token('OPERATOR', op)
 
+    def _create_range(self, range_tuple) -> Any:
+        """Create range wrapper node."""
+        class RangeWrapper:
+            def __init__(self, range_expr, formatter):
+                self._node_type = 'range'
+                self._children = []
+                if isinstance(range_expr, tuple) and len(range_expr) == 2:
+                    self._children.append(formatter._create_expression(range_expr[0]))
+                    self._children.append('RANGE_OPERATOR(..)')
+                    self._children.append(formatter._create_expression(range_expr[1]))
+        return RangeWrapper(range_tuple, self)
+
     def _create_program_header(self, name: str) -> Any:
         """Create program-header wrapper node."""
         class ProgramHeader:
             def __init__(self, name):
                 self._node_type = 'program-header'
                 self._children = [
-                    f'KEYWORD(program)',
+                    'KEYWORD(program)',
                     f'IDENTIFIER({name})',
                     'SEMICOLON(;)'
                 ]
         return ProgramHeader(name)
+
+    def _create_type_wrapper(self, type_spec) -> Any:
+        """Create <type> wrapper node."""
+        class TypeWrapper:
+            def __init__(self, type_node):
+                self._node_type = 'type'
+                self._children = [type_node]
+        return TypeWrapper(type_spec)
 
     def _create_identifier_list(self, identifiers: list) -> Any:
         """Create identifier-list wrapper node."""
@@ -467,7 +529,7 @@ class TreeFormatter:
 
     def _create_factor(self, expr_node) -> Any:
         """Create factor wrapper."""
-        from parse_tree import Number, Variable, String, Char, Boolean
+        from parse_tree import Number, Variable, String, Char, Boolean, FunctionCall
 
         class FactorWrapper:
             def __init__(self, expr, formatter):
@@ -478,13 +540,28 @@ class TreeFormatter:
                 if isinstance(expr, Number):
                     self._children.append(f'NUMBER({expr.value})')
                 elif isinstance(expr, Variable):
-                    self._children.append(f'IDENTIFIER({expr.name})')
+                    if expr.index:
+                        # Variable with array index
+                        self._children.append(f'IDENTIFIER({expr.name})')
+                        self._children.append('LBRACKET([)')
+                        self._children.append(formatter._create_expression(expr.index))
+                        self._children.append('RBRACKET(])')
+                    else:
+                        self._children.append(f'IDENTIFIER({expr.name})')
                 elif isinstance(expr, String):
                     self._children.append(f'STRING_LITERAL({expr.value})')
                 elif isinstance(expr, Char):
                     self._children.append(f'CHAR_LITERAL({expr.value})')
                 elif isinstance(expr, Boolean):
                     self._children.append(f'IDENTIFIER({str(expr.value).lower()})')
+                elif isinstance(expr, ParenthesizedExpression):
+                    # Parenthesized expression
+                    self._children.append('LPARENTHESIS(()')
+                    self._children.append(formatter._create_expression(expr.expression))
+                    self._children.append('RPARENTHESIS())')
+                elif isinstance(expr, FunctionCall):
+                    # Function call in factor
+                    self._children.append(expr)
                 else:
                     # For other expression types, pass through
                     self._children.append(expr)
@@ -526,11 +603,11 @@ class TreeFormatter:
         class FormalParameterList:
             def __init__(self, params):
                 self._node_type = 'formal-parameter-list'
-                self._children = [f'LPARENTHESIS(()']
+                self._children = ['LPARENTHESIS(()']
                 # Add all parameter groups
                 for param in params:
                     self._children.append(param)
-                self._children.append(f'RPARENTHESIS())')
+                self._children.append('RPARENTHESIS())')
         return FormalParameterList(parameters)
 
     def _create_declaration_part(self, declarations: list) -> Any:
@@ -547,7 +624,25 @@ class TreeFormatter:
                 while i < len(children):
                     child_class = children[i].__class__.__name__ if hasattr(children[i], '__class__') else None
 
-                    if child_class == 'VarDeclaration':
+                    if child_class == 'ConstDeclaration':
+                        # Collect all consecutive ConstDeclarations
+                        const_decls = []
+                        while i < len(children) and hasattr(children[i], '__class__') and children[i].__class__.__name__ == 'ConstDeclaration':
+                            const_decls.append(children[i])
+                            i += 1
+                        # Create wrapper for all const declarations
+                        self._children.append(self._create_const_declaration_wrapper(const_decls))
+
+                    elif child_class == 'TypeDeclaration':
+                        # Collect all consecutive TypeDeclarations
+                        type_decls = []
+                        while i < len(children) and hasattr(children[i], '__class__') and children[i].__class__.__name__ == 'TypeDeclaration':
+                            type_decls.append(children[i])
+                            i += 1
+                        # Create wrapper for all type declarations
+                        self._children.append(self._create_type_declaration_wrapper(type_decls))
+
+                    elif child_class == 'VarDeclaration':
                         # Collect all consecutive VarDeclarations
                         var_decls = []
                         while i < len(children) and hasattr(children[i], '__class__') and children[i].__class__.__name__ == 'VarDeclaration':
@@ -565,12 +660,49 @@ class TreeFormatter:
                         self._children.append(children[i])
                         i += 1
 
+            def _create_const_declaration_wrapper(self, const_decls: list) -> Any:
+                """Create const-declaration wrapper for multiple ConstDeclaration nodes."""
+                class ConstDeclarationWrapper:
+                    def __init__(self, decls):
+                        self._node_type = 'const-declaration'
+                        self._children = ['KEYWORD(konstanta)']
+                        # Flatten all const declarations
+                        for decl in decls:
+                            self._children.append(f'IDENTIFIER({decl.identifier})')
+                            self._children.append('ASSIGN_OPERATOR(=)')
+                            # Format value
+                            if isinstance(decl.value, (int, float)):
+                                self._children.append(f'NUMBER({decl.value})')
+                            elif isinstance(decl.value, str):
+                                self._children.append(f'STRING_LITERAL({decl.value})')
+                            elif isinstance(decl.value, bool):
+                                self._children.append(f'IDENTIFIER({str(decl.value).lower()})')
+                            else:
+                                self._children.append(f'IDENTIFIER({decl.value})')
+                            self._children.append('SEMICOLON(;)')
+                return ConstDeclarationWrapper(const_decls)
+
+            def _create_type_declaration_wrapper(self, type_decls: list) -> Any:
+                """Create type-declaration wrapper for multiple TypeDeclaration nodes."""
+                class TypeDeclarationWrapper:
+                    def __init__(self, decls):
+                        self._node_type = 'type-declaration'
+                        self._children = ['KEYWORD(tipe)']
+                        # Flatten all type declarations
+                        for decl in decls:
+                            self._children.append(f'IDENTIFIER({decl.identifier})')
+                            self._children.append('ASSIGN_OPERATOR(=)')
+                            # Wrap type_spec in <type> node
+                            self._children.append(formatter._create_type_wrapper(decl.type_spec))
+                            self._children.append('SEMICOLON(;)')
+                return TypeDeclarationWrapper(type_decls)
+
             def _create_var_declaration_wrapper(self, var_decls: list) -> Any:
                 """Create var-declaration wrapper for multiple VarDeclaration nodes."""
                 class VarDeclarationWrapper:
                     def __init__(self, decls):
                         self._node_type = 'var-declaration'
-                        self._children = [f'KEYWORD(variabel)']
+                        self._children = ['KEYWORD(variabel)']
                         # Flatten all var declaration groups - add their contents directly
                         for decl in decls:
                             # Add identifier list
