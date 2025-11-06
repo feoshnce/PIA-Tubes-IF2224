@@ -56,29 +56,16 @@ def main():
         print(f"Error: File not found at '{args.file_path}'", file=sys.stderr)
         sys.exit(1)
 
-    # Tokenize
+    # Pipeline: source_code | lexer | parser
     try:
         lexer = Lexer()
-        tokens = lexer.tokenize(source_code)
-
-        # Filter out whitespace and comments
-        tokens = [
-            token for token in tokens
-            if token.type.name not in ("WHITESPACE", "COMMENT")
-        ]
-    except Exception as e:
-        print(f"Lexical error: {e}", file=sys.stderr)
-        sys.exit(1)
-
-    # Parse
-    try:
-        parser = Parser(tokens)
-        parse_tree = parser.parse()
+        parser = Parser()
+        parse_tree = source_code | lexer | parser
     except SyntaxError as e:
         print(f"Syntax error: {e}", file=sys.stderr)
         sys.exit(1)
     except Exception as e:
-        print(f"Unexpected error during parsing: {e}", file=sys.stderr)
+        print(f"Error: {e}", file=sys.stderr)
         import traceback
         traceback.print_exc()
         sys.exit(1)
@@ -87,7 +74,7 @@ def main():
     if args.format == "json":
         output = json.dumps(parse_tree.to_dict(), indent=2, ensure_ascii=False)
     else:  # tree format
-        output = format_parse_tree(parse_tree, tokens)
+        output = format_parse_tree(parse_tree)
 
     # Handle output
     if args.output:
