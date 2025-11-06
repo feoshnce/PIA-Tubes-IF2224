@@ -97,3 +97,20 @@ class Lexer:
         # Post-process to merge hyphenated keywords
         tokens = merge_hyphenated_keywords(tokens)
         return tokens
+
+    def __ror__(self, source_code: str) -> list[Token]:
+        """
+        Enable pipe operator: source_code | lexer
+
+        Args:
+            source_code: The source code string to tokenize
+
+        Returns:
+            List of tokens (excluding WHITESPACE and COMMENT)
+        """
+        tokens = self.tokenize(source_code)
+        # Filter out whitespace and comments
+        return [
+            token for token in tokens
+            if token.type.name not in ("WHITESPACE", "COMMENT")
+        ]
