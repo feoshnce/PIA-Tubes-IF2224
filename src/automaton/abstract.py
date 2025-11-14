@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar, Hashable, Optional, Set, AbstractSet, Iterable
+from typing import Generic, TypeVar, Hashable, Optional, Set, AbstractSet
 
 StateT = TypeVar("StateT", bound=Hashable)
 SymbolT = TypeVar("SymbolT", bound=Hashable)
