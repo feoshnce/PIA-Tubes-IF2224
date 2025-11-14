@@ -38,13 +38,3 @@ class AutomatonABC(ABC, Generic[StateT, SymbolT]):
     def reset(self) -> None:
         """Reset internal runtime state (if any)."""
         ...
-
-    @abstractmethod
-    def step_all(self, states: AbstractSet[StateT], symbol: Optional[SymbolT]) -> Set[StateT]:
-        """Return next set of states from a set of states, possibly handling epsilon when symbol is None."""
-        ...
-
-    @abstractmethod
-    def accepts(self, symbols: Iterable[SymbolT]) -> bool:
-        """Run the machine on input symbols and report acceptance."""
-        ...
