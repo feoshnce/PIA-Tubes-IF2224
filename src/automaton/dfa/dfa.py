@@ -1,6 +1,6 @@
 from __future__ import annotations
 from ..abstract import AutomatonABC
-from typing import Dict, Set, Optional, Tuple, List
+from typing import Dict, Optional, Tuple, List
 import re
 from dataclasses import dataclass
 
