@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar, Hashable, Optional, Set, AbstractSet, Iterable
+from typing import Generic, TypeVar, Hashable, Optional, Set, AbstractSet
 
 StateT = TypeVar("StateT", bound=Hashable)
 SymbolT = TypeVar("SymbolT", bound=Hashable)
@@ -37,14 +37,4 @@ class AutomatonABC(ABC, Generic[StateT, SymbolT]):
     @abstractmethod
     def reset(self) -> None:
         """Reset internal runtime state (if any)."""
-        ...
-
-    @abstractmethod
-    def step_all(self, states: AbstractSet[StateT], symbol: Optional[SymbolT]) -> Set[StateT]:
-        """Return next set of states from a set of states, possibly handling epsilon when symbol is None."""
-        ...
-
-    @abstractmethod
-    def accepts(self, symbols: Iterable[SymbolT]) -> bool:
-        """Run the machine on input symbols and report acceptance."""
         ...
