@@ -836,19 +836,19 @@ class Parser:
         Parse a procedure call.
 
         Grammar:
-            procedure-call -> IDENTIFIER (LPARENTHESIS parameter-list RPARENTHESIS)?
+            procedure-call -> IDENTIFIER LPARENTHESIS (parameter-list)? RPARENTHESIS
 
         Returns:
             ProcedureCall AST node
         """
         name = self.expect(TokenType.IDENTIFIER).value
+        self.expect(TokenType.LPARENTHESIS)
 
         arguments = []
-        if self.match(TokenType.LPARENTHESIS):
-            self.advance()
-            if not self.match(TokenType.RPARENTHESIS):
-                arguments = self.parse_parameter_list()
-            self.expect(TokenType.RPARENTHESIS)
+        if not self.match(TokenType.RPARENTHESIS):
+            arguments = self.parse_parameter_list()
+
+        self.expect(TokenType.RPARENTHESIS)
 
         return ProcedureCall(name=name, arguments=arguments)
 
