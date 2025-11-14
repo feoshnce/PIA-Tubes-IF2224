@@ -1,6 +1,6 @@
 from __future__ import annotations
 from ..abstract import AutomatonABC
-from typing import Dict, Set, Optional, Tuple, List
+from typing import Dict, Optional, Tuple, List
 import re
 from dataclasses import dataclass
 
@@ -55,26 +55,6 @@ class DFA(AutomatonABC[str, str]):
                     return self.current_state
 
         return None
-
-    def step_all(self, states: Set[str], symbol: Optional[str]) -> Set[str]:
-        if not symbol:
-            return set()
-
-        current_state_before = self.current_state
-        self.current_state = next(iter(states))
-
-        next_s = self.step(symbol)
-
-        self.current_state = current_state_before
-
-        return {next_s} if next_s else set()
-
-    def accepts(self, symbols: List[str]) -> bool:
-        self.reset()
-        for symbol in symbols:
-            if self.step(symbol) is None:
-                return False
-        return self.is_final(self.current_state) if self.current_state else False
 
     def get_token_type(self) -> Optional[str]:
         return self.config.final_states.get(self.current_state)

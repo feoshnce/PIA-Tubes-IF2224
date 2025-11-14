@@ -161,7 +161,7 @@ class TreeFormatter:
             'ForStatement': 'for-statement',
             'RepeatStatement': 'repeat-statement',
             'CaseStatement': 'case-statement',
-            'ProcedureCall': 'procedure-call',
+            'ProcedureCall': 'procedure/function-call',
             'BinaryOp': 'expression',
             'UnaryOp': 'expression',
             'Variable': 'variable',
@@ -169,7 +169,7 @@ class TreeFormatter:
             'String': 'expression',
             'Char': 'expression',
             'Boolean': 'expression',
-            'FunctionCall': 'function-call',
+            'FunctionCall': 'procedure/function-call',
         }
 
         return mapping.get(node_type, node_type.lower())
@@ -292,10 +292,10 @@ class TreeFormatter:
 
         elif isinstance(node, ProcedureCall):
             children.append(self._format_token('IDENTIFIER', node.name))
+            children.append(self._format_token('LPARENTHESIS', '('))
             if node.arguments:
-                children.append(self._format_token('LPARENTHESIS', '('))
                 children.append(self._create_parameter_list_with_expressions(node.arguments))
-                children.append(self._format_token('RPARENTHESIS', ')'))
+            children.append(self._format_token('RPARENTHESIS', ')'))
 
         elif isinstance(node, BinaryOp):
             children.append(node.left)
@@ -353,7 +353,7 @@ class TreeFormatter:
             children.append(self._format_token('IDENTIFIER', node.name))
             children.append(self._format_token('LPARENTHESIS', '('))
             if node.arguments:
-                children.append(self._create_parameter_list(node.arguments))
+                children.append(self._create_parameter_list_with_expressions(node.arguments))
             children.append(self._format_token('RPARENTHESIS', ')'))
 
         # Handle custom wrapper nodes
