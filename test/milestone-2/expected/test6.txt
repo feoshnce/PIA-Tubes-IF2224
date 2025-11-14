@@ -39,47 +39,56 @@
 │   │   │   ├── IDENTIFIER(a)
 │   │   │   ├── ASSIGN_OPERATOR(:=)
 │   │   │   └── <expression>
-│   │   │       └── NUMBER(10)
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(10)
 │   │   ├── SEMICOLON(;)
 │   │   ├── <assignment-statement>
 │   │   │   ├── IDENTIFIER(b)
 │   │   │   ├── ASSIGN_OPERATOR(:=)
 │   │   │   └── <expression>
-│   │   │       └── NUMBER(5)
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(5)
 │   │   ├── SEMICOLON(;)
 │   │   ├── <assignment-statement>
 │   │   │   ├── IDENTIFIER(c)
 │   │   │   ├── ASSIGN_OPERATOR(:=)
 │   │   │   └── <expression>
-│   │   │       └── NUMBER(3)
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(3)
 │   │   ├── SEMICOLON(;)
 │   │   ├── <assignment-statement>
 │   │   │   ├── IDENTIFIER(x)
 │   │   │   ├── ASSIGN_OPERATOR(:=)
 │   │   │   └── <expression>
 │   │   │       └── <simple-expression>
-│   │   │           ├── <term>
-│   │   │           │   ├── <factor>
-│   │   │           │   │   ├── LPARENTHESIS(()
-│   │   │           │   │   ├── <expression>
-│   │   │           │   │   │   └── <simple-expression>
-│   │   │           │   │   │       ├── <term>
-│   │   │           │   │   │       │   └── <factor>
-│   │   │           │   │   │       │       └── IDENTIFIER(a)
-│   │   │           │   │   │       ├── <additive-operator>
-│   │   │           │   │   │       │   └── ARITHMETIC_OPERATOR(+)
-│   │   │           │   │   │       └── <term>
-│   │   │           │   │   │           └── <factor>
-│   │   │           │   │   │               └── IDENTIFIER(b)
-│   │   │           │   │   └── RPARENTHESIS())
-│   │   │           │   ├── <multiplicative-operator>
-│   │   │           │   │   └── ARITHMETIC_OPERATOR(*)
-│   │   │           │   └── <factor>
-│   │   │           │       └── IDENTIFIER(c)
-│   │   │           ├── <multiplicative-operator>
-│   │   │           │   └── ARITHMETIC_OPERATOR(/)
-│   │   │           └── <factor>
-│   │   │               └── NUMBER(2.0)
+│   │   │           └── <term>
+│   │   │               ├── <factor>
+│   │   │               │   ├── LPARENTHESIS(()
+│   │   │               │   ├── <expression>
+│   │   │               │   │   └── <simple-expression>
+│   │   │               │   │       ├── <term>
+│   │   │               │   │       │   └── <factor>
+│   │   │               │   │       │       └── IDENTIFIER(a)
+│   │   │               │   │       ├── <additive-operator>
+│   │   │               │   │       │   └── ARITHMETIC_OPERATOR(+)
+│   │   │               │   │       └── <term>
+│   │   │               │   │           └── <factor>
+│   │   │               │   │               └── IDENTIFIER(b)
+│   │   │               │   └── RPARENTHESIS())
+│   │   │               ├── <multiplicative-operator>
+│   │   │               │   └── ARITHMETIC_OPERATOR(*)
+│   │   │               ├── <factor>
+│   │   │               │   └── IDENTIFIER(c)
+│   │   │               ├── <multiplicative-operator>
+│   │   │               │   └── ARITHMETIC_OPERATOR(/)
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(2.0)
 │   │   ├── SEMICOLON(;)
 │   │   ├── <assignment-statement>
 │   │   │   ├── IDENTIFIER(y)
@@ -90,7 +99,7 @@
 │   │   │           │   ├── <factor>
 │   │   │           │   │   └── IDENTIFIER(a)
 │   │   │           │   ├── <multiplicative-operator>
-│   │   │           │   │   └── KEYWORD(bagi)
+│   │   │           │   │   └── ARITHMETIC_OPERATOR(bagi)
 │   │   │           │   └── <factor>
 │   │   │           │       └── IDENTIFIER(b)
 │   │   │           ├── <additive-operator>
@@ -99,7 +108,7 @@
 │   │   │               ├── <factor>
 │   │   │               │   └── IDENTIFIER(c)
 │   │   │               ├── <multiplicative-operator>
-│   │   │               │   └── KEYWORD(mod)
+│   │   │               │   └── ARITHMETIC_OPERATOR(mod)
 │   │   │               └── <factor>
 │   │   │                   └── NUMBER(2)
 │   │   ├── SEMICOLON(;)
@@ -124,7 +133,7 @@
 │   │   │               │   │               └── IDENTIFIER(b)
 │   │   │               │   └── RPARENTHESIS())
 │   │   │               ├── <multiplicative-operator>
-│   │   │               │   └── KEYWORD(dan)
+│   │   │               │   └── LOGICAL_OPERATOR(dan)
 │   │   │               └── <factor>
 │   │   │                   ├── LPARENTHESIS(()
 │   │   │                   ├── <expression>
@@ -147,11 +156,11 @@
 │   │   │       └── <simple-expression>
 │   │   │           ├── <term>
 │   │   │           │   └── <factor>
-│   │   │           │       ├── KEYWORD(tidak)
+│   │   │           │       ├── LOGICAL_OPERATOR(tidak)
 │   │   │           │       └── <factor>
 │   │   │           │           └── IDENTIFIER(flag)
 │   │   │           ├── <additive-operator>
-│   │   │           │   └── KEYWORD(atau)
+│   │   │           │   └── LOGICAL_OPERATOR(atau)
 │   │   │           └── <term>
 │   │   │               └── <factor>
 │   │   │                   ├── LPARENTHESIS(()
@@ -188,7 +197,7 @@
 │   │       │           │   │               └── NUMBER(10)
 │   │       │           │   └── RPARENTHESIS())
 │   │       │           ├── <multiplicative-operator>
-│   │       │           │   └── KEYWORD(dan)
+│   │       │           │   └── LOGICAL_OPERATOR(dan)
 │   │       │           └── <factor>
 │   │       │               ├── LPARENTHESIS(()
 │   │       │               ├── <expression>
@@ -209,7 +218,7 @@
 │   │       │               │       │       │               └── NUMBER(5)
 │   │       │               │       │       └── RPARENTHESIS())
 │   │       │               │       ├── <additive-operator>
-│   │       │               │       │   └── KEYWORD(atau)
+│   │       │               │       │   └── LOGICAL_OPERATOR(atau)
 │   │       │               │       └── <term>
 │   │       │               │           └── <factor>
 │   │       │               │               ├── LPARENTHESIS(()
@@ -227,7 +236,7 @@
 │   │       │               │               └── RPARENTHESIS())
 │   │       │               └── RPARENTHESIS())
 │   │       ├── KEYWORD(maka)
-│   │       ├── <procedure-call>
+│   │       ├── <procedure/function-call>
 │   │       │   ├── IDENTIFIER(writeln)
 │   │       │   ├── LPARENTHESIS(()
 │   │       │   ├── <parameter-list>
@@ -238,7 +247,7 @@
 │   │       │   │                   └── STRING_LITERAL('Condition is true')
 │   │       │   └── RPARENTHESIS())
 │   │       ├── KEYWORD(selain-itu)
-│   │       └── <procedure-call>
+│   │       └── <procedure/function-call>
 │   │           ├── IDENTIFIER(writeln)
 │   │           ├── LPARENTHESIS(()
 │   │           ├── <parameter-list>
