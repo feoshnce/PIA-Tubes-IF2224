@@ -126,7 +126,7 @@
 │   │       │   └── <compound-statement>
 │   │       │       ├── KEYWORD(mulai)
 │   │       │       ├── <statement-list>
-│   │       │       │   └── <procedure-call>
+│   │       │       │   └── <procedure/function-call>
 │   │       │       │       ├── IDENTIFIER(writeln)
 │   │       │       │       ├── LPARENTHESIS(()
 │   │       │       │       ├── <parameter-list>
@@ -217,7 +217,7 @@
 │   │   │   └── <expression>
 │   │   │       └── NUMBER(10)
 │   │   ├── SEMICOLON(;)
-│   │   ├── <procedure-call>
+│   │   ├── <procedure/function-call>
 │   │   │   ├── IDENTIFIER(MultiParam)
 │   │   │   ├── LPARENTHESIS(()
 │   │   │   ├── <parameter-list>
@@ -241,7 +241,7 @@
 │   │   │       └── <simple-expression>
 │   │   │           └── <term>
 │   │   │               └── <factor>
-│   │   │                   └── <function-call>
+│   │   │                   └── <procedure/function-call>
 │   │   │                       ├── IDENTIFIER(ChainedFunc)
 │   │   │                       ├── LPARENTHESIS(()
 │   │   │                       ├── <parameter-list>
@@ -249,7 +249,7 @@
 │   │   │                       │       └── <simple-expression>
 │   │   │                       │           └── <term>
 │   │   │                       │               └── <factor>
-│   │   │                       │                   └── <function-call>
+│   │   │                       │                   └── <procedure/function-call>
 │   │   │                       │                       ├── IDENTIFIER(ChainedFunc)
 │   │   │                       │                       ├── LPARENTHESIS(()
 │   │   │                       │                       ├── <parameter-list>

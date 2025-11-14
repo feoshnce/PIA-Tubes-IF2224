@@ -59,7 +59,7 @@
 │   │       │       │   │               └── <factor>
 │   │       │       │   │                   └── IDENTIFIER(b)
 │   │       │       │   ├── SEMICOLON(;)
-│   │       │       │   └── <procedure-call>
+│   │       │       │   └── <procedure/function-call>
 │   │       │       │       ├── IDENTIFIER(writeln)
 │   │       │       │       ├── LPARENTHESIS(()
 │   │       │       │       ├── <parameter-list>
@@ -135,7 +135,7 @@
 │   │   │               └── <factor>
 │   │   │                   └── NUMBER(3)
 │   │   ├── SEMICOLON(;)
-│   │   ├── <procedure-call>
+│   │   ├── <procedure/function-call>
 │   │   │   ├── IDENTIFIER(PrintSum)
 │   │   │   ├── LPARENTHESIS(()
 │   │   │   ├── <parameter-list>
@@ -159,7 +159,7 @@
 │   │   │       └── <simple-expression>
 │   │   │           └── <term>
 │   │   │               └── <factor>
-│   │   │                   └── <function-call>
+│   │   │                   └── <procedure/function-call>
 │   │   │                       ├── IDENTIFIER(Multiply)
 │   │   │                       ├── LPARENTHESIS(()
 │   │   │                       ├── <parameter-list>
@@ -176,7 +176,7 @@
 │   │   │                       │                   └── IDENTIFIER(y)
 │   │   │                       └── RPARENTHESIS())
 │   │   ├── SEMICOLON(;)
-│   │   └── <procedure-call>
+│   │   └── <procedure/function-call>
 │   │       ├── IDENTIFIER(writeln)
 │   │       ├── LPARENTHESIS(()
 │   │       ├── <parameter-list>

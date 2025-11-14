@@ -82,7 +82,7 @@
 │   │   │   │       │       ├── <compound-statement>
 │   │   │   │       │       │   ├── KEYWORD(mulai)
 │   │   │   │       │       │   ├── <statement-list>
-│   │   │   │       │       │   │   ├── <procedure-call>
+│   │   │   │       │       │   │   ├── <procedure/function-call>
 │   │   │   │       │       │   │   │   ├── IDENTIFIER(writeln)
 │   │   │   │       │       │   │   │   ├── LPARENTHESIS(()
 │   │   │   │       │       │   │   │   ├── <parameter-list>

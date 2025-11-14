@@ -63,7 +63,7 @@
 │   │   │   │           └── <factor>
 │   │   │   │               └── NUMBER(1)
 │   │   │   ├── KEYWORD(lakukan)
-│   │   │   └── <procedure-call>
+│   │   │   └── <procedure/function-call>
 │   │   │       └── IDENTIFIER(EmptyProc)
 │   │   ├── SEMICOLON(;)
 │   │   └── <assignment-statement>
@@ -73,7 +73,7 @@
 │   │           └── <simple-expression>
 │   │               └── <term>
 │   │                   └── <factor>
-│   │                       └── <function-call>
+│   │                       └── <procedure/function-call>
 │   │                           ├── IDENTIFIER(EmptyFunc)
 │   │                           ├── LPARENTHESIS(()
 │   │                           └── RPARENTHESIS())
