@@ -37,6 +37,7 @@ from .expression import (
     String,
     Char,
     Boolean,
+    ParenthesizedExpression,
     FunctionCall,
 )
 
@@ -77,5 +78,6 @@ __all__ = [
     "String",
     "Char",
     "Boolean",
+    "ParenthesizedExpression",
     "FunctionCall",
 ]
