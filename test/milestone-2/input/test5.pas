@@ -1,20 +1,16 @@
-program ArrayConstTest;
+program ArrayStrictTest;
 konstanta
-    MAX_SIZE = 100;
-    PI = 3.14159;
-tipe
-    IntArray = larik[1..10] dari integer;
-    CharArray = larik[0..MAX_SIZE] dari char;
+    MAX_COUNT = 10;
 variabel
-    numbers: IntArray;
-    letters: CharArray;
+    data_int: larik[1..MAX_COUNT] dari integer;
     i: integer;
+    total: integer;
 mulai
-    untuk i := 1 ke 10 lakukan
-        numbers[i] := i * 2;
-    
-    letters[0] := 'A';
-    letters[1] := 'B';
-    writeln('First number: ', numbers[1]);
-    writeln('First letter: ', letters[0])
+    total := 0;
+    untuk i := 1 ke MAX_COUNT lakukan
+    mulai
+        data_int[i] := i * 2;
+        total := total + data_int[i];
+    selesai;
+    writeln('Sum: ', total);
 selesai.
