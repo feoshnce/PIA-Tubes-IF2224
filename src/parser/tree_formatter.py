@@ -105,6 +105,15 @@ class TreeFormatter:
 
         # Format current node
         elif isinstance(node, ASTNode):
+            # Special handling for ParenthesizedExpression - don't create a wrapper node
+            if isinstance(node, ParenthesizedExpression):
+                # Just format the children directly without creating a node
+                children = self._get_children(node)
+                for i, child in enumerate(children):
+                    is_last_child = (i == len(children) - 1)
+                    self._format_node(child, prefix, is_last if i == len(children) - 1 else False)
+                return
+
             # Non-terminal node
             node_name = self._get_node_name(node)
             self.output.append(f"{prefix}{connector}<{node_name}>")
@@ -198,7 +207,12 @@ class TreeFormatter:
             # For individual var declaration groups
             children.append(self._create_identifier_list(node.identifiers))
             children.append(self._format_token('COLON', ':'))
-            children.append(node.type_spec)
+            # SimpleType already maps to 'type', so don't wrap it
+            # ArrayType/RecordType need wrapping
+            if isinstance(node.type_spec, SimpleType):
+                children.append(node.type_spec)
+            else:
+                children.append(self._create_type_wrapper(node.type_spec))
             children.append(self._format_token('SEMICOLON', ';'))
 
         elif isinstance(node, ConstDeclaration):
@@ -260,8 +274,15 @@ class TreeFormatter:
             children.append(node.type_spec)
 
         elif isinstance(node, AssignmentStatement):
-            children.append(self._format_token(
-                'IDENTIFIER', node.variable.name))
+            # Add variable components directly without <variable> wrapper
+            children.append(self._format_token('IDENTIFIER', node.variable.name))
+            if node.variable.index:
+                children.append(self._format_token('LBRACKET', '['))
+                children.append(self._create_expression(node.variable.index))
+                children.append(self._format_token('RBRACKET', ']'))
+            elif node.variable.field:
+                children.append(self._format_token('DOT', '.'))
+                children.append(self._format_token('IDENTIFIER', node.variable.field))
             children.append(self._format_token('ASSIGN_OPERATOR', ':='))
             children.append(self._create_expression(node.expression))
 
@@ -348,6 +369,13 @@ class TreeFormatter:
                 children.append(self._format_token('RBRACKET', ']'))
                 children.append(self._format_token('KEYWORD', 'dari'))
                 children.append(node.element_type)
+
+        elif isinstance(node, ParenthesizedExpression):
+            # ParenthesizedExpression should be transparent - just expand to LPAREN + expr + RPAREN
+            # This should not create its own node
+            children.append(self._format_token('LPARENTHESIS', '('))
+            children.append(self._create_expression(node.expression))
+            children.append(self._format_token('RPARENTHESIS', ')'))
 
         elif isinstance(node, FunctionCall):
             children.append(self._format_token('IDENTIFIER', node.name))
@@ -492,11 +520,18 @@ class TreeFormatter:
 
                 # Check if it's a binary operation with additive operator
                 if isinstance(expr, BinaryOp) and expr.operator in ('+', '-', 'atau'):
-                    # Left side
-                    self._children.append(formatter._create_term(expr.left))
+                    # Left side - recursively handle if also additive BinaryOp
+                    if isinstance(expr.left, BinaryOp) and expr.left.operator in ('+', '-', 'atau'):
+                        # Flatten: simple-expression contains multiple term/operator pairs
+                        left_simple = formatter._create_simple_expression(expr.left)
+                        # Extract children from left simple-expression and add to current
+                        if hasattr(left_simple, '_children'):
+                            self._children.extend(left_simple._children)
+                    else:
+                        self._children.append(formatter._create_term(expr.left))
                     # Operator
                     self._children.append(formatter._create_additive_operator(expr.operator))
-                    # Right side
+                    # Right side - always a term
                     self._children.append(formatter._create_term(expr.right))
                 else:
                     # Just wrap in term
@@ -515,11 +550,18 @@ class TreeFormatter:
 
                 # Check if it's a binary operation with multiplicative operator
                 if isinstance(expr, BinaryOp) and expr.operator in ('*', '/', 'bagi', 'mod', 'dan'):
-                    # Left side
-                    self._children.append(formatter._create_factor(expr.left))
+                    # Left side - recursively handle if also multiplicative BinaryOp
+                    if isinstance(expr.left, BinaryOp) and expr.left.operator in ('*', '/', 'bagi', 'mod', 'dan'):
+                        # Flatten: term contains multiple factor/operator pairs
+                        left_term = formatter._create_term(expr.left)
+                        # Extract children from left term and add to current term
+                        if hasattr(left_term, '_children'):
+                            self._children.extend(left_term._children)
+                    else:
+                        self._children.append(formatter._create_factor(expr.left))
                     # Operator
                     self._children.append(formatter._create_multiplicative_operator(expr.operator))
-                    # Right side
+                    # Right side - always a factor
                     self._children.append(formatter._create_factor(expr.right))
                 else:
                     # Just wrap in factor
@@ -529,7 +571,7 @@ class TreeFormatter:
 
     def _create_factor(self, expr_node) -> Any:
         """Create factor wrapper."""
-        from parse_tree import Number, Variable, String, Char, Boolean, FunctionCall
+        from parse_tree import Number, Variable, String, Char, Boolean, FunctionCall, ParenthesizedExpression, UnaryOp
 
         class FactorWrapper:
             def __init__(self, expr, formatter):
@@ -559,6 +601,10 @@ class TreeFormatter:
                     self._children.append('LPARENTHESIS(()')
                     self._children.append(formatter._create_expression(expr.expression))
                     self._children.append('RPARENTHESIS())')
+                elif isinstance(expr, UnaryOp):
+                    # Unary operator (e.g., "tidak factor" or "+/- factor")
+                    self._children.append(formatter._format_operator(expr.operator))
+                    self._children.append(formatter._create_factor(expr.operand))
                 elif isinstance(expr, FunctionCall):
                     # Function call in factor
                     self._children.append(expr)
@@ -709,8 +755,12 @@ class TreeFormatter:
                             self._children.append(formatter._create_identifier_list(decl.identifiers))
                             # Add colon
                             self._children.append('COLON(:)')
-                            # Add type
-                            self._children.append(decl.type_spec)
+                            # Add type - SimpleType already maps to 'type', so don't wrap
+                            # ArrayType/RecordType need wrapping
+                            if isinstance(decl.type_spec, SimpleType):
+                                self._children.append(decl.type_spec)
+                            else:
+                                self._children.append(formatter._create_type_wrapper(decl.type_spec))
                             # Add semicolon
                             self._children.append('SEMICOLON(;)')
                 return VarDeclarationWrapper(var_decls)
