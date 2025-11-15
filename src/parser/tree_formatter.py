@@ -30,7 +30,6 @@ from parse_tree import (
     Boolean,
     SimpleType,
     ArrayType,
-    ParenthesizedExpression,
     FunctionCall,
 )
 from syntax import Token
@@ -66,6 +65,9 @@ class TreeFormatter:
         self.output = []
         self._format_node(node, "", True, is_root=True)
         return "\n".join(self.output)
+    
+    def __call__(self, node: ASTNode) -> str:
+        return self.format(node)
 
     def _format_node(self, node: Any, prefix: str, is_last: bool, is_root: bool = False):
         """
@@ -105,15 +107,6 @@ class TreeFormatter:
 
         # Format current node
         elif isinstance(node, ASTNode):
-            # Special handling for ParenthesizedExpression - don't create a wrapper node
-            if isinstance(node, ParenthesizedExpression):
-                # Just format the children directly without creating a node
-                children = self._get_children(node)
-                for i, child in enumerate(children):
-                    is_last_child = (i == len(children) - 1)
-                    self._format_node(child, prefix, is_last if i == len(children) - 1 else False)
-                return
-
             # Non-terminal node
             node_name = self._get_node_name(node)
             self.output.append(f"{prefix}{connector}<{node_name}>")
@@ -370,13 +363,6 @@ class TreeFormatter:
                 children.append(self._format_token('KEYWORD', 'dari'))
                 children.append(node.element_type)
 
-        elif isinstance(node, ParenthesizedExpression):
-            # ParenthesizedExpression should be transparent - just expand to LPAREN + expr + RPAREN
-            # This should not create its own node
-            children.append(self._format_token('LPARENTHESIS', '('))
-            children.append(self._create_expression(node.expression))
-            children.append(self._format_token('RPARENTHESIS', ')'))
-
         elif isinstance(node, FunctionCall):
             children.append(self._format_token('IDENTIFIER', node.name))
             children.append(self._format_token('LPARENTHESIS', '('))
@@ -571,7 +557,7 @@ class TreeFormatter:
 
     def _create_factor(self, expr_node) -> Any:
         """Create factor wrapper."""
-        from parse_tree import Number, Variable, String, Char, Boolean, FunctionCall, ParenthesizedExpression, UnaryOp
+        from parse_tree import Number, Variable, String, Char, Boolean, FunctionCall, UnaryOp, BinaryOp
 
         class FactorWrapper:
             def __init__(self, expr, formatter):
@@ -596,15 +582,16 @@ class TreeFormatter:
                     self._children.append(f'CHAR_LITERAL({expr.value})')
                 elif isinstance(expr, Boolean):
                     self._children.append(f'IDENTIFIER({str(expr.value).lower()})')
-                elif isinstance(expr, ParenthesizedExpression):
-                    # Parenthesized expression
-                    self._children.append('LPARENTHESIS(()')
-                    self._children.append(formatter._create_expression(expr.expression))
-                    self._children.append('RPARENTHESIS())')
                 elif isinstance(expr, UnaryOp):
                     # Unary operator (e.g., "tidak factor" or "+/- factor")
                     self._children.append(formatter._format_operator(expr.operator))
                     self._children.append(formatter._create_factor(expr.operand))
+                elif isinstance(expr, BinaryOp):
+                    # BinaryOp in factor means it was parenthesized in source
+                    # Display as: LPAREN + expression + RPAREN
+                    self._children.append('LPARENTHESIS(()')
+                    self._children.append(formatter._create_expression(expr))
+                    self._children.append('RPARENTHESIS())')
                 elif isinstance(expr, FunctionCall):
                     # Function call in factor
                     self._children.append(expr)

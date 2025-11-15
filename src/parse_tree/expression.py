@@ -177,27 +177,6 @@ class Boolean(Expression):
 
 
 @dataclass
-class ParenthesizedExpression(Expression):
-    """
-    Represents a parenthesized expression.
-
-    Grammar:
-        parenthesized_expression -> '(' expression ')'
-    """
-
-    expression: Expression
-
-    def accept(self, visitor: Any) -> Any:
-        return visitor.visit_parenthesized_expression(self)
-
-    def to_dict(self) -> dict:
-        return {
-            'type': 'ParenthesizedExpression',
-            'expression': self.expression.to_dict()
-        }
-
-
-@dataclass
 class FunctionCall(Expression):
     """
     Represents a function call.

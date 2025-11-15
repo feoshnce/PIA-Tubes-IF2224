@@ -994,8 +994,7 @@ class Parser:
             self.advance()
             expr = self.parse_expression()
             self.expect(TokenType.RPARENTHESIS)
-            from parse_tree import ParenthesizedExpression
-            return ParenthesizedExpression(expression=expr)
+            return expr  # Just return the expression directly, no wrapper needed
 
         # NOT operator
         elif self.match(TokenType.LOGICAL_OPERATOR, "tidak"):
