@@ -6,11 +6,11 @@ konstanta
 tipe
     Range1 = 1..100;
     Range2 = 'a'..'z';
-    Matrix = larik[1..5] dari larik[1..5] dari integer;
+    Vector = larik[1..5] dari integer;
 variabel
     r1: Range1;
     r2: Range2;
-    m: Matrix;
+    v: Vector;
 
 prosedur MultiParam(x: integer; y: real; z: char; flag: boolean);
 mulai
@@ -28,7 +28,7 @@ selesai;
 mulai
     r1 := 50;
     r2 := 'm';
-    m[1][1] := 10;
+    v[1] := 10;
     
     MultiParam(100, 3.14, 'X', true);
     

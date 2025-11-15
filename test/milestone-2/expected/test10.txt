@@ -22,23 +22,37 @@
 │   │   ├── KEYWORD(tipe)
 │   │   ├── IDENTIFIER(Range1)
 │   │   ├── ASSIGN_OPERATOR(=)
-│   │   ├── <range>
-│   │   │   ├── <expression>
-│   │   │   │   └── NUMBER(1)
-│   │   │   ├── RANGE_OPERATOR(..)
-│   │   │   └── <expression>
-│   │   │       └── NUMBER(100)
+│   │   ├── <type>
+│   │   │   └── <range>
+│   │   │       ├── <expression>
+│   │   │       │   └── <simple-expression>
+│   │   │       │       └── <term>
+│   │   │       │           └── <factor>
+│   │   │       │               └── NUMBER(1)
+│   │   │       ├── RANGE_OPERATOR(..)
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── NUMBER(100)
 │   │   ├── SEMICOLON(;)
 │   │   ├── IDENTIFIER(Range2)
 │   │   ├── ASSIGN_OPERATOR(=)
-│   │   ├── <range>
-│   │   │   ├── <expression>
-│   │   │   │   └── CHAR_LITERAL('a')
-│   │   │   ├── RANGE_OPERATOR(..)
-│   │   │   └── <expression>
-│   │   │       └── CHAR_LITERAL('z')
+│   │   ├── <type>
+│   │   │   └── <range>
+│   │   │       ├── <expression>
+│   │   │       │   └── <simple-expression>
+│   │   │       │       └── <term>
+│   │   │       │           └── <factor>
+│   │   │       │               └── CHAR_LITERAL('a')
+│   │   │       ├── RANGE_OPERATOR(..)
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── CHAR_LITERAL('z')
 │   │   ├── SEMICOLON(;)
-│   │   ├── IDENTIFIER(Matrix)
+│   │   ├── IDENTIFIER(Vector)
 │   │   ├── ASSIGN_OPERATOR(=)
 │   │   ├── <type>
 │   │   │   └── <array-type>
@@ -46,26 +60,20 @@
 │   │   │       ├── LBRACKET([)
 │   │   │       ├── <range>
 │   │   │       │   ├── <expression>
-│   │   │       │   │   └── NUMBER(1)
+│   │   │       │   │   └── <simple-expression>
+│   │   │       │   │       └── <term>
+│   │   │       │   │           └── <factor>
+│   │   │       │   │               └── NUMBER(1)
 │   │   │       │   ├── RANGE_OPERATOR(..)
 │   │   │       │   └── <expression>
-│   │   │       │       └── NUMBER(5)
+│   │   │       │       └── <simple-expression>
+│   │   │       │           └── <term>
+│   │   │       │               └── <factor>
+│   │   │       │                   └── NUMBER(5)
 │   │   │       ├── RBRACKET(])
 │   │   │       ├── KEYWORD(dari)
 │   │   │       └── <type>
-│   │   │           └── <array-type>
-│   │   │               ├── KEYWORD(larik)
-│   │   │               ├── LBRACKET([)
-│   │   │               ├── <range>
-│   │   │               │   ├── <expression>
-│   │   │               │   │   └── NUMBER(1)
-│   │   │               │   ├── RANGE_OPERATOR(..)
-│   │   │               │   └── <expression>
-│   │   │               │       └── NUMBER(5)
-│   │   │               ├── RBRACKET(])
-│   │   │               ├── KEYWORD(dari)
-│   │   │               └── <type>
-│   │   │                   └── KEYWORD(integer)
+│   │   │           └── KEYWORD(integer)
 │   │   └── SEMICOLON(;)
 │   ├── <var-declaration>
 │   │   ├── KEYWORD(variabel)
@@ -82,10 +90,10 @@
 │   │   │   └── IDENTIFIER(Range2)
 │   │   ├── SEMICOLON(;)
 │   │   ├── <identifier-list>
-│   │   │   └── IDENTIFIER(m)
+│   │   │   └── IDENTIFIER(v)
 │   │   ├── COLON(:)
 │   │   ├── <type>
-│   │   │   └── IDENTIFIER(Matrix)
+│   │   │   └── IDENTIFIER(Vector)
 │   │   └── SEMICOLON(;)
 │   ├── <subprogram-declaration>
 │   │   └── <procedure-declaration>
@@ -194,44 +202,63 @@
 │   │   │   ├── IDENTIFIER(r1)
 │   │   │   ├── ASSIGN_OPERATOR(:=)
 │   │   │   └── <expression>
-│   │   │       └── NUMBER(50)
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(50)
 │   │   ├── SEMICOLON(;)
 │   │   ├── <assignment-statement>
 │   │   │   ├── IDENTIFIER(r2)
 │   │   │   ├── ASSIGN_OPERATOR(:=)
 │   │   │   └── <expression>
-│   │   │       └── CHAR_LITERAL('m')
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── CHAR_LITERAL('m')
 │   │   ├── SEMICOLON(;)
 │   │   ├── <assignment-statement>
-│   │   │   ├── <variable-access>
-│   │   │   │   ├── IDENTIFIER(m)
-│   │   │   │   ├── LBRACKET([)
-│   │   │   │   ├── <expression>
-│   │   │   │   │   └── NUMBER(1)
-│   │   │   │   ├── RBRACKET(])
-│   │   │   │   ├── LBRACKET([)
-│   │   │   │   ├── <expression>
-│   │   │   │   │   └── NUMBER(1)
-│   │   │   │   └── RBRACKET(])
+│   │   │   ├── IDENTIFIER(v)
+│   │   │   ├── LBRACKET([)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(1)
+│   │   │   ├── RBRACKET(])
 │   │   │   ├── ASSIGN_OPERATOR(:=)
 │   │   │   └── <expression>
-│   │   │       └── NUMBER(10)
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(10)
 │   │   ├── SEMICOLON(;)
 │   │   ├── <procedure/function-call>
 │   │   │   ├── IDENTIFIER(MultiParam)
 │   │   │   ├── LPARENTHESIS(()
 │   │   │   ├── <parameter-list>
 │   │   │   │   ├── <expression>
-│   │   │   │   │   └── NUMBER(100)
+│   │   │   │   │   └── <simple-expression>
+│   │   │   │   │       └── <term>
+│   │   │   │   │           └── <factor>
+│   │   │   │   │               └── NUMBER(100)
 │   │   │   │   ├── COMMA(,)
 │   │   │   │   ├── <expression>
-│   │   │   │   │   └── NUMBER(3.14)
+│   │   │   │   │   └── <simple-expression>
+│   │   │   │   │       └── <term>
+│   │   │   │   │           └── <factor>
+│   │   │   │   │               └── NUMBER(3.14)
 │   │   │   │   ├── COMMA(,)
 │   │   │   │   ├── <expression>
-│   │   │   │   │   └── CHAR_LITERAL('X')
+│   │   │   │   │   └── <simple-expression>
+│   │   │   │   │       └── <term>
+│   │   │   │   │           └── <factor>
+│   │   │   │   │               └── CHAR_LITERAL('X')
 │   │   │   │   ├── COMMA(,)
 │   │   │   │   └── <expression>
-│   │   │   │       └── KEYWORD(true)
+│   │   │   │       └── <simple-expression>
+│   │   │   │           └── <term>
+│   │   │   │               └── <factor>
+│   │   │   │                   └── IDENTIFIER(true)
 │   │   │   └── RPARENTHESIS())
 │   │   ├── SEMICOLON(;)
 │   │   ├── <assignment-statement>
@@ -254,7 +281,10 @@
 │   │   │                       │                       ├── LPARENTHESIS(()
 │   │   │                       │                       ├── <parameter-list>
 │   │   │                       │                       │   └── <expression>
-│   │   │                       │                       │       └── NUMBER(5)
+│   │   │                       │                       │       └── <simple-expression>
+│   │   │                       │                       │           └── <term>
+│   │   │                       │                       │               └── <factor>
+│   │   │                       │                       │                   └── NUMBER(5)
 │   │   │                       │                       └── RPARENTHESIS())
 │   │   │                       └── RPARENTHESIS())
 │   │   ├── SEMICOLON(;)
@@ -264,7 +294,7 @@
 │   │       │   └── <simple-expression>
 │   │       │       └── <term>
 │   │       │           ├── <factor>
-│   │       │           │   ├── KEYWORD(tidak)
+│   │       │           │   ├── LOGICAL_OPERATOR(tidak)
 │   │       │           │   └── <factor>
 │   │       │           │       ├── LPARENTHESIS(()
 │   │       │           │       ├── <expression>
@@ -285,7 +315,7 @@
 │   │       │           │       │       │       │               └── NUMBER(5)
 │   │       │           │       │       │       └── RPARENTHESIS())
 │   │       │           │       │       ├── <additive-operator>
-│   │       │           │       │       │   └── KEYWORD(atau)
+│   │       │           │       │       │   └── LOGICAL_OPERATOR(atau)
 │   │       │           │       │       └── <term>
 │   │       │           │       │           └── <factor>
 │   │       │           │       │               ├── LPARENTHESIS(()
@@ -303,7 +333,7 @@
 │   │       │           │       │               └── RPARENTHESIS())
 │   │       │           │       └── RPARENTHESIS())
 │   │       │           ├── <multiplicative-operator>
-│   │       │           │   └── KEYWORD(dan)
+│   │       │           │   └── LOGICAL_OPERATOR(dan)
 │   │       │           └── <factor>
 │   │       │               ├── LPARENTHESIS(()
 │   │       │               ├── <expression>
