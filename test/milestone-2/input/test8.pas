@@ -13,7 +13,7 @@ selesai;
 
 mulai
     untuk i := 10 turun-ke 1 lakukan
-        EmptyProc;
+        EmptyProc();
     
     i := EmptyFunc()
 selesai.

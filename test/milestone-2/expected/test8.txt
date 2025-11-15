@@ -64,7 +64,9 @@
 │   │   │   │               └── NUMBER(1)
 │   │   │   ├── KEYWORD(lakukan)
 │   │   │   └── <procedure/function-call>
-│   │   │       └── IDENTIFIER(EmptyProc)
+│   │   │       ├── IDENTIFIER(EmptyProc)
+│   │   │       ├── LPARENTHESIS(()
+│   │   │       └── RPARENTHESIS())
 │   │   ├── SEMICOLON(;)
 │   │   └── <assignment-statement>
 │   │       ├── IDENTIFIER(i)
