@@ -23,36 +23,34 @@
 │   │   ├── IDENTIFIER(Range1)
 │   │   ├── ASSIGN_OPERATOR(=)
 │   │   ├── <type>
-│   │   │   └── <array-type>
-│   │   │       └── <range>
-│   │   │           ├── <expression>
-│   │   │           │   └── <simple-expression>
-│   │   │           │       └── <term>
-│   │   │           │           └── <factor>
-│   │   │           │               └── NUMBER(1)
-│   │   │           ├── RANGE_OPERATOR(..)
-│   │   │           └── <expression>
-│   │   │               └── <simple-expression>
-│   │   │                   └── <term>
-│   │   │                       └── <factor>
-│   │   │                           └── NUMBER(100)
+│   │   │   └── <range>
+│   │   │       ├── <expression>
+│   │   │       │   └── <simple-expression>
+│   │   │       │       └── <term>
+│   │   │       │           └── <factor>
+│   │   │       │               └── NUMBER(1)
+│   │   │       ├── RANGE_OPERATOR(..)
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── NUMBER(100)
 │   │   ├── SEMICOLON(;)
 │   │   ├── IDENTIFIER(Range2)
 │   │   ├── ASSIGN_OPERATOR(=)
 │   │   ├── <type>
-│   │   │   └── <array-type>
-│   │   │       └── <range>
-│   │   │           ├── <expression>
-│   │   │           │   └── <simple-expression>
-│   │   │           │       └── <term>
-│   │   │           │           └── <factor>
-│   │   │           │               └── CHAR_LITERAL('a')
-│   │   │           ├── RANGE_OPERATOR(..)
-│   │   │           └── <expression>
-│   │   │               └── <simple-expression>
-│   │   │                   └── <term>
-│   │   │                       └── <factor>
-│   │   │                           └── CHAR_LITERAL('z')
+│   │   │   └── <range>
+│   │   │       ├── <expression>
+│   │   │       │   └── <simple-expression>
+│   │   │       │       └── <term>
+│   │   │       │           └── <factor>
+│   │   │       │               └── CHAR_LITERAL('a')
+│   │   │       ├── RANGE_OPERATOR(..)
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── CHAR_LITERAL('z')
 │   │   ├── SEMICOLON(;)
 │   │   ├── IDENTIFIER(Vector)
 │   │   ├── ASSIGN_OPERATOR(=)
@@ -109,18 +107,21 @@
 │   │       │   │   ├── COLON(:)
 │   │       │   │   └── <type>
 │   │       │   │       └── KEYWORD(integer)
+│   │       │   ├── SEMICOLON(;)
 │   │       │   ├── <parameter-group>
 │   │       │   │   ├── <identifier-list>
 │   │       │   │   │   └── IDENTIFIER(y)
 │   │       │   │   ├── COLON(:)
 │   │       │   │   └── <type>
 │   │       │   │       └── KEYWORD(real)
+│   │       │   ├── SEMICOLON(;)
 │   │       │   ├── <parameter-group>
 │   │       │   │   ├── <identifier-list>
 │   │       │   │   │   └── IDENTIFIER(z)
 │   │       │   │   ├── COLON(:)
 │   │       │   │   └── <type>
 │   │       │   │       └── KEYWORD(char)
+│   │       │   ├── SEMICOLON(;)
 │   │       │   ├── <parameter-group>
 │   │       │   │   ├── <identifier-list>
 │   │       │   │   │   └── IDENTIFIER(flag)
