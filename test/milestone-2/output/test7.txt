@@ -1,0 +1,9 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(MinimalTest)
+│   └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   └── KEYWORD(selesai)
+└── DOT(.)

@@ -1,0 +1,141 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(ArrayStrictTest)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   ├── <const-declaration>
+│   │   ├── KEYWORD(konstanta)
+│   │   ├── IDENTIFIER(MAX_COUNT)
+│   │   ├── ASSIGN_OPERATOR(=)
+│   │   ├── NUMBER(10)
+│   │   └── SEMICOLON(;)
+│   └── <var-declaration>
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(data_int)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── <array-type>
+│       │       ├── KEYWORD(larik)
+│       │       ├── LBRACKET([)
+│       │       ├── <range>
+│       │       │   ├── <expression>
+│       │       │   │   └── <simple-expression>
+│       │       │   │       └── <term>
+│       │       │   │           └── <factor>
+│       │       │   │               └── NUMBER(1)
+│       │       │   ├── RANGE_OPERATOR(..)
+│       │       │   └── <expression>
+│       │       │       └── <simple-expression>
+│       │       │           └── <term>
+│       │       │               └── <factor>
+│       │       │                   └── IDENTIFIER(MAX_COUNT)
+│       │       ├── RBRACKET(])
+│       │       ├── KEYWORD(dari)
+│       │       └── <type>
+│       │           └── KEYWORD(integer)
+│       ├── SEMICOLON(;)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(i)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       ├── SEMICOLON(;)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(total)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(total)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(0)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <for-statement>
+│   │   │   ├── KEYWORD(untuk)
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(1)
+│   │   │   ├── KEYWORD(ke)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── IDENTIFIER(MAX_COUNT)
+│   │   │   ├── KEYWORD(lakukan)
+│   │   │   └── <compound-statement>
+│   │   │       ├── KEYWORD(mulai)
+│   │   │       ├── <statement-list>
+│   │   │       │   ├── <assignment-statement>
+│   │   │       │   │   ├── IDENTIFIER(data_int)
+│   │   │       │   │   ├── LBRACKET([)
+│   │   │       │   │   ├── <expression>
+│   │   │       │   │   │   └── <simple-expression>
+│   │   │       │   │   │       └── <term>
+│   │   │       │   │   │           └── <factor>
+│   │   │       │   │   │               └── IDENTIFIER(i)
+│   │   │       │   │   ├── RBRACKET(])
+│   │   │       │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │       │   │   └── <expression>
+│   │   │       │   │       └── <simple-expression>
+│   │   │       │   │           └── <term>
+│   │   │       │   │               ├── <factor>
+│   │   │       │   │               │   └── IDENTIFIER(i)
+│   │   │       │   │               ├── <multiplicative-operator>
+│   │   │       │   │               │   └── ARITHMETIC_OPERATOR(*)
+│   │   │       │   │               └── <factor>
+│   │   │       │   │                   └── NUMBER(2)
+│   │   │       │   ├── SEMICOLON(;)
+│   │   │       │   └── <assignment-statement>
+│   │   │       │       ├── IDENTIFIER(total)
+│   │   │       │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       │       └── <expression>
+│   │   │       │           └── <simple-expression>
+│   │   │       │               ├── <term>
+│   │   │       │               │   └── <factor>
+│   │   │       │               │       └── IDENTIFIER(total)
+│   │   │       │               ├── <additive-operator>
+│   │   │       │               │   └── ARITHMETIC_OPERATOR(+)
+│   │   │       │               └── <term>
+│   │   │       │                   └── <factor>
+│   │   │       │                       ├── IDENTIFIER(data_int)
+│   │   │       │                       ├── LBRACKET([)
+│   │   │       │                       ├── <expression>
+│   │   │       │                       │   └── <simple-expression>
+│   │   │       │                       │       └── <term>
+│   │   │       │                       │           └── <factor>
+│   │   │       │                       │               └── IDENTIFIER(i)
+│   │   │       │                       └── RBRACKET(])
+│   │   │       └── KEYWORD(selesai)
+│   │   ├── SEMICOLON(;)
+│   │   └── <procedure/function-call>
+│   │       ├── IDENTIFIER(writeln)
+│   │       ├── LPARENTHESIS(()
+│   │       ├── <parameter-list>
+│   │       │   ├── <expression>
+│   │       │   │   └── <simple-expression>
+│   │       │   │       └── <term>
+│   │       │   │           └── <factor>
+│   │       │   │               └── STRING_LITERAL('Sum: ')
+│   │       │   ├── COMMA(,)
+│   │       │   └── <expression>
+│   │       │       └── <simple-expression>
+│   │       │           └── <term>
+│   │       │               └── <factor>
+│   │       │                   └── IDENTIFIER(total)
+│   │       └── RPARENTHESIS())
+│   └── KEYWORD(selesai)
+└── DOT(.)

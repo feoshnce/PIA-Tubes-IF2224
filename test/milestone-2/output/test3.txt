@@ -1,0 +1,98 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(LoopTest)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   ├── IDENTIFIER(i)
+│       │   ├── COMMA(,)
+│       │   ├── IDENTIFIER(sum)
+│       │   ├── COMMA(,)
+│       │   └── IDENTIFIER(count)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(sum)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(0)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <for-statement>
+│   │   │   ├── KEYWORD(untuk)
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(1)
+│   │   │   ├── KEYWORD(ke)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(10)
+│   │   │   ├── KEYWORD(lakukan)
+│   │   │   └── <assignment-statement>
+│   │   │       ├── IDENTIFIER(sum)
+│   │   │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               ├── <term>
+│   │   │               │   └── <factor>
+│   │   │               │       └── IDENTIFIER(sum)
+│   │   │               ├── <additive-operator>
+│   │   │               │   └── ARITHMETIC_OPERATOR(+)
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── IDENTIFIER(i)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(count)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(0)
+│   │   ├── SEMICOLON(;)
+│   │   └── <while-statement>
+│   │       ├── KEYWORD(selama)
+│   │       ├── <expression>
+│   │       │   ├── <simple-expression>
+│   │       │   │   └── <term>
+│   │       │   │       └── <factor>
+│   │       │   │           └── IDENTIFIER(count)
+│   │       │   ├── <relational-operator>
+│   │       │   │   └── RELATIONAL_OPERATOR(<)
+│   │       │   └── <simple-expression>
+│   │       │       └── <term>
+│   │       │           └── <factor>
+│   │       │               └── NUMBER(5)
+│   │       ├── KEYWORD(lakukan)
+│   │       └── <assignment-statement>
+│   │           ├── IDENTIFIER(count)
+│   │           ├── ASSIGN_OPERATOR(:=)
+│   │           └── <expression>
+│   │               └── <simple-expression>
+│   │                   ├── <term>
+│   │                   │   └── <factor>
+│   │                   │       └── IDENTIFIER(count)
+│   │                   ├── <additive-operator>
+│   │                   │   └── ARITHMETIC_OPERATOR(+)
+│   │                   └── <term>
+│   │                       └── <factor>
+│   │                           └── NUMBER(1)
+│   └── KEYWORD(selesai)
+└── DOT(.)
