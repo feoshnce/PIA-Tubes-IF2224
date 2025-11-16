@@ -1,0 +1,261 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(ComplexExpressionTest)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   ├── IDENTIFIER(a)
+│       │   ├── COMMA(,)
+│       │   ├── IDENTIFIER(b)
+│       │   ├── COMMA(,)
+│       │   └── IDENTIFIER(c)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       ├── SEMICOLON(;)
+│       ├── <identifier-list>
+│       │   ├── IDENTIFIER(x)
+│       │   ├── COMMA(,)
+│       │   └── IDENTIFIER(y)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(real)
+│       ├── SEMICOLON(;)
+│       ├── <identifier-list>
+│       │   ├── IDENTIFIER(flag)
+│       │   ├── COMMA(,)
+│       │   └── IDENTIFIER(result)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(boolean)
+│       └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(a)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(10)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(b)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(5)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(c)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(3)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(x)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               ├── <factor>
+│   │   │               │   ├── LPARENTHESIS(()
+│   │   │               │   ├── <expression>
+│   │   │               │   │   └── <simple-expression>
+│   │   │               │   │       ├── <term>
+│   │   │               │   │       │   └── <factor>
+│   │   │               │   │       │       └── IDENTIFIER(a)
+│   │   │               │   │       ├── <additive-operator>
+│   │   │               │   │       │   └── ARITHMETIC_OPERATOR(+)
+│   │   │               │   │       └── <term>
+│   │   │               │   │           └── <factor>
+│   │   │               │   │               └── IDENTIFIER(b)
+│   │   │               │   └── RPARENTHESIS())
+│   │   │               ├── <multiplicative-operator>
+│   │   │               │   └── ARITHMETIC_OPERATOR(*)
+│   │   │               ├── <factor>
+│   │   │               │   └── IDENTIFIER(c)
+│   │   │               ├── <multiplicative-operator>
+│   │   │               │   └── ARITHMETIC_OPERATOR(/)
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(2.0)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(y)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           ├── <term>
+│   │   │           │   ├── <factor>
+│   │   │           │   │   └── IDENTIFIER(a)
+│   │   │           │   ├── <multiplicative-operator>
+│   │   │           │   │   └── ARITHMETIC_OPERATOR(bagi)
+│   │   │           │   └── <factor>
+│   │   │           │       └── IDENTIFIER(b)
+│   │   │           ├── <additive-operator>
+│   │   │           │   └── ARITHMETIC_OPERATOR(+)
+│   │   │           └── <term>
+│   │   │               ├── <factor>
+│   │   │               │   └── IDENTIFIER(c)
+│   │   │               ├── <multiplicative-operator>
+│   │   │               │   └── ARITHMETIC_OPERATOR(mod)
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(2)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(flag)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               ├── <factor>
+│   │   │               │   ├── LPARENTHESIS(()
+│   │   │               │   ├── <expression>
+│   │   │               │   │   ├── <simple-expression>
+│   │   │               │   │   │   └── <term>
+│   │   │               │   │   │       └── <factor>
+│   │   │               │   │   │           └── IDENTIFIER(a)
+│   │   │               │   │   ├── <relational-operator>
+│   │   │               │   │   │   └── RELATIONAL_OPERATOR(>)
+│   │   │               │   │   └── <simple-expression>
+│   │   │               │   │       └── <term>
+│   │   │               │   │           └── <factor>
+│   │   │               │   │               └── IDENTIFIER(b)
+│   │   │               │   └── RPARENTHESIS())
+│   │   │               ├── <multiplicative-operator>
+│   │   │               │   └── LOGICAL_OPERATOR(dan)
+│   │   │               └── <factor>
+│   │   │                   ├── LPARENTHESIS(()
+│   │   │                   ├── <expression>
+│   │   │                   │   ├── <simple-expression>
+│   │   │                   │   │   └── <term>
+│   │   │                   │   │       └── <factor>
+│   │   │                   │   │           └── IDENTIFIER(b)
+│   │   │                   │   ├── <relational-operator>
+│   │   │                   │   │   └── RELATIONAL_OPERATOR(<)
+│   │   │                   │   └── <simple-expression>
+│   │   │                   │       └── <term>
+│   │   │                   │           └── <factor>
+│   │   │                   │               └── IDENTIFIER(c)
+│   │   │                   └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(result)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           ├── <term>
+│   │   │           │   └── <factor>
+│   │   │           │       ├── LOGICAL_OPERATOR(tidak)
+│   │   │           │       └── <factor>
+│   │   │           │           └── IDENTIFIER(flag)
+│   │   │           ├── <additive-operator>
+│   │   │           │   └── LOGICAL_OPERATOR(atau)
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   ├── LPARENTHESIS(()
+│   │   │                   ├── <expression>
+│   │   │                   │   ├── <simple-expression>
+│   │   │                   │   │   └── <term>
+│   │   │                   │   │       └── <factor>
+│   │   │                   │   │           └── IDENTIFIER(a)
+│   │   │                   │   ├── <relational-operator>
+│   │   │                   │   │   └── RELATIONAL_OPERATOR(<>)
+│   │   │                   │   └── <simple-expression>
+│   │   │                   │       └── <term>
+│   │   │                   │           └── <factor>
+│   │   │                   │               └── IDENTIFIER(c)
+│   │   │                   └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   └── <if-statement>
+│   │       ├── KEYWORD(jika)
+│   │       ├── <expression>
+│   │       │   └── <simple-expression>
+│   │       │       └── <term>
+│   │       │           ├── <factor>
+│   │       │           │   ├── LPARENTHESIS(()
+│   │       │           │   ├── <expression>
+│   │       │           │   │   ├── <simple-expression>
+│   │       │           │   │   │   └── <term>
+│   │       │           │   │   │       └── <factor>
+│   │       │           │   │   │           └── IDENTIFIER(a)
+│   │       │           │   │   ├── <relational-operator>
+│   │       │           │   │   │   └── RELATIONAL_OPERATOR(>=)
+│   │       │           │   │   └── <simple-expression>
+│   │       │           │   │       └── <term>
+│   │       │           │   │           └── <factor>
+│   │       │           │   │               └── NUMBER(10)
+│   │       │           │   └── RPARENTHESIS())
+│   │       │           ├── <multiplicative-operator>
+│   │       │           │   └── LOGICAL_OPERATOR(dan)
+│   │       │           └── <factor>
+│   │       │               ├── LPARENTHESIS(()
+│   │       │               ├── <expression>
+│   │       │               │   └── <simple-expression>
+│   │       │               │       ├── <term>
+│   │       │               │       │   └── <factor>
+│   │       │               │       │       ├── LPARENTHESIS(()
+│   │       │               │       │       ├── <expression>
+│   │       │               │       │       │   ├── <simple-expression>
+│   │       │               │       │       │   │   └── <term>
+│   │       │               │       │       │   │       └── <factor>
+│   │       │               │       │       │   │           └── IDENTIFIER(b)
+│   │       │               │       │       │   ├── <relational-operator>
+│   │       │               │       │       │   │   └── RELATIONAL_OPERATOR(<=)
+│   │       │               │       │       │   └── <simple-expression>
+│   │       │               │       │       │       └── <term>
+│   │       │               │       │       │           └── <factor>
+│   │       │               │       │       │               └── NUMBER(5)
+│   │       │               │       │       └── RPARENTHESIS())
+│   │       │               │       ├── <additive-operator>
+│   │       │               │       │   └── LOGICAL_OPERATOR(atau)
+│   │       │               │       └── <term>
+│   │       │               │           └── <factor>
+│   │       │               │               ├── LPARENTHESIS(()
+│   │       │               │               ├── <expression>
+│   │       │               │               │   ├── <simple-expression>
+│   │       │               │               │   │   └── <term>
+│   │       │               │               │   │       └── <factor>
+│   │       │               │               │   │           └── IDENTIFIER(c)
+│   │       │               │               │   ├── <relational-operator>
+│   │       │               │               │   │   └── RELATIONAL_OPERATOR(=)
+│   │       │               │               │   └── <simple-expression>
+│   │       │               │               │       └── <term>
+│   │       │               │               │           └── <factor>
+│   │       │               │               │               └── NUMBER(3)
+│   │       │               │               └── RPARENTHESIS())
+│   │       │               └── RPARENTHESIS())
+│   │       ├── KEYWORD(maka)
+│   │       ├── <procedure/function-call>
+│   │       │   ├── IDENTIFIER(writeln)
+│   │       │   ├── LPARENTHESIS(()
+│   │       │   ├── <parameter-list>
+│   │       │   │   └── <expression>
+│   │       │   │       └── <simple-expression>
+│   │       │   │           └── <term>
+│   │       │   │               └── <factor>
+│   │       │   │                   └── STRING_LITERAL('Condition is true')
+│   │       │   └── RPARENTHESIS())
+│   │       ├── KEYWORD(selain-itu)
+│   │       └── <procedure/function-call>
+│   │           ├── IDENTIFIER(writeln)
+│   │           ├── LPARENTHESIS(()
+│   │           ├── <parameter-list>
+│   │           │   └── <expression>
+│   │           │       └── <simple-expression>
+│   │           │           └── <term>
+│   │           │               └── <factor>
+│   │           │                   └── STRING_LITERAL('Condition is false')
+│   │           └── RPARENTHESIS())
+│   └── KEYWORD(selesai)
+└── DOT(.)

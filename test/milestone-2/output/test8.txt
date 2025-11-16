@@ -1,0 +1,83 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(EmptyDowntoTest)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   ├── <var-declaration>
+│   │   ├── KEYWORD(variabel)
+│   │   ├── <identifier-list>
+│   │   │   └── IDENTIFIER(i)
+│   │   ├── COLON(:)
+│   │   ├── <type>
+│   │   │   └── KEYWORD(integer)
+│   │   └── SEMICOLON(;)
+│   ├── <subprogram-declaration>
+│   │   └── <procedure-declaration>
+│   │       ├── KEYWORD(prosedur)
+│   │       ├── IDENTIFIER(EmptyProc)
+│   │       ├── SEMICOLON(;)
+│   │       ├── <block>
+│   │       │   └── <compound-statement>
+│   │       │       ├── KEYWORD(mulai)
+│   │       │       └── KEYWORD(selesai)
+│   │       └── SEMICOLON(;)
+│   └── <subprogram-declaration>
+│       └── <function-declaration>
+│           ├── KEYWORD(fungsi)
+│           ├── IDENTIFIER(EmptyFunc)
+│           ├── COLON(:)
+│           ├── <type>
+│           │   └── KEYWORD(integer)
+│           ├── SEMICOLON(;)
+│           ├── <block>
+│           │   └── <compound-statement>
+│           │       ├── KEYWORD(mulai)
+│           │       ├── <statement-list>
+│           │       │   └── <assignment-statement>
+│           │       │       ├── IDENTIFIER(EmptyFunc)
+│           │       │       ├── ASSIGN_OPERATOR(:=)
+│           │       │       └── <expression>
+│           │       │           └── <simple-expression>
+│           │       │               └── <term>
+│           │       │                   └── <factor>
+│           │       │                       └── NUMBER(0)
+│           │       └── KEYWORD(selesai)
+│           └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   ├── <statement-list>
+│   │   ├── <for-statement>
+│   │   │   ├── KEYWORD(untuk)
+│   │   │   ├── IDENTIFIER(i)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(10)
+│   │   │   ├── KEYWORD(turun-ke)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               └── NUMBER(1)
+│   │   │   ├── KEYWORD(lakukan)
+│   │   │   └── <procedure/function-call>
+│   │   │       ├── IDENTIFIER(EmptyProc)
+│   │   │       ├── LPARENTHESIS(()
+│   │   │       └── RPARENTHESIS())
+│   │   ├── SEMICOLON(;)
+│   │   └── <assignment-statement>
+│   │       ├── IDENTIFIER(i)
+│   │       ├── ASSIGN_OPERATOR(:=)
+│   │       └── <expression>
+│   │           └── <simple-expression>
+│   │               └── <term>
+│   │                   └── <factor>
+│   │                       └── <procedure/function-call>
+│   │                           ├── IDENTIFIER(EmptyFunc)
+│   │                           ├── LPARENTHESIS(()
+│   │                           └── RPARENTHESIS())
+│   └── KEYWORD(selesai)
+└── DOT(.)
