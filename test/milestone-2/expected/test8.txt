@@ -17,9 +17,10 @@
 │   │       ├── KEYWORD(prosedur)
 │   │       ├── IDENTIFIER(EmptyProc)
 │   │       ├── SEMICOLON(;)
-│   │       ├── <compound-statement>
-│   │       │   ├── KEYWORD(mulai)
-│   │       │   └── KEYWORD(selesai)
+│   │       ├── <block>
+│   │       │   └── <compound-statement>
+│   │       │       ├── KEYWORD(mulai)
+│   │       │       └── KEYWORD(selesai)
 │   │       └── SEMICOLON(;)
 │   └── <subprogram-declaration>
 │       └── <function-declaration>
@@ -29,18 +30,19 @@
 │           ├── <type>
 │           │   └── KEYWORD(integer)
 │           ├── SEMICOLON(;)
-│           ├── <compound-statement>
-│           │   ├── KEYWORD(mulai)
-│           │   ├── <statement-list>
-│           │   │   └── <assignment-statement>
-│           │   │       ├── IDENTIFIER(EmptyFunc)
-│           │   │       ├── ASSIGN_OPERATOR(:=)
-│           │   │       └── <expression>
-│           │   │           └── <simple-expression>
-│           │   │               └── <term>
-│           │   │                   └── <factor>
-│           │   │                       └── NUMBER(0)
-│           │   └── KEYWORD(selesai)
+│           ├── <block>
+│           │   └── <compound-statement>
+│           │       ├── KEYWORD(mulai)
+│           │       ├── <statement-list>
+│           │       │   └── <assignment-statement>
+│           │       │       ├── IDENTIFIER(EmptyFunc)
+│           │       │       ├── ASSIGN_OPERATOR(:=)
+│           │       │       └── <expression>
+│           │       │           └── <simple-expression>
+│           │       │               └── <term>
+│           │       │                   └── <factor>
+│           │       │                       └── NUMBER(0)
+│           │       └── KEYWORD(selesai)
 │           └── SEMICOLON(;)
 ├── <compound-statement>
 │   ├── KEYWORD(mulai)
