@@ -11,6 +11,11 @@ class ASTNode(ABC):
     Abstract base class for all AST nodes.
     """
 
+    def __init__(self):
+        self.tab_index: int = None
+        self.sym_type: Any = None
+        self.sym_level: int = None
+
     @abstractmethod
     def accept(self, visitor: Any) -> Any:
         """
