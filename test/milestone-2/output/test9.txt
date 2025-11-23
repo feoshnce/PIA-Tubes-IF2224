@@ -1,0 +1,154 @@
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(NestedCompoundTest)
+│   └── SEMICOLON(;)
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── KEYWORD(variabel)
+│       ├── <identifier-list>
+│       │   ├── IDENTIFIER(x)
+│       │   ├── COMMA(,)
+│       │   └── IDENTIFIER(y)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(integer)
+│       ├── SEMICOLON(;)
+│       ├── <identifier-list>
+│       │   └── IDENTIFIER(done)
+│       ├── COLON(:)
+│       ├── <type>
+│       │   └── KEYWORD(boolean)
+│       └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   ├── <statement-list>
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(x)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── NUMBER(0)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <assignment-statement>
+│   │   │   ├── IDENTIFIER(done)
+│   │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │   └── <expression>
+│   │   │       └── <simple-expression>
+│   │   │           └── <term>
+│   │   │               └── <factor>
+│   │   │                   └── IDENTIFIER(false)
+│   │   ├── SEMICOLON(;)
+│   │   ├── <while-statement>
+│   │   │   ├── KEYWORD(selama)
+│   │   │   ├── <expression>
+│   │   │   │   └── <simple-expression>
+│   │   │   │       └── <term>
+│   │   │   │           └── <factor>
+│   │   │   │               ├── LOGICAL_OPERATOR(tidak)
+│   │   │   │               └── <factor>
+│   │   │   │                   └── IDENTIFIER(done)
+│   │   │   ├── KEYWORD(lakukan)
+│   │   │   └── <compound-statement>
+│   │   │       ├── KEYWORD(mulai)
+│   │   │       ├── <statement-list>
+│   │   │       │   ├── <assignment-statement>
+│   │   │       │   │   ├── IDENTIFIER(x)
+│   │   │       │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │       │   │   └── <expression>
+│   │   │       │   │       └── <simple-expression>
+│   │   │       │   │           ├── <term>
+│   │   │       │   │           │   └── <factor>
+│   │   │       │   │           │       └── IDENTIFIER(x)
+│   │   │       │   │           ├── <additive-operator>
+│   │   │       │   │           │   └── ARITHMETIC_OPERATOR(+)
+│   │   │       │   │           └── <term>
+│   │   │       │   │               └── <factor>
+│   │   │       │   │                   └── NUMBER(1)
+│   │   │       │   ├── SEMICOLON(;)
+│   │   │       │   ├── <assignment-statement>
+│   │   │       │   │   ├── IDENTIFIER(y)
+│   │   │       │   │   ├── ASSIGN_OPERATOR(:=)
+│   │   │       │   │   └── <expression>
+│   │   │       │   │       └── <simple-expression>
+│   │   │       │   │           └── <term>
+│   │   │       │   │               ├── <factor>
+│   │   │       │   │               │   └── IDENTIFIER(x)
+│   │   │       │   │               ├── <multiplicative-operator>
+│   │   │       │   │               │   └── ARITHMETIC_OPERATOR(*)
+│   │   │       │   │               └── <factor>
+│   │   │       │   │                   └── NUMBER(2)
+│   │   │       │   ├── SEMICOLON(;)
+│   │   │       │   └── <if-statement>
+│   │   │       │       ├── KEYWORD(jika)
+│   │   │       │       ├── <expression>
+│   │   │       │       │   ├── <simple-expression>
+│   │   │       │       │   │   └── <term>
+│   │   │       │       │   │       └── <factor>
+│   │   │       │       │   │           └── IDENTIFIER(y)
+│   │   │       │       │   ├── <relational-operator>
+│   │   │       │       │   │   └── RELATIONAL_OPERATOR(>)
+│   │   │       │       │   └── <simple-expression>
+│   │   │       │       │       └── <term>
+│   │   │       │       │           └── <factor>
+│   │   │       │       │               └── NUMBER(5)
+│   │   │       │       ├── KEYWORD(maka)
+│   │   │       │       ├── <compound-statement>
+│   │   │       │       │   ├── KEYWORD(mulai)
+│   │   │       │       │   ├── <statement-list>
+│   │   │       │       │   │   ├── <procedure/function-call>
+│   │   │       │       │   │   │   ├── IDENTIFIER(writeln)
+│   │   │       │       │   │   │   ├── LPARENTHESIS(()
+│   │   │       │       │   │   │   ├── <parameter-list>
+│   │   │       │       │   │   │   │   └── <expression>
+│   │   │       │       │   │   │   │       └── <simple-expression>
+│   │   │       │       │   │   │   │           └── <term>
+│   │   │       │       │   │   │   │               └── <factor>
+│   │   │       │       │   │   │   │                   └── IDENTIFIER(y)
+│   │   │       │       │   │   │   └── RPARENTHESIS())
+│   │   │       │       │   │   ├── SEMICOLON(;)
+│   │   │       │       │   │   └── <assignment-statement>
+│   │   │       │       │   │       ├── IDENTIFIER(done)
+│   │   │       │       │   │       ├── ASSIGN_OPERATOR(:=)
+│   │   │       │       │   │       └── <expression>
+│   │   │       │       │   │           └── <simple-expression>
+│   │   │       │       │   │               └── <term>
+│   │   │       │       │   │                   └── <factor>
+│   │   │       │       │   │                       └── IDENTIFIER(true)
+│   │   │       │       │   └── KEYWORD(selesai)
+│   │   │       │       ├── KEYWORD(selain-itu)
+│   │   │       │       └── <assignment-statement>
+│   │   │       │           ├── IDENTIFIER(done)
+│   │   │       │           ├── ASSIGN_OPERATOR(:=)
+│   │   │       │           └── <expression>
+│   │   │       │               └── <simple-expression>
+│   │   │       │                   └── <term>
+│   │   │       │                       └── <factor>
+│   │   │       │                           └── IDENTIFIER(false)
+│   │   │       └── KEYWORD(selesai)
+│   │   ├── SEMICOLON(;)
+│   │   └── <compound-statement>
+│   │       ├── KEYWORD(mulai)
+│   │       ├── <statement-list>
+│   │       │   └── <compound-statement>
+│   │       │       ├── KEYWORD(mulai)
+│   │       │       ├── <statement-list>
+│   │       │       │   └── <assignment-statement>
+│   │       │       │       ├── IDENTIFIER(x)
+│   │       │       │       ├── ASSIGN_OPERATOR(:=)
+│   │       │       │       └── <expression>
+│   │       │       │           └── <simple-expression>
+│   │       │       │               ├── <term>
+│   │       │       │               │   └── <factor>
+│   │       │       │               │       └── IDENTIFIER(x)
+│   │       │       │               ├── <additive-operator>
+│   │       │       │               │   └── ARITHMETIC_OPERATOR(+)
+│   │       │       │               └── <term>
+│   │       │       │                   └── <factor>
+│   │       │       │                       └── NUMBER(1)
+│   │       │       └── KEYWORD(selesai)
+│   │       └── KEYWORD(selesai)
+│   └── KEYWORD(selesai)
+└── DOT(.)

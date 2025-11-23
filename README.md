@@ -12,6 +12,8 @@ Kelompok : PIA - ParsingIsAllYouNeed
 ## Deskripsi Program
 Tugas Besar Teori Bahasa Formal dan Otomata (IF2224-24) Milestone 1 ini mengimplementasikan tahap pertama dari proses kompilasi, yaitu analisis leksikal (lexical analysis) pada bahasa pemrograman Pascal-S yang merupakan subset dari bahasa Pascal. Melalui pembangunan lexical analyzer (lexer) berbasis Deterministic Finite Automata (DFA), program mampu membaca kode sumber Pascal-S dan mengubahnya menjadi deretan token yang memiliki arti semantik, seperti keyword, identifier, operator, literal, dan simbol-simbol lainnya. Program ini dibuat dengan menggunakan bahasa Python dan hanya dapat berjalan pada CLI (Command Line Interface).
 
+Melanjutkan dari tahap leksikal, Milestone 2 ini mengimplementasikan fase analisis sintaksis (syntax analysis). Program mengambil deretan token yang dihasilkan oleh lexer (Milestone 1) dan memvalidasinya berdasarkan tata bahasa (grammar) Pascal-S. Dengan menggunakan algoritma Recursive Descent, parser ini bertugas membangun Parse Tree yang merepresentasikan struktur hierarkis dari kode sumber. Implementasi ini juga mencakup mekanisme error checking untuk melaporkan kesalahan sintaksis dan telah disesuaikan untuk menangani token-token keyword dalam Bahasa Indonesia sesuai spesifikasi tugas.
+
 ## Requirements
 - Python Version 3.14.1 or newer
 - uv Version 0.9.1 or newer
@@ -25,6 +27,7 @@ git clone https://github.com/fathurwithyou/PIA-Tubes-IF2224.git
 ```bash
 uv sync
 uv run src/main.py test/milestone-1/input/1.pas
+uv run src/parser_main.py test/milestone-2/input/test1.pas
 ```
 
 Output example:
@@ -34,10 +37,23 @@ IDENTIFIER(Hello)
 SEMICOLON(;)
 ```
 
+```bash
+<program>
+├── <program-header>
+│   ├── KEYWORD(program)
+│   ├── IDENTIFIER(MinimalTest)
+│   └── SEMICOLON(;)
+├── <compound-statement>
+│   ├── KEYWORD(mulai)
+│   └── KEYWORD(selesai)
+└── DOT(.)
+```
+
 ### Check Mode
-Compare lexer output with expected output:
+Compare lexer / parser output with expected output:
 ```bash
 uv run src/main.py test/milestone-1/input/1.pas --check
+uv run src/parser_main.py test/milestone-2/input/test1.pas --check
 ```
 
 Output when passing:
@@ -75,18 +91,22 @@ Save lexer output to a file:
 ```bash
 # Automatically saves to test/milestone-1/output/1.txt
 uv run python src/main.py test/milestone-1/input/1.pas --output
+# Automatically saves to test/milestone-2/output/test1.txt
+uv run python src/main.py test/milestone-2/input/test1.pas --output
 ```
 
 **Save to custom path:**
 ```bash
 # Save to specific file
 uv run python src/main.py test/milestone-1/input/1.pas --output my_output.txt
+uv run python src/main.py test/milestone-2/input/test1.pas --output my_output.txt
 ```
 
 **Combine with check mode:**
 ```bash
 # Check against expected output AND save to file
 uv run python src/main.py test/milestone-1/input/1.pas --check --output
+uv run src/parser_main.py test/milestone-2/input/test1.pas --check --output
 ```
 
 ```mermaid

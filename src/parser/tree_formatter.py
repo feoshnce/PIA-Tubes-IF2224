@@ -174,6 +174,11 @@ class TreeFormatter:
             'FunctionCall': 'procedure/function-call',
         }
 
+        # handling for ArrayType to distinguish between range and array
+        if node_type == 'ArrayType':
+            # Check if it's a subrange type (no element_type) or array type
+            if hasattr(node, 'element_type') and node.element_type is None:
+                return 'range'
         return mapping.get(node_type, node_type.lower())
 
     def _get_children(self, node: ASTNode) -> list:
@@ -348,8 +353,13 @@ class TreeFormatter:
         elif isinstance(node, ArrayType):
             # Check if this is a subrange type (no element_type) or array type
             if node.element_type is None:
-                # Subrange type (e.g., 1..100)
-                children.append(self._create_range(node.index_type))
+                # Subrange type (e.g., 1..100) - let _get_node_name handle this as 'range'
+                # Add the range structure as children
+                range_wrapper = self._create_range(node.index_type)
+                if hasattr(range_wrapper, '_children'):
+                    children.extend(range_wrapper._children)
+                else:
+                    children.append(range_wrapper)
             else:
                 # Array type
                 children.append(self._format_token('KEYWORD', 'larik'))
@@ -637,9 +647,11 @@ class TreeFormatter:
             def __init__(self, params):
                 self._node_type = 'formal-parameter-list'
                 self._children = ['LPARENTHESIS(()']
-                # Add all parameter groups
-                for param in params:
+                # Add all parameter groups with semicolons between them
+                for i, param in enumerate(params):
                     self._children.append(param)
+                    if i < len(params) - 1:
+                        self._children.append('SEMICOLON(;)')
                 self._children.append('RPARENTHESIS())')
         return FormalParameterList(parameters)
 
