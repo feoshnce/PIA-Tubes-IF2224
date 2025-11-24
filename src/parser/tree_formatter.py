@@ -272,15 +272,7 @@ class TreeFormatter:
             children.append(node.type_spec)
 
         elif isinstance(node, AssignmentStatement):
-            # Add variable components directly without <variable> wrapper
-            children.append(self._format_token('IDENTIFIER', node.variable.name))
-            if node.variable.index:
-                children.append(self._format_token('LBRACKET', '['))
-                children.append(self._create_expression(node.variable.index))
-                children.append(self._format_token('RBRACKET', ']'))
-            elif node.variable.field:
-                children.append(self._format_token('DOT', '.'))
-                children.append(self._format_token('IDENTIFIER', node.variable.field))
+            children.extend(self._format_variable_access(node.variable))
             children.append(self._format_token('ASSIGN_OPERATOR', ':='))
             children.append(self._create_expression(node.expression))
 
@@ -326,11 +318,7 @@ class TreeFormatter:
             children.append(node.operand)
 
         elif isinstance(node, Variable):
-            children.append(self._format_token('IDENTIFIER', node.name))
-            if node.index:
-                children.append(self._format_token('LBRACKET', '['))
-                children.append(self._create_expression(node.index))
-                children.append(self._format_token('RBRACKET', ']'))
+            children.extend(self._format_variable_access(node))
 
         elif isinstance(node, Number):
             children.append(self._format_token('NUMBER', str(node.value)))
@@ -437,6 +425,50 @@ class TreeFormatter:
             return self._format_token('LOGICAL_OPERATOR', op)
         else:
             return self._format_token('OPERATOR', op)
+
+    def _format_variable_access(self, var: Variable) -> list:
+        """
+        Format a variable with full access syntax (multidimensional arrays, fields, chaining).
+        
+        Handles:
+            - Simple: x
+            - Array: arr[i]
+            - Multidimensional (chained): matrix[i][j]
+            - Multidimensional (comma): matrix[i, j]
+            - Field: record.field
+            - Nested fields: rec.field1.field2
+            - Mixed: arr[i].field[j]
+        
+        Returns:
+            List of formatted tokens/nodes
+        """
+        children = []
+        
+        # Add the identifier name ONLY if it exists (root node only)
+        # Chained nodes have name=None and should not add IDENTIFIER
+        if var.name is not None:
+            children.append(self._format_token('IDENTIFIER', var.name))
+        
+        # Handle array indices 
+        if var.indices:
+            children.append(self._format_token('LBRACKET', '['))
+            for i, index_expr in enumerate(var.indices):
+                children.append(self._create_expression(index_expr))
+                if i < len(var.indices) - 1:
+                    children.append(self._format_token('COMMA', ','))
+            children.append(self._format_token('RBRACKET', ']'))
+        
+        # Handle field access
+        if var.field:
+            children.append(self._format_token('DOT', '.'))
+            children.append(self._format_token('IDENTIFIER', var.field))
+        
+        # Handle chained access recursively
+        if var.next_access:
+            # Recursively format the next access level
+            children.extend(self._format_variable_access(var.next_access))
+        
+        return children
 
     def _create_range(self, range_tuple) -> Any:
         """Create range wrapper node."""
@@ -578,14 +610,8 @@ class TreeFormatter:
                 if isinstance(expr, Number):
                     self._children.append(f'NUMBER({expr.value})')
                 elif isinstance(expr, Variable):
-                    if expr.index:
-                        # Variable with array index
-                        self._children.append(f'IDENTIFIER({expr.name})')
-                        self._children.append('LBRACKET([)')
-                        self._children.append(formatter._create_expression(expr.index))
-                        self._children.append('RBRACKET(])')
-                    else:
-                        self._children.append(f'IDENTIFIER({expr.name})')
+                    # Use flat token structure (no wrapper)
+                    self._children.extend(formatter._format_variable_access(expr))
                 elif isinstance(expr, String):
                     self._children.append(f'STRING_LITERAL({expr.value})')
                 elif isinstance(expr, Char):

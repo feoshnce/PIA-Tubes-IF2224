@@ -663,18 +663,32 @@ class Parser:
             return self.parse_case_statement()
         elif self.match(TokenType.IDENTIFIER):
             # Could be assignment or procedure call
-            # Look ahead to distinguish
-            if self.peek(1) and self.peek(1).type == TokenType.ASSIGN_OPERATOR:
-                return self.parse_assignment_statement()
-            elif self.peek(1) and self.peek(1).type == TokenType.LBRACKET:
-                # Array access followed by assignment
-                return self.parse_assignment_statement()
-            elif self.peek(1) and self.peek(1).type == TokenType.DOT:
-                # Record field access followed by assignment
-                return self.parse_assignment_statement()
-            else:
-                # Procedure call
-                return self.parse_procedure_call()
+            # parse variable first, then decide based on what follows
+            
+            # Parse variable
+            variable = self.parse_variable()
+            
+            # Check what comes after
+            if self.match(TokenType.ASSIGN_OPERATOR):
+                # Assignment
+                self.advance()
+                expression = self.parse_expression()
+                return AssignmentStatement(variable=variable, expression=expression)
+            
+            # procedure call
+            if variable.indices or variable.field or variable.next_access:
+                self.error("Procedure call cannot have array indices or field access")
+            
+            # Expect opening parenthesis
+            self.expect(TokenType.LPARENTHESIS)
+            
+            arguments = []
+            if not self.match(TokenType.RPARENTHESIS):
+                arguments = self.parse_parameter_list()
+            
+            self.expect(TokenType.RPARENTHESIS)
+            
+            return ProcedureCall(name=variable.name, arguments=arguments)
         else:
             # Empty statement
             return None
@@ -1021,33 +1035,63 @@ class Parser:
 
     def parse_variable(self) -> Variable:
         """
-        Parse a variable (with optional array index or record field).
+        Parse a variable (with optional access syntax (multidimensional arrays, fields, chaining)).
 
         Grammar:
-            variable -> IDENTIFIER
-                     | IDENTIFIER LBRACKET expression RBRACKET
-                     | IDENTIFIER DOT IDENTIFIER
+            variable -> IDENTIFIER ( '[' expression (',' expression)* ']' | '.' IDENTIFIER )*
 
         Returns:
-            Variable AST node
+            Variable AST node with potential chaining
         """
         name = self.expect(TokenType.IDENTIFIER).value
+        # Build the variable with chained access using a while loop
+        root_var = Variable(name=name)
+        current_var = root_var
+        
+        # Loop to handle repeating [ ] or . access 
+        while True:
+            if self.match(TokenType.LBRACKET):
+                # Array indexing: collect all indices within brackets
+                self.advance()
+                index_list = [self.parse_expression()]
+                
+                # comma-separated indices
+                while self.match(TokenType.COMMA):
+                    self.advance()
+                    index_list.append(self.parse_expression())
+                
+                self.expect(TokenType.RBRACKET)
+                
+                # If current_var already has indices or field, create chained access
+                if current_var.indices is not None or current_var.field is not None:
+                    # Create a new Variable node for the next access level
+                    # chained nodes have name=None (only root has name)
+                    next_var = Variable(name=None, indices=index_list)
+                    current_var.next_access = next_var
+                    current_var = next_var
+                else:
+                    # First access
+                    current_var.indices = index_list
+                    
+            elif self.match(TokenType.DOT):
+                # Field access
+                self.advance()
+                field_name = self.expect(TokenType.IDENTIFIER).value
+                
+                # If current_var already has field or indices, create chained access
+                if current_var.field is not None or current_var.indices is not None:
+                    # Create a new Variable node for the field access
+                    next_var = Variable(name=None, field=field_name)
+                    current_var.next_access = next_var
+                    current_var = next_var
+                else:
+                    # First access
+                    current_var.field = field_name
+            else:
+                break
+        
+        return root_var
 
-        # Check for array indexing
-        if self.match(TokenType.LBRACKET):
-            self.advance()
-            index = self.parse_expression()
-            self.expect(TokenType.RBRACKET)
-            return Variable(name=name, index=index)
-
-        # Check for record field access
-        elif self.match(TokenType.DOT):
-            self.advance()
-            field = self.expect(TokenType.IDENTIFIER).value
-            return Variable(name=name, field=field)
-
-        else:
-            return Variable(name=name)
 
     def parse_function_call(self) -> FunctionCall:
         """

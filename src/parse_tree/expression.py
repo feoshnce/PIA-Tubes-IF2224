@@ -68,14 +68,13 @@ class Variable(Expression):
     Represents a variable reference.
 
     Grammar:
-        variable -> IDENTIFIER
-                  | IDENTIFIER '[' expression ']'
-                  | IDENTIFIER '.' IDENTIFIER
+        variable -> IDENTIFIER ( '[' expression (',' expression)* ']' | '.' IDENTIFIER )*
     """
 
     name: str
-    index: Expression = None  # For array indexing
-    field: str = None  # For record field access
+    indices: list[Expression] = None     # For array indexing
+    field: str = None                    # For record field access
+    next_access: 'Variable' = None       # For chained access
 
     def accept(self, visitor: Any) -> Any:
         return visitor.visit_variable(self)
@@ -85,10 +84,12 @@ class Variable(Expression):
             'type': 'Variable',
             'name': self.name
         }
-        if self.index:
-            result['index'] = self.index.to_dict()
+        if self.indices:
+            result['indices'] = [idx.to_dict() for idx in self.indices]
         if self.field:
             result['field'] = self.field
+        if self.next_access:
+            result['next_access'] = self.next_access.to_dict()
         return result
 
 
