@@ -24,6 +24,8 @@ from error import (
 )
 
 
+from .builtin_definitions import RESERVED_WORDS, STANDARD_LIBRARY
+
 class SemanticVisitor:
     def __init__(self):
         self.symbol_table = SymbolTable()
@@ -510,66 +512,8 @@ class SemanticVisitor:
         return 0
 
     def _init_builtins(self):
-        reserved_words = [
-            ('salah', ObjectKind.CONSTANT, BOOLEAN_TYPE),
-            ('benar', ObjectKind.CONSTANT, BOOLEAN_TYPE),
-            ('integer', ObjectKind.TYPE, INTEGER_TYPE),
-            ('real', ObjectKind.TYPE, REAL_TYPE),
-            ('boolean', ObjectKind.TYPE, BOOLEAN_TYPE),
-            ('char', ObjectKind.TYPE, CHAR_TYPE),
-            ('string', ObjectKind.TYPE, STRING_TYPE),
-            ('dan', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('atau', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('tidak', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('bagi', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('mod', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('program', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('variabel', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('konstanta', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('tipe', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('prosedur', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('fungsi', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('mulai', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('selesai', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('jika', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('maka', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('selain-itu', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('selama', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('lakukan', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('untuk', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('ke', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('turun-ke', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('larik', ObjectKind.PROCEDURE, VOID_TYPE),
-        ]
-
-        for name, kind, typ in reserved_words:
-            self.symbol_table.enter(
-                name=name,
-                obj_kind=kind,
-                type=typ,
-                level=0
-            )
-
-        builtins = [
-            ('write', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('writeln', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('read', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('readln', ObjectKind.PROCEDURE, VOID_TYPE),
-            ('abs', ObjectKind.FUNCTION, INTEGER_TYPE),
-            ('sqr', ObjectKind.FUNCTION, INTEGER_TYPE),
-            ('sqrt', ObjectKind.FUNCTION, REAL_TYPE),
-            ('sin', ObjectKind.FUNCTION, REAL_TYPE),
-            ('cos', ObjectKind.FUNCTION, REAL_TYPE),
-            ('exp', ObjectKind.FUNCTION, REAL_TYPE),
-            ('ln', ObjectKind.FUNCTION, REAL_TYPE),
-            ('odd', ObjectKind.FUNCTION, BOOLEAN_TYPE),
-            ('ord', ObjectKind.FUNCTION, INTEGER_TYPE),
-            ('chr', ObjectKind.FUNCTION, CHAR_TYPE),
-            ('succ', ObjectKind.FUNCTION, INTEGER_TYPE),
-            ('pred', ObjectKind.FUNCTION, INTEGER_TYPE),
-        ]
-
-        for name, kind, typ in builtins:
+        # Register all reserved words and standard library functions
+        for name, kind, typ in RESERVED_WORDS + STANDARD_LIBRARY:
             self.symbol_table.enter(
                 name=name,
                 obj_kind=kind,
