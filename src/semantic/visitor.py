@@ -51,6 +51,10 @@ class SemanticVisitor:
         return node
 
     def visit_block(self, node: Block) -> Any:
+        # Attach block index (current scope's block index)
+        node.block_index = self.symbol_table.display[self.symbol_table.level]
+        node.sym_level = self.symbol_table.level
+
         for decl in node.declarations:
             self.visit(decl)
         self.visit(node.compound_statement)
@@ -264,6 +268,8 @@ class SemanticVisitor:
             raise TypeMismatchError(
                 str(var_type), str(expr_type), "assignment")
 
+        node.sym_type = VOID_TYPE
+        node.sym_level = self.symbol_table.level
         return node
 
     def visit_if_statement(self, node: IfStatement) -> Any:
@@ -336,6 +342,10 @@ class SemanticVisitor:
 
         for arg in node.arguments:
             self.visit(arg)
+        
+        node.tab_index = idx
+        node.sym_type = VOID_TYPE
+        node.sym_level = self.symbol_table.level
 
         return node
 

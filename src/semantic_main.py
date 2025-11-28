@@ -6,6 +6,7 @@ from pathlib import Path
 from lexer import Lexer
 from parser import Parser
 from semantic import SemanticVisitor
+from semantic.printer import DecoratedASTPrinter
 from error import SemanticError
 
 if sys.platform == 'win32':
@@ -34,6 +35,11 @@ def main():
         default="text",
         help="Output format (default: text)"
     )
+    parser_cli.add_argument(
+        "--decorated",
+        action="store_true",
+        help="Print decorated AST with semantic annotations."
+    )
 
     args = parser_cli.parse_args()
 
@@ -51,6 +57,13 @@ def main():
 
         parse_tree = source_code | lexer | parser
         semantic_visitor.visit(parse_tree)
+
+        if args.decorated:
+            printer = DecoratedASTPrinter()
+            print("\nDecorated AST:")
+            print("=" * 40)
+            print(printer.print(parse_tree))
+            print("=" * 40 + "\n")
 
         output = format_symbol_table(semantic_visitor.symbol_table, args.format)
 
