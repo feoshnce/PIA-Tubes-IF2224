@@ -20,6 +20,7 @@ class ArrayTypeInfo:
     high: int
     element_size: int
     size: int
+    ref_index: Optional[int] = None
 
 
 @dataclass

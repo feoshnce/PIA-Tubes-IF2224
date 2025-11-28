@@ -56,6 +56,7 @@ class SemanticVisitor:
 
     def visit_var_declaration(self, node: VarDeclaration) -> Any:
         type_spec = self.visit(node.type_spec)
+        array_ref = type_spec.array_info.ref_index if type_spec.is_array() else 0
 
         for identifier in node.identifiers:
             if self.symbol_table.lookup_current_scope(identifier) is not None:
@@ -64,7 +65,8 @@ class SemanticVisitor:
             tab_idx = self.symbol_table.enter(
                 name=identifier,
                 obj_kind=ObjectKind.VARIABLE,
-                type=type_spec
+                type=type_spec,
+                ref=array_ref
             )
 
             node.tab_index = tab_idx
@@ -207,7 +209,7 @@ class SemanticVisitor:
             high = 0
 
         element_size = self._get_type_size(element_type)
-        _ = self.symbol_table.enter_array(
+        arr_idx = self.symbol_table.enter_array(
             index_type=index_type,
             element_type=element_type,
             low=low,
@@ -224,6 +226,7 @@ class SemanticVisitor:
             element_size=element_size,
             size=(high - low + 1) * element_size
         )
+        array_type.array_info.ref_index = arr_idx
 
         return array_type
 
@@ -392,37 +395,53 @@ class SemanticVisitor:
         raise InvalidOperationError(node.operator, "unknown")
 
     def visit_variable(self, node: Variable) -> Type:
+        def resolve_access(var_node: Variable, current_type: Type, base_name: str) -> Type:
+            # Handle array indices (may be multidimensional)
+            if var_node.indices:
+                for index_expr in var_node.indices:
+                    if not current_type.is_array():
+                        raise InvalidArrayIndexError(f"'{base_name}' is not an array")
+
+                    index_type = self.visit(index_expr)
+                    if not index_type.is_ordinal():
+                        raise InvalidArrayIndexError("index must be ordinal type")
+
+                    current_type = current_type.array_info.element_type
+
+            # Handle record field access
+            if var_node.field:
+                if not current_type.is_record():
+                    raise InvalidRecordAccessError(base_name, var_node.field)
+
+                if var_node.field not in current_type.record_info.fields:
+                    raise InvalidRecordAccessError(base_name, var_node.field)
+
+                current_type = current_type.record_info.fields[var_node.field][0]
+
+            var_node.sym_type = current_type
+            return current_type
+
+        # Resolve the root variable (must have a name)
         idx = self.symbol_table.lookup(node.name)
         if idx is None:
             raise UndeclaredIdentifierError(node.name)
 
         entry = self.symbol_table.get_entry(idx)
         var_type = entry.type
+        base_name = node.name
 
         node.tab_index = idx
         node.sym_type = var_type
         node.sym_level = entry.level
 
-        if node.index:
-            if not var_type.is_array():
-                raise InvalidArrayIndexError(f"'{node.name}' is not an array")
+        # Walk through chained accesses
+        current_node = node
+        current_type = var_type
+        while current_node:
+            current_type = resolve_access(current_node, current_type, base_name)
+            current_node = current_node.next_access
 
-            index_type = self.visit(node.index)
-            if not index_type.is_ordinal():
-                raise InvalidArrayIndexError("index must be ordinal type")
-
-            return var_type.array_info.element_type
-
-        if node.field:
-            if not var_type.is_record():
-                raise InvalidRecordAccessError(node.name, node.field)
-
-            if node.field not in var_type.record_info.fields:
-                raise InvalidRecordAccessError(node.name, node.field)
-
-            return var_type.record_info.fields[node.field][0]
-
-        return var_type
+        return current_type
 
     def visit_number(self, node: Number) -> Type:
         typ = INTEGER_TYPE if isinstance(node.value, int) else REAL_TYPE
