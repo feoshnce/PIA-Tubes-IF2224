@@ -62,13 +62,13 @@ ProgramNode(name: 'RecordBasic')
    │  │  └─ RecordType
    │  │     ├─ VarDecl('age')
    │  │     └─ VarDecl('height')
-   │  └─ VarDecl('p') → tab_index:47, type:record, lev:0
+   │  └─ VarDecl('p') → tab_index:49, type:record, lev:0
    └─ CompoundStmt
       ├─ Assign → type:void, lev:0
-      │  ├─ VarAccess('.age') → tab_index:47, type:integer, lev:0
+      │  ├─ VarAccess('.age') → tab_index:49, type:integer, lev:0
       │  └─ Number(25) → type:integer
       └─ Assign → type:void, lev:0
-         ├─ VarAccess('.height') → tab_index:47, type:real, lev:0
+         ├─ VarAccess('.height') → tab_index:49, type:real, lev:0
          └─ Number(175.5) → type:real
 ========================================
 
@@ -123,15 +123,18 @@ Index  Name                 Kind         Type            Level  Addr   Ref    Li
 43     succ                 FUNCTION     integer         0      0      0      42
 44     pred                 FUNCTION     integer         0      0      0      43
 45     RecordBasic          PROGRAM      void            0      0      0      44
-46     Person               TYPE         record          0      0      0      45
-47     p                    VARIABLE     record          0      0      0      0
+46     age                  FIELD        integer         0      0      0      0
+47     height               FIELD        real            0      1      0      46
+48     Person               TYPE         record          0      0      1      45
+49     p                    VARIABLE     record          0      0      0      0
 
 ================================================================================
 BLOCK TABLE (btab)
 ================================================================================
 Index  Last     LPar     PSize    VSize
 --------------------------------------------------------------------------------
-0      47       0        0        1
+0      49       0        0        1
+1      47       0        0        0
 ```
 
 ### Check Mode
