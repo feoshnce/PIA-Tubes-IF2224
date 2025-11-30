@@ -145,14 +145,14 @@ def format_symbol_table(symtab, format_type):
             )
 
         if symtab.atab:
-            lines.append("\n" + "=" * 80)
+            lines.append("\n" + "=" * 88)
             lines.append("ARRAY TABLE (atab)")
-            lines.append("=" * 80)
-            lines.append(f"{'Index':<6} {'IdxType':<12} {'ElemType':<12} {'Low':<8} {'High':<8} {'ElemSz':<8} {'Size':<8}")
-            lines.append("-" * 80)
+            lines.append("=" * 88)
+            lines.append(f"{'Index':<6} {'IdxType':<12} {'ElemType':<20} {'Low':<8} {'High':<8} {'ElemSz':<8} {'Size':<8}")
+            lines.append("-" * 88)
             for i, entry in enumerate(symtab.atab):
                 lines.append(
-                    f"{i:<6} {str(entry.index_type):<12} {str(entry.element_type):<12} "
+                    f"{i:<6} {str(entry.index_type):<12} {str(entry.element_type):<20} "
                     f"{entry.low:<8} {entry.high:<8} {entry.element_size:<8} {entry.size:<8}"
                 )
 

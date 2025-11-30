@@ -70,7 +70,22 @@ class Type:
 
     def __repr__(self) -> str:
         if self.is_array():
-            return f"array of {self.array_info.element_type}"
+            # Count array dimensions for compact display
+            dimensions = 0
+            current = self
+            while current.is_array():
+                dimensions += 1
+                current = current.array_info.element_type
+
+            # Get base type
+            base_type = str(current)
+
+            # Format: array[N] of <base_type> for N dimensions
+            if dimensions == 1:
+                return f"array of {base_type}"
+            else:
+                return f"array[{dimensions}] of {base_type}"
+
         if self.is_record():
             return "record"
         return self.kind.name.lower()
