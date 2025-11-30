@@ -67,9 +67,7 @@ class SymbolTable:
         last_idx = self.btab[block_idx].last
 
         if obj_kind == ObjectKind.VARIABLE:
-            if last_idx != 0 and self.tab[last_idx].obj_kind == ObjectKind.VARIABLE:
-                self.tab[last_idx].link = self.tx
-            link = 0
+            link = last_idx if (last_idx != 0 and self.tab[last_idx].obj_kind == ObjectKind.VARIABLE) else 0
             address = self.dx
             self.dx += 1
             self.btab[block_idx].vsze += 1
