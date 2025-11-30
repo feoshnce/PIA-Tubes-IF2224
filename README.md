@@ -55,21 +55,32 @@ SEMICOLON(;)
 ```bash
 Decorated AST:
 ========================================
-ProgramNode(name: 'RecordBasic')
+ProgramNode(name: 'SimpleTypes')
 └─ Block → block_index:0, lev:0
    ├─ Declarations
-   │  ├─ TypeDecl('Person')
-   │  │  └─ RecordType
-   │  │     ├─ VarDecl('age')
-   │  │     └─ VarDecl('height')
-   │  └─ VarDecl('p') → tab_index:49, type:record, lev:0
+   │  ├─ VarDecl('x','y') → tab_index:47, type:integer, lev:0
+   │  ├─ VarDecl('a','b') → tab_index:49, type:real, lev:0
+   │  ├─ VarDecl('flag') → tab_index:50, type:boolean, lev:0
+   │  └─ VarDecl('ch') → tab_index:51, type:char, lev:0
    └─ CompoundStmt
       ├─ Assign → type:void, lev:0
-      │  ├─ VarAccess('.age') → tab_index:49, type:integer, lev:0
-      │  └─ Number(25) → type:integer
+      │  ├─ Variable('x') → tab_index:46, type:integer, lev:0
+      │  └─ Number(10) → type:integer
+      ├─ Assign → type:void, lev:0
+      │  ├─ Variable('y') → tab_index:47, type:integer, lev:0
+      │  └─ Number(20) → type:integer
+      ├─ Assign → type:void, lev:0
+      │  ├─ Variable('a') → tab_index:48, type:real, lev:0
+      │  └─ Number(3.14) → type:real
+      ├─ Assign → type:void, lev:0
+      │  ├─ Variable('b') → tab_index:49, type:real, lev:0
+      │  └─ Number(2.71) → type:real
+      ├─ Assign → type:void, lev:0
+      │  ├─ Variable('flag') → tab_index:50, type:boolean, lev:0
+      │  └─ Boolean(True) → type:boolean
       └─ Assign → type:void, lev:0
-         ├─ VarAccess('.height') → tab_index:49, type:real, lev:0
-         └─ Number(175.5) → type:real
+         ├─ Variable('ch') → tab_index:51, type:char, lev:0
+         └─ Char(''A'') → type:char
 ========================================
 
 ================================================================================
@@ -122,19 +133,20 @@ Index  Name                 Kind         Type            Level  Addr   Ref    Li
 42     chr                  FUNCTION     char            0      0      0      41
 43     succ                 FUNCTION     integer         0      0      0      42
 44     pred                 FUNCTION     integer         0      0      0      43
-45     RecordBasic          PROGRAM      void            0      0      0      44
-46     age                  FIELD        integer         0      0      0      0
-47     height               FIELD        real            0      1      0      46
-48     Person               TYPE         record          0      0      1      45
-49     p                    VARIABLE     record          0      0      0      0
+45     SimpleTypes          PROGRAM      void            0      0      0      44
+46     x                    VARIABLE     integer         0      0      0      0
+47     y                    VARIABLE     integer         0      1      0      46
+48     a                    VARIABLE     real            0      2      0      47
+49     b                    VARIABLE     real            0      3      0      48
+50     flag                 VARIABLE     boolean         0      4      0      49
+51     ch                   VARIABLE     char            0      5      0      50
 
 ================================================================================
 BLOCK TABLE (btab)
 ================================================================================
 Index  Last     LPar     PSize    VSize
 --------------------------------------------------------------------------------
-0      49       0        0        1
-1      47       0        0        0
+0      51       0        0        6
 ```
 
 ### Check Mode
