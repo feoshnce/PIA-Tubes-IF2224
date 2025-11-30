@@ -27,6 +27,7 @@ class ArrayTypeInfo:
 class RecordTypeInfo:
     fields: dict[str, tuple['Type', int]]
     size: int
+    ref_index: Optional[int] = None
 
 
 class Type:

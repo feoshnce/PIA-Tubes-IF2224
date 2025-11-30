@@ -101,10 +101,16 @@ class SemanticVisitor:
         type_spec = self.visit(node.type_spec)
         self.type_map[node.identifier.lower()] = type_spec
 
+        # Get ref index for record types (points to block containing fields)
+        ref_idx = 0
+        if type_spec.is_record() and hasattr(type_spec.record_info, 'ref_index'):
+            ref_idx = type_spec.record_info.ref_index
+
         self.symbol_table.enter(
             name=node.identifier,
             obj_kind=ObjectKind.TYPE,
-            type=type_spec
+            type=type_spec,
+            ref=ref_idx
         )
 
         return node
@@ -240,18 +246,40 @@ class SemanticVisitor:
         fields = {}
         offset = 0
 
+        # Create new block for record fields
+        field_block_idx = self.symbol_table.enter_block()
+
+        # Temporarily use new block for field entries
+        saved_display = self.symbol_table.display[self.symbol_table.level]
+        self.symbol_table.display[self.symbol_table.level] = field_block_idx
+
         for field_decl in node.fields:
             field_type = self.visit(field_decl.type_spec)
             field_size = self._get_type_size(field_type)
+            array_ref = field_type.array_info.ref_index if field_type.is_array() else 0
 
             for field_name in field_decl.identifiers:
                 if field_name in fields:
                     raise DuplicateDeclarationError(field_name)
                 fields[field_name] = (field_type, offset)
+
+                # Add field to symbol table with FIELD kind
+                self.symbol_table.enter(
+                    name=field_name,
+                    obj_kind=ObjectKind.FIELD,
+                    type=field_type,
+                    address=offset,
+                    ref=array_ref
+                )
+
                 offset += field_size
+
+        # Restore display
+        self.symbol_table.display[self.symbol_table.level] = saved_display
 
         record_type = Type(SimpleTypeKind.INTEGER)
         record_type.record_info = RecordTypeInfo(fields=fields, size=offset)
+        record_type.record_info.ref_index = field_block_idx
 
         return record_type
 

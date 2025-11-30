@@ -10,6 +10,7 @@ class ObjectKind(Enum):
     PROCEDURE = auto()
     FUNCTION = auto()
     PROGRAM = auto()
+    FIELD = auto()
 
 
 class SymbolEntry:
@@ -58,7 +59,7 @@ class SymbolTable:
         self.dx = 0
 
     def enter(self, name: str, obj_kind: ObjectKind, type: Type,
-              level: int = None, ref: int = 0, normal: bool = True) -> int:
+              level: int = None, ref: int = 0, normal: bool = True, address: int = None) -> int:
         self.tx += 1
         if level is None:
             level = self.level
@@ -68,12 +69,18 @@ class SymbolTable:
 
         if obj_kind == ObjectKind.VARIABLE:
             link = last_idx if (last_idx != 0 and self.tab[last_idx].obj_kind == ObjectKind.VARIABLE) else 0
-            address = self.dx
-            self.dx += 1
+            if address is None:
+                address = self.dx
+                self.dx += 1
             self.btab[block_idx].vsze += 1
+        elif obj_kind == ObjectKind.FIELD:
+            link = last_idx if (last_idx != 0 and self.tab[last_idx].obj_kind in (ObjectKind.VARIABLE, ObjectKind.FIELD)) else 0
+            if address is None:
+                address = 0
         else:
             link = last_idx
-            address = 0
+            if address is None:
+                address = 0
 
         self.btab[block_idx].last = self.tx
 
