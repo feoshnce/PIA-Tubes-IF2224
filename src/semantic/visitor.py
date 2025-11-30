@@ -390,7 +390,7 @@ class SemanticVisitor:
         if op in ['+', '-', '*', '/']:
             if not left_type.is_numeric() or not right_type.is_numeric():
                 raise InvalidOperationError(
-                    op, f"{left_type} and {right_type}")
+                    op, f"{left_type} dan {right_type}")
             if left_type == REAL_TYPE or right_type == REAL_TYPE:
                 result_type = REAL_TYPE
             else:
@@ -399,13 +399,13 @@ class SemanticVisitor:
         elif op in ['div', 'mod', 'bagi']:
             if left_type != INTEGER_TYPE or right_type != INTEGER_TYPE:
                 raise InvalidOperationError(
-                    op, f"{left_type} and {right_type}")
+                    op, f"{left_type} dan {right_type}")
             result_type = INTEGER_TYPE
 
-        elif op in ['and', 'or', 'dan', 'atau']:
+        elif op in ['dan', 'atau']:
             if left_type != BOOLEAN_TYPE or right_type != BOOLEAN_TYPE:
                 raise InvalidOperationError(
-                    op, f"{left_type} and {right_type}")
+                    op, f"{left_type} dan {right_type}")
             result_type = BOOLEAN_TYPE
 
         elif op in ['=', '<>', '<', '<=', '>', '>=']:
