@@ -49,19 +49,19 @@ Index  Name                 Kind         Type            Level  Addr   Ref    Li
 43     succ                 FUNCTION     integer         0      0      0      42    
 44     pred                 FUNCTION     integer         0      0      0      43    
 45     ProcedureParams      PROGRAM      void            0      0      0      44    
-46     x                    VARIABLE     integer         0      0      0      47    
-47     y                    VARIABLE     integer         0      1      0      48    
-48     Swap                 PROCEDURE    void            0      0      0      46    
-49     a                    VAR_PARAM    integer         1      0      0      0     
-50     b                    VAR_PARAM    integer         1      1      0      49    
-51     temp                 VARIABLE     integer         1      2      0      50    
+46     x                    VARIABLE     integer         0      0      0      0     
+47     y                    VARIABLE     integer         0      1      0      46    
+48     Swap                 PROCEDURE    void            0      0      1      47    
+49     a                    VARIABLE     integer         1      3      0      0     
+50     b                    VARIABLE     integer         1      4      0      49    
+51     temp                 VARIABLE     integer         1      5      0      50    
 
 ================================================================================
 BLOCK TABLE (btab)
 ================================================================================
 Index  Last     LPar     PSize    VSize   
 --------------------------------------------------------------------------------
-0      47       0        0        2       
-1      51       50       2        1       
+0      48       0        0        2       
+1      51       0        0        3       
 
 [SUCCESS] Semantic analysis completed without errors.
