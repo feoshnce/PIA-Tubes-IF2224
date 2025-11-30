@@ -1,6 +1,6 @@
 program ArrayBasic;
 variabel
-    arr: array[1..10] of integer;
+    arr: larik[1..10] dari integer;
     i: integer;
 mulai
     i := 1;

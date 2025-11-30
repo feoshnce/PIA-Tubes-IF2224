@@ -2,7 +2,7 @@ program ProcedureParams;
 variabel
     x, y: integer;
 
-prosedur Swap(var a, b: integer);
+prosedur Swap(a, b: integer);
 variabel
     temp: integer;
 mulai

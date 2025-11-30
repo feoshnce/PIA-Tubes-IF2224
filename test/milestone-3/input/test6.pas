@@ -1,8 +1,8 @@
 program RecordBasic;
 tipe
-    Person = record
+    Person = rekaman
         age: integer;
-        height: real
+        height: real;
     selesai;
 variabel
     p: Person;

@@ -9,6 +9,6 @@ mulai
     c := 30;
     x := (a + b) * c;
     y := x / 2.0;
-    flag := (a < b) and (b < c);
-    flag := not flag or (a = 10)
+    flag := (a < b) dan (b < c);
+    flag := tidak flag atau (a = 10)
 selesai.

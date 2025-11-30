@@ -6,14 +6,14 @@ mulai
     x := 10;
     y := 20;
     
-    if x > y then
+    jika x > y maka
         max := x
-    else
+    selain-itu
         max := y;
-    
+
     sum := 0;
     i := 1;
-    while i <= 10 do
+    selama i <= 10 lakukan
     mulai
         sum := sum + i;
         i := i + 1

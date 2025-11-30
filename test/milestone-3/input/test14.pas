@@ -1,6 +1,6 @@
 program MultidimArray;
 variabel
-    matrix: array[1..3, 1..3] of integer;
+    matrix: larik[1..3, 1..3] dari integer;
     i, j: integer;
 mulai
     i := 1;
