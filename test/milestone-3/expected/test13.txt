@@ -1,0 +1,1 @@
+Semantic Error: Duplicate declaration of 'x' (identifier: 'x')
