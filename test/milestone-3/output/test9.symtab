@@ -1,0 +1,64 @@
+================================================================================
+SYMBOL TABLE (tab)
+================================================================================
+Index  Name                 Kind         Type            Level  Addr   Ref    Link  
+--------------------------------------------------------------------------------
+0      salah                CONSTANT     boolean         0      0      0      0     
+1      benar                CONSTANT     boolean         0      0      0      0     
+2      integer              TYPE         integer         0      0      0      1     
+3      real                 TYPE         real            0      0      0      2     
+4      boolean              TYPE         boolean         0      0      0      3     
+5      char                 TYPE         char            0      0      0      4     
+6      string               TYPE         string          0      0      0      5     
+7      dan                  PROCEDURE    void            0      0      0      6     
+8      atau                 PROCEDURE    void            0      0      0      7     
+9      tidak                PROCEDURE    void            0      0      0      8     
+10     bagi                 PROCEDURE    void            0      0      0      9     
+11     mod                  PROCEDURE    void            0      0      0      10    
+12     program              PROCEDURE    void            0      0      0      11    
+13     variabel             PROCEDURE    void            0      0      0      12    
+14     konstanta            PROCEDURE    void            0      0      0      13    
+15     tipe                 PROCEDURE    void            0      0      0      14    
+16     prosedur             PROCEDURE    void            0      0      0      15    
+17     fungsi               PROCEDURE    void            0      0      0      16    
+18     mulai                PROCEDURE    void            0      0      0      17    
+19     selesai              PROCEDURE    void            0      0      0      18    
+20     jika                 PROCEDURE    void            0      0      0      19    
+21     maka                 PROCEDURE    void            0      0      0      20    
+22     selain-itu           PROCEDURE    void            0      0      0      21    
+23     selama               PROCEDURE    void            0      0      0      22    
+24     lakukan              PROCEDURE    void            0      0      0      23    
+25     untuk                PROCEDURE    void            0      0      0      24    
+26     ke                   PROCEDURE    void            0      0      0      25    
+27     turun-ke             PROCEDURE    void            0      0      0      26    
+28     larik                PROCEDURE    void            0      0      0      27    
+29     write                PROCEDURE    void            0      0      0      28    
+30     writeln              PROCEDURE    void            0      0      0      29    
+31     read                 PROCEDURE    void            0      0      0      30    
+32     readln               PROCEDURE    void            0      0      0      31    
+33     abs                  FUNCTION     integer         0      0      0      32    
+34     sqr                  FUNCTION     integer         0      0      0      33    
+35     sqrt                 FUNCTION     real            0      0      0      34    
+36     sin                  FUNCTION     real            0      0      0      35    
+37     cos                  FUNCTION     real            0      0      0      36    
+38     exp                  FUNCTION     real            0      0      0      37    
+39     ln                   FUNCTION     real            0      0      0      38    
+40     odd                  FUNCTION     boolean         0      0      0      39    
+41     ord                  FUNCTION     integer         0      0      0      40    
+42     chr                  FUNCTION     char            0      0      0      41    
+43     succ                 FUNCTION     integer         0      0      0      42    
+44     pred                 FUNCTION     integer         0      0      0      43    
+45     ComplexExpressions   PROGRAM      void            0      0      0      44    
+46     a                    VARIABLE     integer         0      0      0      0     
+47     b                    VARIABLE     integer         0      1      0      46    
+48     c                    VARIABLE     integer         0      2      0      47    
+49     x                    VARIABLE     real            0      3      0      48    
+50     y                    VARIABLE     real            0      4      0      49    
+51     flag                 VARIABLE     boolean         0      5      0      50    
+
+================================================================================
+BLOCK TABLE (btab)
+================================================================================
+Index  Last     LPar     PSize    VSize   
+--------------------------------------------------------------------------------
+0      51       0        0        6       

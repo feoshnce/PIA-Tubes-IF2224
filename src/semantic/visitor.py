@@ -427,7 +427,7 @@ class SemanticVisitor:
                 raise InvalidOperationError(node.operator, str(operand_type))
             return operand_type
 
-        elif node.operator == 'not':
+        elif node.operator == 'tidak':
             if operand_type != BOOLEAN_TYPE:
                 raise InvalidOperationError(node.operator, str(operand_type))
             return BOOLEAN_TYPE
