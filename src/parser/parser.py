@@ -419,7 +419,7 @@ class Parser:
         Parse an array type.
 
         Grammar:
-            array-type -> KEYWORD(larik) LBRACKET range RBRACKET KEYWORD(dari) type
+            array-type -> KEYWORD(larik) LBRACKET range (COMMA range)* RBRACKET KEYWORD(dari) type
 
         Returns:
             ArrayType AST node
@@ -427,17 +427,32 @@ class Parser:
         self.expect(TokenType.KEYWORD, "larik")
         self.expect(TokenType.LBRACKET)
 
-        # Parse range (e.g., 1..10)
+        # Parse all ranges (e.g., 1..10, 1..5)
+        ranges = []
+
+        # Parse first range
         start_expr = self.parse_simple_expression()
         self.expect(TokenType.RANGE_OPERATOR)
         end_expr = self.parse_simple_expression()
+        ranges.append((start_expr, end_expr))
+
+        # Parse additional ranges if any
+        while self.match(TokenType.COMMA):
+            self.advance()  # consume comma
+            start_expr = self.parse_simple_expression()
+            self.expect(TokenType.RANGE_OPERATOR)
+            end_expr = self.parse_simple_expression()
+            ranges.append((start_expr, end_expr))
 
         self.expect(TokenType.RBRACKET)
         self.expect(TokenType.KEYWORD, "dari")
 
         element_type = self.parse_type()
 
-        return ArrayType(index_type=(start_expr, end_expr), element_type=element_type)
+        for i in range(len(ranges) - 1, -1, -1):
+            element_type = ArrayType(index_type=ranges[i], element_type=element_type)
+
+        return element_type
 
     def parse_record_type(self) -> RecordType:
         """
