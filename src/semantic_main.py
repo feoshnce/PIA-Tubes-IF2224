@@ -8,6 +8,7 @@ from parser import Parser
 from semantic import SemanticVisitor
 from semantic.printer import DecoratedASTPrinter
 from error import SemanticError
+from parse_tree.contract import validate_ast_contract
 
 if sys.platform == 'win32':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -56,6 +57,7 @@ def main():
         semantic_visitor = SemanticVisitor()
 
         parse_tree = source_code | lexer | parser
+        validate_ast_contract(parse_tree)
         semantic_visitor.visit(parse_tree)
 
         if args.decorated:
