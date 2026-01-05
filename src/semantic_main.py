@@ -2,6 +2,7 @@ import argparse
 import json
 import sys
 import io
+import os
 from pathlib import Path
 from lexer import Lexer
 from parser import Parser
@@ -10,7 +11,7 @@ from semantic.printer import DecoratedASTPrinter
 from error import SemanticError
 from parse_tree.contract import validate_ast_contract
 from semantic.decorated_contract import validate_decorated_ast
-import os
+from utils.error_context import maybe_print_error_context_from_exception
 
 if sys.platform == 'win32':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -93,13 +94,17 @@ def main():
         print("\n[SUCCESS] Semantic analysis completed without errors.")
 
     except SemanticError as e:
+        maybe_print_error_context_from_exception(source_code, e)  # DEBUG only
         print(e, file=sys.stderr)
         sys.exit(1)
+
     except Exception as e:
+        maybe_print_error_context_from_exception(source_code, e)  # DEBUG only
         print(f"Error: {e}", file=sys.stderr)
         import traceback
         traceback.print_exc()
         sys.exit(1)
+
 
 
 def format_symbol_table(symtab, format_type):

@@ -49,8 +49,13 @@ def main():
     failed = 0
     skipped = 0
 
-    # Test numbers 1-15
-    for i in range(1, 16):
+    # Auto-discover tests based on input files
+    input_dir = Path("test/milestone-2/input")
+    inputs = sorted(input_dir.glob("test*.pas"))
+
+    test_nums = [int(p.stem.replace("test", "")) for p in inputs]
+
+    for i in test_nums:
         print(f"Testing test{i}.pas...", end=" ")
         result, message = run_test(i)
 
@@ -66,6 +71,7 @@ def main():
             print(f"FAIL: {message}")
             failed += 1
             results[i] = ("FAIL", message)
+
 
     # Print summary
     print("\n" + "="*60)
